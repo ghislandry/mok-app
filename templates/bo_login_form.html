@@ -1,0 +1,42 @@
+<div id="bo_login_form" class="row">
+    <div class="col s12 z-depth-4 card-panel">
+        <form action="/bo_login" method="post" style="width:340px;">
+
+            <div class="row">
+                <div class="input-field col s12 center">
+                    <img src="static/mok-logo2x_small.png" alt="">
+                </div>
+            </div>
+
+            {% include "login_language_and_portal_selection.html" %}
+            <div class="row">
+                {% if error %}
+                    <p class=error><strong>{{ _("Error") }}:</strong> {{ error|wordwrap(width=10) }}
+                {% endif %}
+            </div>
+
+            <div class="row margin">
+                <div class="input-field col s12 center">
+                    <input id="corporate_id" type="text" name="corporate_id" class="validate">
+                    <label for="corporate_id">{{ _("Corporate Id") }}</label>
+                </div>
+            </div>
+            <div class="row margin">
+                <div class="input-field col s12 center">
+                    <input id="bo_password" type="password" name="bo_password" class="validate">
+                    <label for="bo_password">{{ _("Password") }}</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <button type='submit' name='bo_btn_login' class='col s12 btn mat-btn waves-effect yellow' style="color:black;">
+                        {{ _("Log In") }}
+                    </button>
+                </div>
+            </div>
+            <br>
+        </form>
+    </div>
+
+</div>

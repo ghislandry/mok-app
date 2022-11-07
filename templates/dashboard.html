@@ -1,0 +1,156 @@
+{% include "dashboard_base.html" %}
+{% extends "material/base.html" %}
+
+{% block content %}
+
+<!-- start header -->
+{% include "corporate_dashboard_primary_navbar.html" %}
+<!-- end header -->
+
+<div id="main" style="flex: 1 0 auto;">
+
+    <div class="wrapper" style="height:100% !important;">
+        {% include "admin_dashboard_secondary_navbar.html" %}
+        <section id="content">
+
+            <div class="container">
+
+                <div class="section">
+                    <div class="row">
+                        <form action="/dashboard" method="post">
+                            {% include "admin_dashboard_search_form.html" %}
+                        </form>
+                    </div>
+                </div>
+                <!-- <div class="divider"></div> -->
+                <div class="section">
+                    <div class="row">
+                        <h5 class="header">{{ _("List of Users") }} </h5>
+                        <div class="col s12">
+                            <div class="card" style="height:600px !important; overflow-x:hidden">
+                                <div class="row" style="height:100% !important; overflow-y:auto;">
+                                    <div class="col s12"> <!-- height: 80%; overflow:auto; position:relative-->
+                                        <div class="row" style="overflow-y:scroll !important; position:relative;">
+                                            <div class="col s12">
+
+                                        <table class="responsive-table" style="overflow-y: scroll">
+                                            <thead>
+                                            <tr>
+                                                <th>{{ _("Corporate Id") }}</th>
+                                                <th>{{ _("Email") }}</th>
+                                                <th>{{ _("Phone number") }}</th>
+                                                <th>{{ _("Role") }}</th>
+                                                <th>{{ _("Registration date") }}</th>
+                                                <th>{{ _("Edit") }}</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for user in users["items"] %}
+                                            <tr>
+                                                <td>{{ user.employee_number }}</td>
+                                                <td>{{ user.email }}</td>
+                                                <td>{{ user.phone_number }}</td>
+                                                {% if user.role == "senioremployee" %}
+                                                <td>{{ _("Senior employee") }}</td>
+                                                {% elif user.role == "meterreader" %}
+                                                <td>{{ _("Meter reader") }}</td>
+                                                {% else %}
+                                                <td>{{ user.role[0]|upper}}{{user.role[1:] }}</td>
+                                                {% endif %}
+                                                <td>{{ user.registered_on}}</td>
+                                                <td>
+                                                    <a class="waves-effect waves-light modal-trigger"
+                                                       data-target="modal_{{ user.employee_number }}">
+                                                        <i class="material-icons">create</i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <div id="modal_{{ user.employee_number }}" class="modal col s12 m6"
+                                                 style="overflow:hidden; width:35% !important; height:40% !important; "
+                                                 tabindex="-1">
+                                                <div class="modal-content">
+                                                    <div class="row">
+                                                        <h4>{{ _("Edit Employee role")}}</h4>
+                                                        <p> {{ user.employee_number }} </p>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col s12">
+                                                        <div class="card-panel">
+                                                        <form action="{{url_for('main_bp.change_role_post', corporate_id=user['employee_number'])}}"
+                                                              method="post">
+                                                            <div class="row">
+                                                                <div class="col input-field s12 m6 l6">
+                                                                    <select name="new_role" class="browser-default">
+                                                                        <option value="employee">{{ _("Employee") }}
+                                                                        </option>
+                                                                        <option value="meterreader">{{ _("Meter reader")
+                                                                            }}
+                                                                        </option>
+                                                                        <option value="senioremployee">{{ _("Senior
+                                                                            employee") }}
+                                                                        </option>
+                                                                    </select>
+                                                                    <label class="active" style="font-size:18px">{{
+                                                                        _("Role") }}</label>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="input-field col s12">
+                                                                    <button class="btn cyan waves-effect waves-light right"
+                                                                            type="submit"
+                                                                            name="btn_change_corp_role">
+                                                                        {{ _("Close & Save") }}
+                                                                        <!-- <i class="mdi-content-send right"></i> -->
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- <div class="row">
+                                                                <div class="col input-field s12 m6 offset-m9">
+                                                                    <button class="btn cyan waves-effect waves-light"
+                                                                            type="submit"
+                                                                            name="btn_change_corp_role"> {{ _("Close & Save") }}
+                                                                    </button>
+                                                                </div>
+                                                            </div> -->
+
+                                                        </form>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="divider"></div>
+                                    <div class="col s12 m11.5">
+                                        {% include "admin_dashboard_table_pagination.html" %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+{% include "footer.html" %}
+
+{% endblock %}

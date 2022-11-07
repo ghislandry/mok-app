@@ -1,0 +1,44 @@
+
+version: '3.3'
+
+services:
+  application:
+    image: mok-admin-app:build
+    build: .
+    hostname: mok-admin-app
+    ports:
+      - "${FLASK_RUN_PORT}:${FLASK_RUN_PORT}"
+    environment:
+      FLASK_APP: $FLASK_APP
+      FLASK_ENV: $FLASK_ENV
+      FLASK_RUN_PORT: $FLASK_RUN_PORT
+      SECRET_KEY: "${SECRET_KEY}"
+      API_KEY: $API_KEY
+      MAIL_USERNAME: $MAIL_USERNAME
+      MAIL_PASSWORD: $MAIL_PASSWORD
+    networks:
+      - mokadmin-app-network
+    command: >
+      bash -c "cd /app && flask db upgrade && gunicorn -c src/mok_admin/gunicorn_config.py wsgi:app"
+
+  nginx:
+    build:
+      context: ./nginx
+      args:
+          DOMAIN_NAME: $DOMAIN_NAME
+          EMAIL_ADDRESS: $EMAIL_ADDRESS
+          FLASK: $FLASK
+          FLASK_RUN_PORT: $FLASK_RUN_PORT
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+    networks:
+      - mokadmin-app-network
+    depends_on:
+      - application
+
+networks:
+  mokadmin-app-network:
+    driver: bridge

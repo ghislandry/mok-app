@@ -1,0 +1,108 @@
+{% include "dashboard_base.html" %}
+{% extends "material/base.html" %}
+
+{% block content %}
+
+<!-- start header -->
+{% include "corporate_dashboard_primary_navbar.html" %}
+<!-- end header -->
+
+<div id="main" style="flex: 1 0 auto;">
+
+    <div class="wrapper" style="height:100% !important;">
+        {% include "admin_dashboard_secondary_navbar.html" %}
+
+        <section id="content">
+            <!-- breadcrumbs start -->
+            <div id="breadcrumbs-wrapper" class=" gray lighten-3">
+                <div class="container">
+                    <div class="row">
+                        <div class="col s12 m12 l12">
+                            <h5 class="breadcrumbs-title">{{ _("Employee Account Registration") }}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- breadcrumbs end -->
+
+            <!-- start container -->
+            <div class="container">
+                <p class="caption">
+                    {{ _("Please enter account details. Note that an employee number is the same as their corporate id.") }}
+                </p>
+                <div class="divider"></div>
+                <br>
+                <div class="section">
+                    <div class="row">
+                        <div class="col s12 m4 offset-m4">
+                            <div class="card-panel">
+                                <form action="/register_employee" method="post">
+
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <input type="text" class="validate" id="corporate_id" name="corporate_id">
+                                            <label for="corporate_id">{{ _("Employee number") }}</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <i class="material-icons prefix">local_phone</i>
+                                            <input type="text" class="validate" id="phone_number" name="phone_number">
+                                            <label for="phone_number">{{ _("Phone number") }}</label>
+                                        </div>
+
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="input-field col s12 m6">
+                                            <select name="role" class="browser-default">
+                                                <option value="employee">{{ _("Employee") }}</option>
+                                                <option value="meterreader">{{ _("Meter reader") }}</option>
+                                                <option value="senioremployee">{{ _("Senior Employee") }}</option>
+                                            </select>
+                                            <label class="active" style="font-size:18px">{{ _("Role") }}</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <button class="btn cyan waves-effect waves-light right" type="submit"
+                                                    name="action">{{ _("Register") }}
+                                                <!-- <i class="mdi-content-send right"></i> -->
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                        {% for category, message in messages %}
+                        <div class="col s12 m6">
+                            <div class="alert {{ category }}"> {{ message|capitalize }}</div>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+                    </div>
+                </div>
+
+
+            </div>
+        </section>
+
+    </div>
+</div>
+
+
+{% include "footer.html" %}
+
+{% endblock %}
+
+

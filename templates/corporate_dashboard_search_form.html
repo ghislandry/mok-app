@@ -1,0 +1,29 @@
+<div class="row">
+    <div class="input-field col s12 m2 l2">
+        <input id="corporate_id" type="text" name="corporate_id" class="validate">
+        <label for="corporate_id">{{ _("Corporate id") }}</label>
+    </div>
+    <div class="input-field col s12 m2 l2">
+        <input id="phone_number" name="phone_number" type="text" class="validate">
+        <label for="phone_number">{{ _("Phone number") }}</label>
+    </div>
+    <div class="input-field col s12 m2 l2">
+        <input id="last_name" type="text" name="last_name" class="validate">
+        <label for="last_name">{{ _("Last name") }}</label>
+    </div>
+    <div class="input-field col s12 m3 l3">
+        <button class="col s12 m3 btn cyan waves-effect waves-light" name="clear_button" type="submit">
+            {{ _("Filter") }}
+        </button>
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="col s12 m4">
+        <div class="alert {{ category }}"> {{ message|capitalize }}</div>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+</div>

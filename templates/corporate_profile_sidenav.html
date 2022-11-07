@@ -1,0 +1,44 @@
+<aside id="left-sidebar-nav">
+    <ul id="slide-out" class="side-nav fixed leftside-navigation ps-container ps-active-y" style="width: 240px;">
+        <li class="user-details cyan darken-2">
+            <div class="row">
+                <div class="col col s4 m4 l4">
+                    <img src="static/yuna.jpg" alt="" class="circle responsive-img valign profile-image">
+                </div>
+                <div class="col col s8 m8 l8">
+
+                    <a class="btn-flat dropdown-button white-text profile-btn">
+                        {{ user.last_name }}
+                    </a>
+                    <p class="user-roal">{{ user.employee_number }}</p>
+                </div>
+            </div>
+        </li>
+        <li>
+            <a href="{{url_for('corporate_bp.corp_profile')}}">
+                <i class="material-icons" aria-hidden="false" aria-label="Upload"> file_upload
+                </i> {{ _("Add profile avatar") }}
+            </a>
+        </li>
+        <li class="li-hover">
+            <div class="divider"></div>
+        </li>
+
+        <li>
+            <a href="{{url_for('auth_corp_bp.corp_logout')}}">
+                <i class="material-icons" aria-hidden="false" aria-label="Logout"> exit_to_app
+                </i> {{ _("Logout") }}
+            </a>
+        </li>
+
+        <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;">
+            <div class="ps-scrollbar-x" style="left: 0px; width: 0px;"></div>
+        </div>
+        <div class="ps-scrollbar-y-rail" style="top: 0px; height: 843px; right: 3px;">
+            <div class="ps-scrollbar-y" style="top: 0px; height: 685px;"></div>
+        </div>
+    </ul>
+    <a href="#" data-activates="slide-out"
+       class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only darken-2"><i
+            class="mdi-navigation-menu"></i></a>
+</aside>
