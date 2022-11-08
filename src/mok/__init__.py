@@ -7,13 +7,13 @@ from flask_bootstrap import Bootstrap
 from flask_babel import Babel
 from flask import session
 
-from mok_admin.config import get_config
-from mok_admin.utils.logger import Logger
-from mok_admin.core.main import main_bp
-from mok_admin.auth.auth import auth_bp
-from mok_admin.auth.auth_bo import auth_bo_bp
-from mok_admin.auth.auth_corporate import auth_corp_bp
-from mok_admin.core.corp_dashboard import corporate_bp
+from mok.config import get_config
+from mok.utils.logger import Logger
+from mok.core.main import main_bp
+from mok.auth.auth import auth_bp
+from mok.auth.auth_bo import auth_bo_bp
+from mok.auth.auth_corporate import auth_corp_bp
+from mok.core.corp_dashboard import corporate_bp
 
 babel = Babel()
 

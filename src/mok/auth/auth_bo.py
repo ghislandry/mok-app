@@ -13,7 +13,7 @@ import requests
 import json
 from flask_babel import _
 
-from mok_admin.auth import error_map
+from mok.auth import error_map
 
 
 auth_bo_bp = Blueprint("auth_bo_bp", __name__)

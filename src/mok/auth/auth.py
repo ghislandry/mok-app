@@ -13,8 +13,8 @@ import requests
 import json
 from flask_babel import _
 
-from mok_admin.auth import error_map, logged_in_user
-from mok_admin.platform_config import get_platform_language
+from mok.auth import error_map, logged_in_user
+from mok.platform_config import get_platform_language
 
 auth_bp = Blueprint("auth_bp", __name__)
 

@@ -15,9 +15,9 @@ import json
 import copy
 import ast
 
-from mok_admin.platform_config import get_platform_language
-from mok_admin.auth import error_map
-from mok_admin.utils.error_codes import EMPLOYEE_NOT_FOUND
+from mok.platform_config import get_platform_language
+from mok.auth import error_map
+from mok.utils.error_codes import EMPLOYEE_NOT_FOUND
 
 corporate_bp = Blueprint('corporate_bp', __name__)
 

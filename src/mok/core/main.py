@@ -14,7 +14,7 @@ from flask_babel import _
 import requests
 import json
 
-from mok_admin.platform_config import get_platform_language
+from mok.platform_config import get_platform_language
 
 
 main_bp = Blueprint('main_bp', __name__)

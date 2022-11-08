@@ -13,10 +13,10 @@ import requests
 import json
 from flask_babel import _
 
-from mok_admin.auth import error_map, logged_in_user
-from mok_admin.platform_config import get_platform_language
-from mok_admin.models import RolesTypes
-from mok_admin.utils.error_codes import PASSWORD_RESET_REQUIRED, EMPLOYEE_NOT_FOUND
+from mok.auth import error_map, logged_in_user
+from mok.platform_config import get_platform_language
+from mok.models import RolesTypes
+from mok.utils.error_codes import PASSWORD_RESET_REQUIRED, EMPLOYEE_NOT_FOUND
 
 
 auth_corp_bp = Blueprint("auth_corp_bp", __name__)
