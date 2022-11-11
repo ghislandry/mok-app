@@ -34,7 +34,7 @@ def corp_login_post():
     corporate_id = request.form.get("corporate_id")
     data = {
         "corporate_id": request.form.get("corporate_id"),
-        "password": request.form.get("corp_password")
+        "password": request.form.get("corp_password"),
     }
     authorization = "Bearer {access_token}".format(
         access_token=current_app.config.get("API_KEY")
@@ -50,7 +50,10 @@ def corp_login_post():
     )
     if response.json()["status"] == "fail":
         p_language, portal = get_platform_language()
-        if"ErrorCode" in response.json() and response.json()["ErrorCode"] == PASSWORD_RESET_REQUIRED:
+        if (
+            "ErrorCode" in response.json()
+            and response.json()["ErrorCode"] == PASSWORD_RESET_REQUIRED
+        ):
             session["verification_code"] = password
             session["corporate_id"] = corporate_id
             return redirect(url_for("auth_corp_bp.reset_password"))
@@ -76,7 +79,10 @@ def corp_login_post():
             portal=portal,
             error=error,
         )
-    if "ErrorCode" in response.json() and response.json()["ErrorCode"] == EMPLOYEE_NOT_FOUND:
+    if (
+        "ErrorCode" in response.json()
+        and response.json()["ErrorCode"] == EMPLOYEE_NOT_FOUND
+    ):
         error = error_map[f"{response.json()['ErrorCode']}"]
         p_language, portal = get_platform_language()
         return render_template(
@@ -106,10 +112,7 @@ def forgot_password():
 def forgot_password_post():
     corporate_id = request.form.get("corporate_id")
     phone_number = request.form.get("phone_number")
-    data = {
-        "corporate_id": corporate_id,
-        "phone_number": phone_number
-    }
+    data = {"corporate_id": corporate_id, "phone_number": phone_number}
     session["corporate_id"] = corporate_id
     session["phone_number"] = phone_number
     authorization = "Bearer {access_token}".format(
@@ -119,8 +122,9 @@ def forgot_password_post():
         "Content-Type": "application/json",
         "Authorization": authorization,
     }
+    api_base_url = current_app.config.get('API_BASE_URL')
     _ = requests.post(
-        f"{current_app.config.get('API_BASE_URL')}/api/v1/auth/corporate/forgot_password",
+        f"{api_base_url}/api/v1/auth/corporate/forgot_password",
         headers=headers,
         data=json.dumps(data),
     )
@@ -174,7 +178,8 @@ def reset_password_post():
     )
     if response.json()["status"] == "fail":
         return render_template(
-            "corporate_reset_password.html", error=error_map[f"{response.json()['ErrorCode']}"]
+            "corporate_reset_password.html",
+            error=error_map[f"{response.json()['ErrorCode']}"],
         )
     flash(_("Password successfully changed"))
     return redirect(url_for("auth_corp_bp.corp_login"))
@@ -196,9 +201,6 @@ def corp_logout():
         return redirect(url_for("auth_corp_bp.corp_login"))
     _ = session.pop("access_token")
     return redirect(url_for("auth_corp_bp.corp_login"))
-
-
-
 
 
 #

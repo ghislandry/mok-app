@@ -13,7 +13,7 @@ class Config:
     SECRET_KEY = os.getenv("SECRET_KEY", "set the key")
     SCSS_STATIC_DIR = "static"
     SCSS_ASSET_DIR = "assets"
-    SESSION_TYPE = 'filesystem'
+    SESSION_TYPE = "filesystem"
     # Logging details
     LOGGING_NAME = "gunicorn.error"
     LOGGING_DIR = "logs/"
@@ -21,7 +21,7 @@ class Config:
     LOGGING_FORMAT = "%(asctime)s: %(levelname)s: %(process)d: %(message)s"
     BABEL_DEFAULT_LOCALE = "fr"
     BABEL_TRANSLATION_DIRECTORIES = "translations"
-    LANGUAGES = ['fr', 'en']
+    LANGUAGES = ["fr", "en"]
     API_KEY = os.getenv("API_KEY")
 
 

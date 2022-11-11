@@ -4,16 +4,16 @@ from pathlib import Path
 from setuptools import setup, find_packages
 
 
-DESCRIPTION = "Mok Admin Portal"
+DESCRIPTION = "Mok Portal"
 APP_ROOT = Path(__file__).parent
 README = (APP_ROOT / "README.md").read_text()
 print(README)
 AUTHOR = "Ghislain Landry"
 AUTHOR_EMAIL = "ghislain@gmail.com"
 PROJECT_URLS = {
-    "Documentation": "https://sight-techgroup.com/series/mok-admin-app/",
-    "Bug Tracker": "https://bitbucket.org/elementalconcept/mok-admin-app/issues",
-    "Source Code": "https://bitbucket.org/elementalconcept/mok-admin-app",
+    "Documentation": "https://sight-techgroup.com/series/mok-app/",
+    "Bug Tracker": "https://bitbucket.org/elementalconcept/mok-app/issues",
+    "Source Code": "https://bitbucket.org/elementalconcept/mok-app",
 }
 
 
@@ -34,7 +34,6 @@ INSTALL_REQUIRES = [
     "flask-material",
     "flask_bootstrap",
     "flask-babel",
-    "flask-materialize",
 ]
 
 
@@ -60,7 +59,7 @@ EXTRAS_REQUIRE = {
 
 
 setup(
-    name="mok admin",
+    name="mok",
     description=DESCRIPTION,
     long_description=README,
     long_description_content_type="text/markdown",

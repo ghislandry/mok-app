@@ -3,7 +3,7 @@ import os
 import click
 
 
-from mok_admin import create_app
+from mok import create_app
 
 
 app = create_app(os.getenv("FLASK_ENV", "development"))

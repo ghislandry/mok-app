@@ -1,6 +1,7 @@
 from flask_scss import Scss
 from flask import Flask
 from flask_material import Material
+
 # from flask_materialize import Material
 from flask_session import Session
 from flask_bootstrap import Bootstrap
@@ -19,7 +20,7 @@ babel = Babel()
 
 
 def create_app(config_name):
-    app = Flask("Mok Admin Portal", template_folder='./templates')
+    app = Flask("Mok Portals", template_folder="./templates")
     app.config.from_object(get_config(config_name))
 
     Logger.init_logger(app)
@@ -48,4 +49,4 @@ def get_locale():
     try:
         return session["platform_language"]
     except KeyError:
-        return 'en'
+        return "en"

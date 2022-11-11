@@ -1,19 +1,19 @@
-from http import HTTPStatus
+# from http import HTTPStatus
 from flask import (
     Blueprint,
-    redirect,
-    url_for,
-    request,
-    current_app,
+    # redirect,
+    # url_for,
+    # request,
+    # current_app,
     session,
     render_template,
-    flash,
+    # flash,
 )
-import requests
-import json
+# import requests
+# import json
 from flask_babel import _
 
-from mok.auth import error_map
+# from mok.auth import error_map
 
 
 auth_bo_bp = Blueprint("auth_bo_bp", __name__)
@@ -22,7 +22,9 @@ auth_bo_bp = Blueprint("auth_bo_bp", __name__)
 @auth_bo_bp.route("/bo/login")
 def bo_login():
     try:
-        p_language = _("French") if session["platform_language"] == "fr" else _("English")
+        p_language = (
+            _("French") if session["platform_language"] == "fr" else _("English")
+        )
     except KeyError:
         p_language = _("English")
     portal = _("Back Office")
@@ -32,7 +34,8 @@ def bo_login():
 
 # @auth_bp.route("/login", methods=["post"])
 # def login_post():
-#     data = {"email": request.form.get("email"), "password": request.form.get("password")}
+#     data = {"email": request.form.get("email"),
+#     "password": request.form.get("password")}
 #     authorization = "Bearer {access_token}".format(
 #         access_token=current_app.config.get("API_KEY")
 #     )

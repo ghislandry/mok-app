@@ -22,7 +22,9 @@ auth_bp = Blueprint("auth_bp", __name__)
 @auth_bp.route("/login")
 def login():
     try:
-        p_language = _("French") if session["platform_language"] == "fr" else _("English")
+        p_language = (
+            _("French") if session["platform_language"] == "fr" else _("English")
+        )
     except KeyError:
         p_language = _("English")
     portal = _("Admin Portal")
@@ -156,7 +158,9 @@ def logout():
 @auth_bp.route("/register_employee")
 def register_employee():
     logged_in_employee = session["logged_in_employee"]
-    return render_template("register_corporate_user.html", logged_in_employee=logged_in_employee)
+    return render_template(
+        "register_corporate_user.html", logged_in_employee=logged_in_employee
+    )
 
 
 @auth_bp.route("/register_employee", methods=["post"])
@@ -179,11 +183,7 @@ def register_employee_post():
     )
     if response.status_code == HTTPStatus.UNAUTHORIZED:
         error = _("Your session has expired. Please log in again.")
-        return redirect(
-            url_for(
-                "auth_bp.login", error=error
-            )
-        )
+        return redirect(url_for("auth_bp.login", error=error))
     elif response.status_code in [
         HTTPStatus.CONFLICT,
         HTTPStatus.INTERNAL_SERVER_ERROR,

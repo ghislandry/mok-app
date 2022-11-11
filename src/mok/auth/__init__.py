@@ -19,8 +19,5 @@ error_map = {
 
 def logged_in_user(access_token, url):
     authorization = "Bearer {access_token}".format(access_token=access_token)
-    headers = {
-        "Authorization": authorization,
-        "Content-Type": "application/json"
-    }
+    headers = {"Authorization": authorization, "Content-Type": "application/json"}
     return requests.get(url, headers=headers)

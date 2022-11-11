@@ -63,6 +63,7 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
+                                                    {% if users %}
                                                     {% for user in users["items"] %}
                                                     <tr>
                                                         <td>{{ user.employee_number }}</td>
@@ -127,6 +128,7 @@
                                                         </div>
                                                     </div>
                                                     {% endfor %}
+                                                    {% endif %}
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -134,7 +136,9 @@
                                         <div class="row">
                                             <div class="divider"></div>
                                             <div class="col s12 m11.5">
-                                               {% include "corporate_dashboard_table_pagination.html" %}
+                                                {% if users %}
+                                                {% include "corporate_dashboard_table_pagination.html" %}
+                                                {% endif %}
                                             </div>
                                         </div>
 
