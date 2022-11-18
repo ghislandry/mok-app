@@ -1,0 +1,106 @@
+<section id="content">
+    <!-- breadcrumbs start -->
+    <!-- <div id="breadcrumbs-wrapper" class=" gray lighten-3">
+        <div class="container">
+            <div class="row">
+                <div class="col s12 m12 l12">
+                    <h5 class="breadcrumbs-title">{{ _("List of Employees") }}</h5>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- breadcrumbs end -->
+    <!-- Start container -->
+    <div class="container" style="width: 95% !important;">
+        <div class="section">
+            <!-- <div class="divider"></div> -->
+            <div class="section">
+                <div class="row">
+                    <form action="/corp/dashboard" method="post">
+                        {% include "bo_customer_dashboard_search_form.html" %}
+                    </form>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="row">
+                    <h5 class="header">{{ _("List of Customers") }} </h5>
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="card" style="height:600px !important; overflow-x:hidden; overflow-y:scroll">
+                                <div class="row" style="height:100% !important;">
+                                    <div class="col s12">
+                                        <table class="responsive-table">
+                                            <thead>
+                                            <tr>
+                                                <th>{{ _("Meter Number") }}</th>
+                                                <th>{{ _("Reading Reference") }}</th>
+                                                <th>{{ _("Energy") }}</th>
+                                                <th>{{ _("Unit") }}</th>
+                                                <th>{{ _("Status") }}</th>
+                                                <th>{{ _("Last Updated") }}</th>
+                                                <!--<th>{{ _("City") }}</th>
+                                                <th>{{ _("KYC Status") }}</th>
+                                                <th>{{ _("Last Updated") }}</th>
+                                                 <th>{{ _("City") }}</th>
+                                                <th>{{ _("Registration date") }}</th> -->
+                                                <th>{{ _("Edit") }}</th>
+                                                <!-- <th>{{ _("More") }}</th> -->
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% if readings %}
+                                            {% for reading in readings["items"] %}
+                                            <tr>
+                                                <td>{{ reading.meter_number }}</td>
+                                                <td>{{ reading.reading_reference }}</td>
+                                                <td>{{ reading.energy }}</td>
+                                                <td>{{ reading.unit }}</td>
+                                                <td>{{ reading.verification_status }}</td>
+                                                {% set date_list = reading.last_modified_at.split(' ') %}
+                                                <td>{{ date_list[0] }}</td>
+                                                <td>
+                                                    <a class="waves-effect waves-light modal-trigger"
+                                                       data-target="modal_{{ reading.reading_reference }}">
+                                                        <i class="material-icons">create</i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <div id="modal_{{ reading.reading_reference }}" class="modal col s12 m6"
+                                                 style="overflow:auto; height:60% !important; padding-bottom: 0px;"
+                                                 tabindex="-1">
+                                                <div class="modal-content">
+                                                    <div class="row">
+                                                        <h4>{{ _("Edit Reading")}}</h4>
+                                                        <p> {{ reading.reading_reference }} </p>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        {% include "corporate_dashboard_edit_employee_form.html"
+                                                        %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                            {% endif %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="divider"></div>
+                                    <div class="col s12 m11.5">
+                                        {% if users %}
+                                        {% include "bo_customer_dashboard_table_pagination.html" %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end container -->
+</section>

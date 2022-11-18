@@ -7,12 +7,7 @@
                 </div>
             </div>
 
-            {% include "login_language_and_portal_selection.html" %}
-            <div class="row">
-                {% if error %}
-                    <p class=error><strong>{{ _("Error") }}:</strong> {{ error|wordwrap(width=10) }}
-                {% endif %}
-            </div>
+            {% include "alert_message.html" %}
 
             <div class="row margin">
                 <div class="input-field col s12 center">

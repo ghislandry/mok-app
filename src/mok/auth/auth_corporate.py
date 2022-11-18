@@ -15,7 +15,7 @@ from flask_babel import _
 
 from mok.auth import error_map, logged_in_user
 from mok.platform_config import get_platform_language
-from mok.models import RolesTypes
+from mok.models import RolesTypes, Portals
 from mok.utils.error_codes import PASSWORD_RESET_REQUIRED, EMPLOYEE_NOT_FOUND
 
 
@@ -30,6 +30,7 @@ def corp_login():
 
 @auth_corp_bp.route("/corp/login", methods=["post"])
 def corp_login_post():
+    api_base_url = current_app.config.get('API_BASE_URL')
     password = request.form.get("corp_password")
     corporate_id = request.form.get("corporate_id")
     data = {
@@ -44,7 +45,7 @@ def corp_login_post():
         "Authorization": authorization,
     }
     response = requests.post(
-        f"{current_app.config.get('API_BASE_URL')}/api/v1/auth/corporate/login",
+        f"{api_base_url}/api/v1/auth/corporate/login",
         headers=headers,
         data=json.dumps(data),
     )
@@ -58,26 +59,27 @@ def corp_login_post():
             session["corporate_id"] = corporate_id
             return redirect(url_for("auth_corp_bp.reset_password"))
         else:
+            flash(error_map[f"{response.json()['ErrorCode']}"], "error")
             return render_template(
                 "corporate_login.html",
                 p_language=p_language,
                 portal=portal,
-                error=error_map[f"{response.json()['ErrorCode']}"],
             )
+    access_token = response.json()["access_token"]
     # Store the session token and employee number
-    session["access_token"] = response.json()["access_token"]
+    session["access_token"] = access_token
     # find out which user is connected and route accordingly
-    url = f"{current_app.config.get('API_BASE_URL')}/api/v1/auth/corporate/user"
-    response = logged_in_user(access_token=response.json()["access_token"], url=url)
+    url = f"{api_base_url}/api/v1/auth/corporate/user"
+    response = logged_in_user(access_token=access_token, url=url)
 
     if response.status_code == HTTPStatus.UNAUTHORIZED:
         error = _("Your session has expired. Please log in again")
+        flash(error, "error")
         p_language, portal = get_platform_language()
         return render_template(
             "corporate_login.html",
             p_language=p_language,
             portal=portal,
-            error=error,
         )
     if (
         "ErrorCode" in response.json()
@@ -85,27 +87,51 @@ def corp_login_post():
     ):
         error = error_map[f"{response.json()['ErrorCode']}"]
         p_language, portal = get_platform_language()
+        flash(error, "error")
         return render_template(
             "corporate_login.html",
             p_language=p_language,
             portal=portal,
-            error=error,
         )
     logged_in_employee = {
         "employee_number": response.json()["employee_number"],
         "phone_number": response.json()["phone_number"],
+        "last_name": None,
     }
-    session["logged_in_employee"] = logged_in_employee
     role = response.json()["role"]
+    # Get employee profile details
+    url = f"{api_base_url}/api/v1/employees/{response.json()['employee_number']}"
+    response = logged_in_user(access_token=access_token, url=url)
+    found = True
+    if response.status_code == HTTPStatus.UNAUTHORIZED:
+        error = _("Your session has expired. Please log in again")
+        flash(error, "error")
+        p_language, portal = get_platform_language()
+        return render_template(
+            "corporate_login.html",
+            p_language=p_language,
+            portal=portal,
+        )
+    if (
+        "ErrorCode" in response.json()
+        and response.json()["ErrorCode"] == EMPLOYEE_NOT_FOUND
+    ):
+        found = False
+    if found is True:
+        logged_in_employee.update({"last_name": response.json()["last_name"]})
+
+    session["logged_in_employee"] = logged_in_employee
     if role in [RolesTypes.senioremployee.name]:
         return redirect(url_for("corporate_bp.corp_dashboard"))
     else:
+        session["employee_profile"] = response.json() if found is True else None
         return redirect(url_for("corporate_bp.corp_profile"))
 
 
 @auth_corp_bp.route("/corp/forgot-password")
 def forgot_password():
-    return render_template("corporate_forgot_password.html")
+    p_language, portal = get_platform_language()
+    return render_template("corporate_forgot_password.html", portal=portal)
 
 
 @auth_corp_bp.route("/corp/forgot-password", methods=["post"])
@@ -177,12 +203,16 @@ def reset_password_post():
         data=json.dumps(data),
     )
     if response.json()["status"] == "fail":
-        return render_template(
-            "corporate_reset_password.html",
-            error=error_map[f"{response.json()['ErrorCode']}"],
-        )
-    flash(_("Password successfully changed"))
-    return redirect(url_for("auth_corp_bp.corp_login"))
+        flash(error_map[f"{response.json()['ErrorCode']}"], "error")
+        return render_template("corporate_reset_password.html")
+    flash(_("Password successfully changed"), "information")
+    p_language, portal = get_platform_language()
+    return (
+        redirect(url_for("auth_corp_bp.corp_login"))
+        if portal == Portals.corp.name
+        else
+        redirect(url_for("auth_bo_bp.bo_login"))
+    )
 
 
 @auth_corp_bp.route("/corp/logout")

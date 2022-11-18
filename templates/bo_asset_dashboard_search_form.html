@@ -1,0 +1,21 @@
+<div class="row">
+    <div class="input-field col s12 m3 l3">
+        <input id="meter_number" type="text" name="meter_number" class="validate">
+        <label for="meter_number">{{ _("Meter number") }}</label>
+    </div>
+    <div class="input-field col s12 m3 l3">
+        <input id="serial_number" name="serial_number" type="text" class="validate">
+        <label for="serial_number">{{ _("Serial number") }}</label>
+    </div>
+
+    <div class="input-field col s12 m3 l3">
+        <button class="col s12 m3 btn cyan waves-effect waves-light" name="asset_clear_button" type="submit">
+            {{ _("Filter") }}
+        </button>
+    </div>
+
+    <div class="col s12 m3 l3">
+        {% include "alert_message.html" %}
+    </div>
+
+</div>

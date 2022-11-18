@@ -49,8 +49,9 @@ def dashboard():
         error = _("Your session has expired. Please log in again")
         # Get the configuration for the platform
         p_language, portal = get_platform_language()
+        flash(error, "error")
         return render_template(
-            "login.html", p_language=p_language, portal=portal, error=error
+            "login.html", p_language=p_language, portal=portal
         )
     logged_in_employee = session["logged_in_employee"]
     return render_template(
@@ -80,8 +81,9 @@ def dashboard_post():
     if response.status_code == HTTPStatus.UNAUTHORIZED:
         error = _("Your session has expired. Please log in again")
         p_language, portal = get_platform_language()
+        flash(error, "error")
         return render_template(
-            "login.html", p_language=p_language, portal=portal, error=error
+            "login.html", p_language=p_language, portal=portal
         )
     logged_in_employee = session["logged_in_employee"]
     return render_template(
@@ -106,7 +108,8 @@ def change_role_post(corporate_id):
     )
     if response.status_code == HTTPStatus.UNAUTHORIZED:
         error = _("Your session has expired. Please log in again")
-        return redirect(url_for("auth_bp.login", error=error))
+        flash(error, "error")
+        return redirect(url_for("auth_bp.login"))
     flash(
         _(
             "Role of user %(corporate_id)s successfully changed to %(role)s!",

@@ -47,8 +47,12 @@ def login_post():
         data=json.dumps(data),
     )
     if response.json()["status"] == "fail":
+        p_language, portal = get_platform_language()
         return render_template(
-            "login.html", error=error_map[f"{response.json()['ErrorCode']}"]
+            "login.html",
+            p_language=p_language,
+            portal=portal,
+            error=error_map[f"{response.json()['ErrorCode']}"]
         )
 
     # Store the session token and employee number

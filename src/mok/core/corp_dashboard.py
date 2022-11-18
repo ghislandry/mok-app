@@ -30,26 +30,31 @@ def corp_profile():
     headers = {"Authorization": authorization, "Content-Type": "application/json"}
     logged_in_employee = session["logged_in_employee"]
     api_base_url = current_app.config.get('API_BASE_URL')
-    response = requests.get(
-        f"{api_base_url}/api/v1/employees/{logged_in_employee['employee_number']}",
-        headers=headers,
-    )
-    if response.status_code == HTTPStatus.UNAUTHORIZED:
-        error = _("Your session has expired. Please log in again")
-        p_language, portal = get_platform_language()
-        return render_template(
-            "corporate_login.html",
-            p_language=p_language,
-            portal=portal,
-            error=error,
+    try:
+        user = session.pop("employee_profile")
+    except KeyError:
+        response = requests.get(
+            f"{api_base_url}/api/v1/employees/{logged_in_employee['employee_number']}",
+            headers=headers,
         )
-    if (
-        "ErrorCode" in response.json()
-        and response.json()["ErrorCode"] == EMPLOYEE_NOT_FOUND
-    ):
-        # the user does not have a profile yet!
-        return redirect(url_for("corporate_bp.corp_dashboard"))
-    return render_template("corporate_profile.html", user=response.json())
+        if response.status_code == HTTPStatus.UNAUTHORIZED:
+            error = _("Your session has expired. Please log in again")
+            p_language, portal = get_platform_language()
+            flash(error, "error")
+            return render_template(
+                "corporate_login.html",
+                p_language=p_language,
+                portal=portal,
+                # error=error,
+            )
+        if (
+            "ErrorCode" in response.json()
+            and response.json()["ErrorCode"] == EMPLOYEE_NOT_FOUND
+        ):
+            # the user does not have a profile yet!
+            return redirect(url_for("corporate_bp.corp_dashboard"))
+        user = response.json()
+    return render_template("corporate_profile.html", user=user)
 
 
 @corporate_bp.route("/update_profile/<data_dict>", methods=["post"])
@@ -82,7 +87,8 @@ def update_profile_post(data_dict):
     )
     if response.status_code == HTTPStatus.UNAUTHORIZED:
         error = _("Your session has expired. Please log in again")
-        return redirect(url_for("auth_corp_bp.corp_login", error=error))
+        flash(error, "error")
+        return redirect(url_for("auth_corp_bp.corp_login"))
     # return render_template("login.html", error=error)
     # flash(
     #     _("Role of user %(corporate_id)s successfully changed to %(role)s!").format(
@@ -90,6 +96,7 @@ def update_profile_post(data_dict):
     #     ),
     #     "success"
     # )
+    flash("Contact information successfully updated", "information")
     return redirect(url_for("corporate_bp.corp_profile"))
 
 
@@ -109,9 +116,10 @@ def corp_dashboard():
     if response.status_code == HTTPStatus.UNAUTHORIZED:
         error = _("Your session has expired. Please log in again")
         # Get the configuration for the platform
+        flash(error, "error")
         p_language, portal = get_platform_language()
         return render_template(
-            "corporate_login.html", p_language=p_language, portal=portal, error=error
+            "corporate_login.html", p_language=p_language, portal=portal,  # , error=error
         )
     return render_template(
         "corporate_dashboard.html",
@@ -134,6 +142,7 @@ def corp_dashboard_post():
         "last_name": last_name if len(last_name) > 0 else None,
     }
     if all(i is None for i in data.values()):
+        flash(_("No user found"), "information")
         return redirect(url_for("corporate_bp.corp_dashboard"))
     authorization = "Bearer {access_token}".format(access_token=access_token)
     headers = {
@@ -150,11 +159,13 @@ def corp_dashboard_post():
         error = _("Your session has expired. Please log in again")
         # Get the configuration for the platform
         p_language, portal = get_platform_language()
+        flash(error, "error")
         return render_template(
-            "corporate_login.html", p_language=p_language, portal=portal, error=error
+            "corporate_login.html", p_language=p_language, portal=portal,  # error=error
         )
     elif "ErrorCode" in response.json():
         users = None
+        flash(_("No user found"), "information")
     else:
         users = response.json()
     return render_template(
@@ -200,10 +211,8 @@ def corp_edit_employee_details(employee_number):
         except KeyError:
             error = _("Input payload validation failed")
         flash(error, "error")
-        return render_template(
-            "corporate_register_employee.html",
-            error=error_map[f"{response.json()['ErrorCode']}"],
-        )
+        return render_template("corporate_register_employee.html")
+    flash(_("User details successfully updated!"), "information")
     return redirect(url_for("corporate_bp.corp_dashboard"))
 
 
@@ -240,6 +249,7 @@ def corp_register_employee_post():
     )
     if response.status_code == HTTPStatus.UNAUTHORIZED:
         error = _("Your session has expired. Please log in again.")
+        flash(error, "error")
         return redirect(url_for("auth_corp_bp.corp_login", error=error))
     elif response.status_code in [
         HTTPStatus.CONFLICT,
@@ -254,9 +264,9 @@ def corp_register_employee_post():
         logged_in_employee = session["logged_in_employee"]
         return render_template(
             "corporate_register_employee.html",
-            error=error,
             logged_in_employee=logged_in_employee,
         )
+    flash( _("Employee successfully registered"), "information")
     return redirect(url_for("corporate_bp.corp_dashboard"))
 
 
@@ -279,7 +289,8 @@ def corp_manage_employee_status(employee_number):
     response = requests.post(query_url, headers=headers)
     if response.status_code == HTTPStatus.UNAUTHORIZED:
         error = _("Your session has expired. Please log in again.")
-        return redirect(url_for("auth_corp_bp.corp_login", error=error))
+        flash(error, "error")
+        return redirect(url_for("auth_corp_bp.corp_login"))
     elif response.status_code in [
         HTTPStatus.CONFLICT,
         HTTPStatus.INTERNAL_SERVER_ERROR,

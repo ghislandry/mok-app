@@ -1,0 +1,52 @@
+<ul class="pagination right">
+
+    {% if assets["has_prev"] %}
+    {% set it_per_page = assets["items_per_page"]|int %}
+
+    {% set page_ = assets["page"] -1 %}
+    <li class="waves-effect"><a href="{{ url_for('backoffice_bp.bo_dashboard', page=page_, per_page=it_per_page) }}">
+        <i class="material-icons">chevron_left</i></a>
+    </li>
+    {% else %}
+    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+
+    {% endif%}
+
+    <!-- <li> -->
+    {% if assets["total_items"] == 0 %}
+    <li><label>0</label></li>
+    <li><label> <i class="material-icons">remove</i> </label></li>
+    <li><label>0</label></li>
+    {% elif assets["page"] == 1 %}
+    <li><label> {{ assets["page"] }} </label></li>
+    <li><label> <i class="material-icons">remove</i> </label></li>
+    <li><label> {{ [assets["items"]|length, assets["items_per_page"]]|min }} </label></li>
+    {% else %}
+    {% set new_page = assets["page"] -1 %}
+    {% set st_page = new_page*assets["items_per_page"] + 1 %}
+    <li><label>{{ st_page }}</label></li>
+    <li><label> <i class="material-icons">remove</i> </label></li>
+    <li><label> {{[assets["items_per_page"]*assets["page"], assets["total_items"]]|min }} </label></li>
+    {% endif %}
+    <!-- </li> -->
+    <li>
+        <label>
+            of
+        </label>
+    </li>
+    <li>
+        <label>
+            {{ assets["total_items"] }}
+        </label>
+    </li>
+    {% if assets["has_next"] %}
+    {% set it_per_page = assets["items_per_page"]|int %}
+    {% set page_ = assets["page"] +1 %}
+
+    <li class="waves-effect"><a href="{{ url_for('backoffice_bp.bo_dashboard', page=page_, per_page=it_per_page) }}">
+        <i class="material-icons">chevron_right</i></a>
+    </li>
+    {% else %}
+    <li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+    {% endif %}
+</ul>

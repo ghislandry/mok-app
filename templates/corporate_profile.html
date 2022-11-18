@@ -97,7 +97,7 @@
                                     <br>
                                     <div class="row">
                                         <div class="col s12 m8 offset-m4">
-                                            <a class="btn cyan waves-effect waves-light right"
+                                            <a class="btn waves-effect waves-light modal-trigger right"
                                                 data-target="modal_edit_employee">
                                                 {{ _("Edit") }}
                                             </a>
@@ -120,11 +120,12 @@
                                             </tr>
                                             <tr>
                                                 <td><b>{{ _("Role") }}</b></td>
-                                                <td>{{ user.roles }}</td>
+                                                <td>{{ user.roles[0]|upper}}{{user.roles[1:] }}</td>
                                             </tr>
                                             <tr>
                                                 <td><b>{{ _("Registered on") }}</b></td>
-                                                <td>{{ user.created_at }}</td>
+                                                {% set date_list = user.created_at.split(' ') %}
+                                                <td>{{ date_list[0] }}</td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -150,6 +151,7 @@
                         </div>
 
                     </div>
+                    {% include "alert_message.html" %}
                 </div>
 
             </div>

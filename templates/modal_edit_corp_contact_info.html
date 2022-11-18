@@ -1,4 +1,4 @@
-<div id="modal_edit_employee" class="modal" style="overflow:hidden; height: 40% !important;">
+<div id="modal_edit_employee" class="modal" style="overflow:hidden; height: 50% !important;">
     <div class="modal-content">
         <h4>{{ _("Edit Contact information")}}</h4>
         <p> {{ user.employee_number }} </p>
@@ -14,32 +14,43 @@
             "email_address": user.email_address}
         )%}
         <div class="row">
-            <form action="{{url_for('corporate_bp.update_profile_post', data_dict=data_dict)}}" method="post">
-                <div class="row">
-                    <div class="input-field col s12 m6">
-                        <input value="{{ user.phone_number }}" id="phone_number" type="text" name="phone_number" class="validate">
-                        <label for="phone_number">{{ _("Phone number") }}</label>
-                    </div>
-                    <div class="input-field col s12 m6">
-                        <input value="{{ user.city }}" id="city" type="text" name="city" class="validate">
-                        <label for="city">{{ _("City") }}</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s12 m6">
-                        <input value="{{ user.email_address }}" id="email" type="email" name="email" class="validate">
-                        <label for="email">{{ _("Email") }}</label>
-                    </div>
-                </div>
+            <div class="row">
+                <div class="col s12">
+                    <div class="card-panel">
+                        <form action="{{url_for('corporate_bp.update_profile_post', data_dict=data_dict)}}"
+                              method="post">
+                            <div class="row">
+                                <div class="input-field col s12 m6">
+                                    <input value="{{ user.phone_number }}" id="phone_number" type="text"
+                                           name="phone_number" class="validate">
+                                    <label for="phone_number">{{ _("Phone number") }}</label>
+                                </div>
+                                <div class="input-field col s12 m6">
+                                    <input value="{{ user.city }}" id="city" type="text" name="city" class="validate">
+                                    <label for="city">{{ _("City") }}</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12 m6">
+                                    <input value="{{ user.email_address }}" id="email" type="email" name="email"
+                                           class="validate">
+                                    <label for="email">{{ _("Email") }}</label>
+                                </div>
+                            </div>
 
-                <div class="row">
-                    <div class="col s12 m2 offset-m10" style="position: bottom-right">
-                        <button name="btn_update_contact_nbr" class="btn col s12 waves-effect waves-light" type="submit" style="position: bottom-right">
-                            {{ _("Close & Save") }}
-                        </button>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <button class="btn cyan waves-effect waves-light right" type="submit"
+                                            name="btn_update_contact_nbr">{{ _("Close & Save") }}
+                                        <!-- <i class="mdi-content-send right"></i> -->
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
-            </form>
+            </div>
+
         </div>
     </div>
     <div class="modal-footer">

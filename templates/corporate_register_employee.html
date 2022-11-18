@@ -93,26 +93,10 @@
                                             <!-- <i class="mdi-content-send right"></i> -->
                                         </button>
                                     </div>
-                                    <!-- <button type='submit' name='btn_register_employee'
-                                            class='input-field btn waves-effect blue col s12 m1 offset-m8'
-                                            style="color:black;">
-                                        <span>{{ _("Register") }}</span>
-                                    </button> -->
                                 </div>
                             </form>
 
-                            <div class="row">
-                                {% with messages = get_flashed_messages(with_categories=true) %}
-                                {% if messages %}
-                                {% for category, message in messages %}
-                                <div class="col s12 m6">
-                                    <div class="alert {{ category }}"> {{ message|capitalize }}</div>
-                                </div>
-                                {% endfor %}
-                                {% endif %}
-                                {% endwith %}
-                            </div>
-
+                            {% include "alert_message.html" %}
                         </div>
                     </div>
 

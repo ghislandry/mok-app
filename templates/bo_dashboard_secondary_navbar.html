@@ -6,7 +6,6 @@
                     <img src="static/yuna.jpg" alt="" class="circle responsive-img valign profile-image">
                 </div>
                 <div class="col col s8 m8 l8">
-
                     <a class="btn-flat dropdown-button white-text profile-btn">
                         {% if logged_in_employee.last_name %}
                         {{ logged_in_employee.last_name }}
@@ -20,32 +19,51 @@
         </li>
 
         <li>
+            <a href="{{url_for('backoffice_bp.bo_assets')}}">
+                <i class="material-icons" aria-hidden="false" aria-label="people"> home
+                </i> {{ _("Meters") }}
+            </a>
+        </li>
+
+        <li>
             <a href="{{url_for('corporate_bp.corp_dashboard')}}">
+                <i class="material-icons" aria-hidden="false" aria-label="people"> add_to_photos
+                </i> {{ _("Add Meters") }}
+            </a>
+        </li>
+
+        <li>
+            <a href="{{url_for('backoffice_bp.bo_customers')}}">
                 <i class="material-icons" aria-hidden="false" aria-label="people"> people
-                </i> {{ _("Employees") }}
+                </i> {{ _("Customers") }}
             </a>
         </li>
 
         <li>
             <a href="{{url_for('corporate_bp.corp_register_employee')}}">
-                <i class="material-icons" aria-hidden="false" aria-label="people"> person_add
-                </i> {{ _("Register Employee") }}
+                <i class="material-icons" aria-hidden="false" aria-label="add_customer"> person_add
+                </i> {{ _("Register Customer") }}
             </a>
         </li>
 
         <li>
             <a href="{{url_for('corporate_bp.corp_profile')}}">
-                <i class="material-icons" aria-hidden="false" aria-label="people"> person_pin_circle
-                </i> {{ _("Profile") }}
+                <i class="material-icons" aria-hidden="false" aria-label="reading"> book
+                </i> {{ _("Readings") }}
             </a>
         </li>
-
+        <li>
+            <a href="{{url_for('corporate_bp.corp_profile')}}">
+                <i class="material-icons" aria-hidden="false" aria-label="add_reading"> collections_bookmark
+                </i> {{ _("Add Reading") }}
+            </a>
+        </li>
         <li class="li-hover">
             <div class="divider"></div>
         </li>
 
         <li>
-            <a href="{{url_for('auth_corp_bp.corp_logout')}}">
+            <a href="{{url_for('auth_bo_bp.bo_logout')}}">
                 <i class="material-icons" aria-hidden="false" aria-label="Logout"> exit_to_app
                 </i> {{ _("Logout") }}
             </a>

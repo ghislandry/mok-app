@@ -8,3 +8,10 @@ class RolesTypes(Enum):
     meterreader = 3  # meter reader
     employee = 4
     senioremployee = 5
+
+
+@unique
+class Portals(Enum):
+    bo = 1
+    corp = 2
+    admin = 3

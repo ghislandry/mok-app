@@ -2,27 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>MokAdmin</title>
+    <title>Mok</title>
     <base href="/">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon-96x96.png') }}">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons+Round" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='alert_messages.css')}}"/>
     <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='style.css') }}"/>
     <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='page-center.css') }}"/>
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js" integrity="sha256-h0cGsrExGgcZtSZ/fRz4AwV+Nn6Urh/3v3jFRQ0w9dQ=" crossorigin="anonymous"></script>
-    <script src="{{url_for('static', filename='materialize.min.js')}}"></script>
-    <script src="{{url_for('static', filename='modal_trigger.js')}}"></script>
-    <script src="{{url_for('static', filename='select_initialisation.js')}}"></script>
-    <script src="{{url_for('static', filename='sidenav_initialisation.js')}}"></script>
-    <script src="{{url_for('static', filename='perfect-scrollbar.min.js')}}"></script>
-    <script src="{{url_for('static', filename='prism.js')}}"></script>
-
-    <script src="{{url_for('static', filename='chartist.min.js')}}"></script>
-    <script src="{{url_for('static', filename='plugins.js')}}"></script>
-    <script src="{{url_for('static', filename='jquery-1.10.2.js')}}"></script>
-    <script src="{{url_for('static', filename='jquery.min.js')}}"></script>
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='materialize.css') }}"/>
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='perfect-scrollbar.css') }}"/>
 </head>
 <body class="grey lighten-2 loaded">
 
@@ -35,6 +26,15 @@
 {% block content %}
 
 {% endblock %}
-
+{% block script %}
+<script src="{{url_for('static', filename='jquery-1.11.3.min.js')}}"></script>
+<script src="{{url_for('static', filename='materialize.js')}}"></script>
+<script src="{{url_for('static', filename='perfect-scrollbar.min.js')}}"></script>
+<script src="{{url_for('static', filename='prism.js')}}"></script>
+<script src="{{url_for('static', filename='chartist.min.js')}}"></script>
+<script src="{{url_for('static', filename='jquery.min.js')}}"></script>
+<script src="{{url_for('static', filename='jquery-1.10.2.js')}}"></script>
+<script src="{{url_for('static', filename='plugins.js')}}"></script>
+{% endblock %}
 </body>
 </html>

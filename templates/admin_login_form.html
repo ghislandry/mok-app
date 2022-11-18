@@ -7,19 +7,10 @@
                     <img src="static/mok-logo2x_small.png" alt="">
                 </div>
             </div>
-
             {% include "login_language_and_portal_selection.html" %}
-            <div class="row">
-                {% if error %}
-                    <p class=error><strong>{{ _("Error") }}:</strong> {{ error|wordwrap(width=10) }}
-                {% endif %}
-            </div>
-            <!-- <div class="row">
-                <div class="input-field col s12 center">
-                    <img src="static/mok-logo2x_small.png" alt="">
-                    <h5 style="margin-left: 5%;">{{ _("LogIn") }}</h5>
-                </div>
-            </div> -->
+
+            {% include "alert_message.html" %}
+
             <div class="row margin">
                 <div class="input-field col s12 center">
                     <input id="email" type="email" name="email" class="validate">
@@ -32,14 +23,6 @@
                     <label for="password">{{ _("Password") }}</label>
                 </div>
             </div>
-
-            <!-- <div class='row'>
-                <div class="col s12 offset-m10">
-                    <label style='float: right;'>
-                        <a class='pink-text' href='{{url_for("auth_bp.forgot_password")}}'><b>{{ _("Forgot Password?")}}</b></a>
-                    </label>
-                </div>
-            </div> -->
             <div class="row">
                 <div class="input-field col s6 m6 l6">
                     <!-- <p class="margin medium-small"><a href="page-register.html">Register Now!</a></p> -->

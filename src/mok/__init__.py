@@ -15,12 +15,13 @@ from mok.auth.auth import auth_bp
 from mok.auth.auth_bo import auth_bo_bp
 from mok.auth.auth_corporate import auth_corp_bp
 from mok.core.corp_dashboard import corporate_bp
+from mok.core.bo_dashboard import backoffice_bp
 
 babel = Babel()
 
 
 def create_app(config_name):
-    app = Flask("Mok Portals", template_folder="./templates")
+    app = Flask("Mok", template_folder="./templates")
     app.config.from_object(get_config(config_name))
 
     Logger.init_logger(app)
@@ -35,6 +36,9 @@ def create_app(config_name):
     app.register_blueprint(main_bp)
     # blueprint for corporate dashboard
     app.register_blueprint(corporate_bp)
+
+    # blueprint for backoffice dashboard
+    app.register_blueprint(backoffice_bp)
 
     Session(app)
     Scss(app)
