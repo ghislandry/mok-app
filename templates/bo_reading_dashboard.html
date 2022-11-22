@@ -11,20 +11,20 @@
     </div> -->
     <!-- breadcrumbs end -->
     <!-- Start container -->
-    <div class="container" style="width: 95% !important;">
+    <div class="container">
         <div class="section">
             <!-- <div class="divider"></div> -->
             <div class="section">
                 <div class="row">
                     <form action="/corp/dashboard" method="post">
-                        {% include "bo_customer_dashboard_search_form.html" %}
+                        {% include "bo_reading_dashboard_search_form.html" %}
                     </form>
                 </div>
             </div>
 
             <div class="section">
                 <div class="row">
-                    <h5 class="header">{{ _("List of Customers") }} </h5>
+                    <h5 class="header">{{ _("List of Meter Readings") }} </h5>
                     <div class="row">
                         <div class="col s12">
                             <div class="card" style="height:600px !important; overflow-x:hidden; overflow-y:scroll">
@@ -90,8 +90,8 @@
                                 <div class="row">
                                     <div class="divider"></div>
                                     <div class="col s12 m11.5">
-                                        {% if users %}
-                                        {% include "bo_customer_dashboard_table_pagination.html" %}
+                                        {% if readings %}
+                                        {% include "bo_reading_dashboard_table_pagination.html" %}
                                         {% endif %}
                                     </div>
                                 </div>

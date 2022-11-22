@@ -78,3 +78,33 @@ def bo_customers():
         users=response.json(),
         logged_in_employee=logged_in_employee,
     )
+
+
+@backoffice_bp.route("/bo/readings")
+def bo_readings():
+    api_base_url = current_app.config.get('API_BASE_URL')
+    access_token = session["access_token"]
+    page = request.args.get("page", 1, type=int)
+    per_page = request.args.get("per_page", 10, type=int)
+    authorization = "Bearer {access_token}".format(access_token=access_token)
+    headers = {"Authorization": authorization}
+    response = requests.get(
+        f"{api_base_url}/api/v1/readings?page={page}&per_page={per_page}",
+        headers=headers,
+    )
+    logged_in_employee = session["logged_in_employee"]
+    if response.status_code == HTTPStatus.UNAUTHORIZED:
+        error = _("Your session has expired. Please log in again")
+        # Get the configuration for the platform
+        flash(error, "error")
+        p_language, portal = get_platform_language()
+        return render_template(
+            "bo_login.html", p_language=p_language, portal=portal,
+        )
+    print(response.json())
+    # store the fact that we are looking
+    return render_template(
+        "bo_readings.html",
+        readings=response.json(),
+        logged_in_employee=logged_in_employee,
+    )
