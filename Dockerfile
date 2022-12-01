@@ -4,11 +4,13 @@ WORKDIR /app
 
 # Copying the source folder and requirements file
 COPY ./src /app/src
-COPY ./migrations /app/migrations
+COPY ./assets /app/assets
+COPY ./translations /app/translations
+COPY ./static /app/static
+COPY ./templates /app/templates
 COPY ./setup.py /app
 COPY ./README.md /app
 COPY ./wsgi.py /app
-COPY ./templates /app/templates
 
 # install the env
 ENV VIRTUAL_ENV=/opt/venv

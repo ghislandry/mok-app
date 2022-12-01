@@ -55,9 +55,9 @@ jobs:
       FLASK_RUN_PORT: ${{ secrets.FLASK_RUN_PORT }}
       FLASK: ${{ secrets.FLASK }}
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
-      AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
-      AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
       DOMAIN_NAME: ${{ secrets.DOMAIN_NAME }}
+      DOMAIN_NAME_1: ${{ secrets.DOMAIN_NAME_1 }}
+      DOMAIN_NAME_2: ${{ secrets.DOMAIN_NAME_2 }}
       EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
       API_KEY: ${{ secrets.API_KEY }}
     runs-on: ubuntu-latest
@@ -87,4 +87,4 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            cd /data/mok && make dc-stop && make dc-start && make dc-prune
+            cd /data/mok && make dc-stop && make dc-prune && make dc-start

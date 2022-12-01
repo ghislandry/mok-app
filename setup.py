@@ -32,6 +32,7 @@ INSTALL_REQUIRES = [
     "flask_language",
     "Flask-Scss",
     "flask-material",
+    "flask_session",
     "flask_bootstrap",
     "flask-babel",
 ]
