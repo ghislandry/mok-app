@@ -16,7 +16,8 @@ ENV_VARIABLES = [
     "DOMAIN_NAME",
     "DOMAIN_NAME_1",
     "DOMAIN_NAME_2",
-    "API_BASE_URL",
+    "EMAIL_ADDRESS",
+    "DEV_API_BASE_URL",
     "API_KEY",
 ]
 
