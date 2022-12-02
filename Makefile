@@ -21,4 +21,4 @@ dc-build:
 	@docker-compose build;
 	
 dc-prune: ## Remove dangling images. Do not ask for confirmation
-	@docker system prune --force;
+	@docker image prune --force;
