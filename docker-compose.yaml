@@ -19,7 +19,7 @@ services:
     networks:
       - mok-app-network
     command: >
-      bash -c "cd /app && flask db upgrade && gunicorn -c src/mok_admin/gunicorn_config.py wsgi:app"
+      bash -c "cd /app && gunicorn -c src/mok_admin/gunicorn_config.py wsgi:app"
 
   nginx:
     build:
