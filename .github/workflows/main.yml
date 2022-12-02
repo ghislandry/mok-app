@@ -74,7 +74,7 @@ jobs:
         uses: easingthemes/ssh-deploy@v2.1.5
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SOURCE: "../mok"
+          SOURCE: "../mok-app"
           REMOTE_HOST: ${{ secrets.DOMAIN_NAME }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.TARGET }}
@@ -87,4 +87,4 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            cd /data/mok && make dc-stop && make dc-prune && make dc-start
+            cd /data/mok-app && make dc-stop && make dc-prune && make dc-start
