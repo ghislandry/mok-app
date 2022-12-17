@@ -16,6 +16,7 @@ services:
       API_KEY: $API_KEY
       MAIL_USERNAME: $MAIL_USERNAME
       MAIL_PASSWORD: $MAIL_PASSWORD
+      DEV_API_BASE_URL: $DEV_API_BASE_URL
     networks:
       - mok-app-network
     command: >

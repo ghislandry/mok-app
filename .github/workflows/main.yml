@@ -59,6 +59,7 @@ jobs:
       DOMAIN_NAME_1: ${{ secrets.DOMAIN_NAME_1 }}
       DOMAIN_NAME_2: ${{ secrets.DOMAIN_NAME_2 }}
       EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
+      DEV_API_BASE_URL: ${{ secrets.DEV_API_BASE_URL }}
       API_KEY: ${{ secrets.API_KEY }}
     runs-on: ubuntu-latest
     environment: development

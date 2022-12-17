@@ -15,6 +15,8 @@ from flask_babel import _
 
 from mok.auth import error_map, logged_in_user
 from mok.platform_config import get_platform_language
+from mok.models import Portals
+
 
 auth_bp = Blueprint("auth_bp", __name__)
 
@@ -28,12 +30,16 @@ def login():
     except KeyError:
         p_language = _("English")
     portal = _("Admin Portal")
+    session["portal"] = Portals.admin.name
     return render_template("login.html", p_language=p_language, portal=portal)
 
 
 @auth_bp.route("/login", methods=["post"])
 def login_post():
-    data = {"email": request.form.get("email"), "password": request.form.get("password")}
+    data = {
+        "email": request.form.get("email"),
+        "password": request.form.get("password"),
+    }
     authorization = "Bearer {access_token}".format(
         access_token=current_app.config.get("API_KEY")
     )
@@ -48,11 +54,11 @@ def login_post():
     )
     if response.json()["status"] == "fail":
         p_language, portal = get_platform_language()
+        flash(error_map[f"{response.json()['ErrorCode']}"], "error")
         return render_template(
             "login.html",
             p_language=p_language,
             portal=portal,
-            error=error_map[f"{response.json()['ErrorCode']}"]
         )
 
     # Store the session token and employee number
@@ -60,15 +66,14 @@ def login_post():
     # find out which user is connected and route accordingly
     url = f"{current_app.config.get('API_BASE_URL')}/api/v1/auth/admin/user"
     response = logged_in_user(access_token=response.json()["access_token"], url=url)
-
     if response.status_code == HTTPStatus.UNAUTHORIZED:
         error = _("Your session has expired. Please log in again")
+        flash(error, "error")
         p_language, portal = get_platform_language()
         return render_template(
             "login.html",
             p_language=p_language,
             portal=portal,
-            error=error,
         )
     logged_in_employee = {
         "email_address": response.json()["email"],

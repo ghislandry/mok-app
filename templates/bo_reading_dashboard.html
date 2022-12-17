@@ -38,6 +38,7 @@
                                                 <th>{{ _("Energy") }}</th>
                                                 <th>{{ _("Unit") }}</th>
                                                 <th>{{ _("Status") }}</th>
+                                                <th>{{ _("Reading date") }}</th>
                                                 <th>{{ _("Last Updated") }}</th>
                                                 <!--<th>{{ _("City") }}</th>
                                                 <th>{{ _("KYC Status") }}</th>
@@ -57,6 +58,8 @@
                                                 <td>{{ reading.energy }}</td>
                                                 <td>{{ reading.unit }}</td>
                                                 <td>{{ reading.verification_status }}</td>
+                                                {% set dates_list = reading.reading_date.split(' ') %}
+                                                <td>{{ dates_list[0] }}</td>
                                                 {% set date_list = reading.last_modified_at.split(' ') %}
                                                 <td>{{ date_list[0] }}</td>
                                                 <td>

@@ -1,79 +1,200 @@
-<aside id="left-sidebar-nav">
-    <ul id="slide-out" class="side-nav fixed leftside-navigation ps-container ps-active-y" style="width: 240px;">
-        <li class="user-details cyan darken-2">
-            <div class="row">
-                <div class="col col s4 m4 l4">
-                    <img src="static/yuna.jpg" alt="" class="circle responsive-img valign profile-image">
-                </div>
-                <div class="col col s8 m8 l8">
-
-                    <a class="btn-flat dropdown-button waves-effect waves-light white-text profile-btn" href="#"
-                       data-activates="profile-dropdown">John Doe<i
-                            class="mdi-navigation-arrow-drop-down right"></i></a>
-                    <ul id="profile-dropdown" class="dropdown-content">
-                        <li><a href="#"><i class="mdi-action-face-unlock"></i> Profile</a>
-                        </li>
-                        <li><a href="#"><i class="mdi-action-settings"></i> Settings</a>
-                        </li>
-                        <li><a href="#"><i class="mdi-communication-live-help"></i> Help</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li><a href="#"><i class="mdi-action-lock-outline"></i> Lock</a>
-                        </li>
-                        <li><a href="#"><i class="mdi-hardware-keyboard-tab"></i> Logout</a>
-                        </li>
-                    </ul>
-                    <p class="user-roal">Administrator</p>
-                </div>
-            </div>
-        </li>
-        <li class="bold"><a href="index.html" class="waves-effect waves-cyan"><i class="mdi-action-dashboard"></i>
-            Dashboard</a>
-        </li>
-        <li class="bold"><a href="app-email.html" class="waves-effect waves-cyan"><i
-                class="mdi-communication-email"></i> Mailbox <span class="new badge">4</span></a>
-        </li>
-        <li class="bold"><a href="app-calendar.html" class="waves-effect waves-cyan"><i
-                class="mdi-editor-insert-invitation"></i> Calender</a>
-        </li>
-        <li class="li-hover">
-            <div class="divider"></div>
-        </li>
-        <li class="li-hover"><p class="ultra-small margin more-text">MORE</p></li>
-        <li><a href="css-grid.html"><i class="mdi-image-grid-on"></i> Grid</a>
-        </li>
-        <li><a href="css-color.html"><i class="mdi-editor-format-color-fill"></i> Color</a>
-        </li>
-        <li><a href="css-helpers.html"><i class="mdi-communication-live-help"></i> Helpers</a>
-        </li>
-        <li><a href="changelogs.html"><i class="mdi-action-swap-vert-circle"></i> Changelogs</a>
-        </li>
-        <li class="li-hover">
-            <div class="divider"></div>
-        </li>
-        <li class="li-hover"><p class="ultra-small margin more-text">Daily Sales</p></li>
-        <li class="li-hover">
+<section id="content">
+    <!-- breadcrumbs start -->
+    <!-- <div id="breadcrumbs-wrapper" class=" gray lighten-3">
+        <div class="container">
             <div class="row">
                 <div class="col s12 m12 l12">
-                    <div class="sample-chart-wrapper">
-                        <div class="ct-chart ct-golden-section" id="ct2-chart">
-                            <svg xmlns:ct="http://gionkunz.github.com/chartist-js/ct" width="100%" height="100%"
-                                 class="ct-chart-line" style="width: 100%; height: 100%;">
+                    <h5 class="breadcrumbs-title">{{ _("List of Employees") }}</h5>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- breadcrumbs end -->
+    <!-- Start container -->
 
-                            </svg>
-                        </div>
+    <div class="container">
+        <div class="section">
+            <div class="section">
+                <div class="row">
+                    <form action="/bo/dashboard" method="post">
+                        {% include "bo_customer_dashboard_search_form.html" %}
+                    </form>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="row">
+                    <h5 class="header">{{ _("List of Customers") }} </h5>
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="col s12 m4 l4 card-panel z-depth-1">
+                                {% if users %}
+                                {%
+                                    set data_dict = ({
+                                        "users": users
+                                    })
+                                %}
+                                {% set active_user = [] %}
+                                <ul class="collection">
+                                {% for user in users["items"] %}
+                                    {% if not contract_number and loop.first %}
+                                        {% do active_user.append(user) %}
+                                        <li class="collection-item avatar red lighten-5">
+                                            <i class="material-icons circle blue">{{ user.last_name[0] }}</i>
+                                            <span class="title">{{ user.last_name }}</span>
+                                            <p class="truncate grey-text ultra-small">{{ user.contract_number }}</p>
+                                            <a id="test" class="btn secondary-content">
+                                                <span class="blue-text ultra-small">{{ _("View") }}</span>
+                                            </a>
+                                        </li>
+                                    {% elif contract_number and contract_number == user.contract_number %}
+                                        {% do active_user.append(user) %}
+                                        <li class="collection-item avatar cyan lighten-5">
+                                            <i class="material-icons circle blue">{{ user.last_name[0] }}</i>
+                                            <span class="title">{{ user.last_name }}</span>
+                                            <p class="truncate grey-text ultra-small">{{ user.contract_number }}</p>
+                                            <a href="{{url_for('backoffice_bp.bo_customer', contract_number=contract_number)}}" class="secondary-content">
+                                                <span class="blue-text ultra-small">{{ _("View") }}</span>
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li class="collection-item avatar lighten-5">
+                                            <i class="material-icons circle blue">{{ user.last_name[0] }}</i>
+                                            <span class="title">{{ user.last_name }}</span>
+                                            <p class="truncate grey-text ultra-small">{{ user.contract_number }}</p>
+                                            <a href="{{url_for('backoffice_bp.bo_customer', contract_number=contract_number)}}" class="secondary-content">
+                                                <span class="blue-text ultra-small">{{ _("View") }}</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+
+                                {% endfor %}
+                                {% endif %}
+                                </ul>
+                            </div>
+                            <div id="user_details" class="col s12 m8 l8 card-panel">
+                                <p> Here we are !!!</p>
+
+                                <p id="result">
+
+                                </p>
+
+                                {% if result %}
+                                <p> {{ result_2 }} </p>
+                                <p> This is done </p>
+                                {% endif %}
+
+                                <!-- <script>
+                                    document.getElementById("result").innerHTML;
+                                </script> -->
+                                {% if user %}
+                                <p>{{ user }}</p>
+                                {% endif %}
+                                {% if active_user %}
+                                {% set user = active_user[0] %}
+                                <div class="row">
+                                    <div class="col s12 m12 l6">
+                                        <div class="card-panel" style="height:330px !important;">
+                                            <h4 class="header2"> {{ _("General Information") }}</h4>
+                                            <div class="row">
+                                                <table class="responsive-table bordered" style="background:white">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td><b>{{ _("Last name") }}</b></td>
+                                                        <td>{{ user.last_name }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>{{ _("First name") }}</b></td>
+                                                        <td>{{ user.first_name }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>{{ _("Date of Birth") }}</b></td>
+                                                        <td>{{ user.date_of_birth }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>{{ _("Gender") }}</b></td>
+                                                        <td>{{ user.gender[0]|upper}}{{user.gender[1:] }}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col s12 m12 l6">
+                                        <div class="card-panel" style="height:330px !important;">
+                                            <h4 class="header2"> {{ _("Contact Information") }}</h4>
+                                            <div class="row">
+                                                <table class="responsive-table bordered" style="background:white">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td><b>{{ _("Phone number") }}</b></td>
+                                                        <td>{{ user.phone_number }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>{{ _("City") }}</b></td>
+                                                        <td>{{ user.city }}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <br>
+                                            {% include "modal_edit_corp_contact_info.html" %}
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col s12 m12 l12">
+                                        <div class="card-panel" style="height:330px !important;">
+                                            <h4 class="header2"> {{ _("Account Status") }}</h4>
+                                            <div class="row">
+                                                <table class="responsive-table" style="background:white">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td><b>{{ _("Status") }}</b></td>
+                                                        <td>{{ user.KYC_status }}</td>
+                                                        <td>
+                                                            <a class="btn cyan waves-effect waves-light modal-trigger right"
+                                                               data-target="modal_edit_status">
+                                                                <i class="material-icons right">create</i>
+                                                                {{ _("Change") }}
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>{{ _("Last modified on") }}</b></td>
+                                                        {% set updated_on_date = user.last_updated_at.split(' ') %}
+                                                        <td>{{ updated_on_date[0] }}</td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>{{ _("Registered on") }}</b></td>
+                                                        {% set registered_on_date = user.created_at.split(' ') %}
+                                                        <td>{{ registered_on_date[0] }}</td>
+                                                        <td></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <button class="btn cyan waves-effect waves-light right" type="submit"
+                                                name="edit-user-details">Edit
+                                            <i class="material-icons right">create</i>
+                                        </button>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
                     </div>
                 </div>
             </div>
-        </li>
-        <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;">
-            <div class="ps-scrollbar-x" style="left: 0px; width: 0px;"></div>
         </div>
-        <div class="ps-scrollbar-y-rail" style="top: 0px; height: 843px; right: 3px;">
-            <div class="ps-scrollbar-y" style="top: 0px; height: 685px;"></div>
-        </div>
-    </ul>
-    <a href="#" data-activates="slide-out"
-       class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only darken-2"><i
-            class="mdi-navigation-menu"></i></a>
-</aside>
+    </div>
+    </div>
+    <!-- end container -->
+</section>

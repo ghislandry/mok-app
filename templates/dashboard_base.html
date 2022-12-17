@@ -9,31 +9,86 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='alert_messages.css')}}"/>
-    <!-- <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='dashboard.css')}}"/>
-    <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='indigo-pink.css') }}"/> -->
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='materialize.min.css') }}"/>
     <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='style.css') }}"/>
     <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='prism.css') }}"/>
     <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='perfect-srollbar.css') }}"/>
     <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='chartist-min.css') }}"/>
-    <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='materialize.min.css') }}"/>
-    <!-- <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='materialize.css') }}"/>-->
-    <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='material_table.css') }}"/>
-    <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='card_styling.css') }}"/><!-- -->
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='card_styling.css') }}"/>
     <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='footer.css') }}"/>
 
-    <!-- <script src="{{url_for('static', filename='materialize.min.js')}}"></script> -->
+    <script src="{{url_for('static', filename='materialize.min.js')}}"></script>
     <script src="{{url_for('static', filename='jquery-1.11.3.min.js')}}"></script>
-    <!-- <script src="{{url_for('static', filename='materialize.js')}}"></script> -->
-    <!--<script src="{{url_for('static', filename='modal_trigger.js')}}"></script>
-     <script src="{{url_for('static', filename='select_initialisation.js')}}"></script>
-    <script src="{{url_for('static', filename='sidenav_initialisation.js')}}"></script> -->
     <script src="{{url_for('static', filename='perfect-scrollbar.min.js')}}"></script>
     <script src="{{url_for('static', filename='prism.js')}}"></script>
-    <!-- <script src="{{url_for('static', filename='jquery-2.1.1.min.js')}}"></script> -->
     <script src="{{url_for('static', filename='chartist.min.js')}}"></script>
     <script src="{{url_for('static', filename='plugins.js')}}"></script>
     <script src="{{url_for('static', filename='jquery-1.10.2.js')}}"></script>
     <script src="{{url_for('static', filename='jquery.min.js')}}"></script>
+
+    <!-- <script>
+        function loadDoc() {
+            const request = new XMLHttpRequest();
+            request.onclick = function() {
+            document.getElementById("result").innerHTML = response.result;
+            //this.responseText;
+        }
+        request.open('GET', '/bo/customers_details/AL40XW');
+        request.send();
+    }
+    </script> -->
+    <!-- <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('a#test').forEach(button => {
+                button.onclick = () => {
+                    const request = new XMLHttpRequest();
+                    request.open('GET', '/bo/customers_details/AL40XW');
+                    request.onload = () => {
+                        const response = request.responseText;
+                        document.getElementById('result').innerHTML = response;
+                    };
+                    request.send();
+                };
+            });
+        });
+    </script>-->
+     <script>
+        $(function() {
+        $('a#').on('click', function(e) {
+            e.preventDefault()
+            var varData = $('#my-data').data();
+            cons path = '/bo/customers_fetch_images/' + varData.contract_number + "/" + varData.params
+            $.getJSON(path,
+                function(data) {
+                $('#result').text(data.result);
+                // $('#result_2').text(data.last_name)
+            });
+            return false;
+          });
+        });
+    </script>
+    <script>
+          function display_image(contract_number, cni_uploaded, password_uploaded) {
+            const request = new XMLHttpRequest();
+            request.onclick = function() {
+            document.getElementById("result").innerHTML = response.result;
+            //this.responseText;
+            request.open('GET', '/bo/customers_details/AL40XW');
+        request.send();
+        }
+    </script>
+
+    <script>
+        function displayImage(destElem, params, contract_number) {
+            // $(destElem).html('<img src="{{ url_for('static', filename='loading.gif') }}">');
+            $.get('/bo/customers_fetch_images/' + contract_number + '/' + params).done(function(response) {
+                $(destElem).text(response['result'])
+            }).fail(function() {
+                $(destElem).text("{{ _('Error: Could not contact server.') }}");
+            });
+        }
+    </script>
+
 </head>
 <body class="loaded">
 
@@ -42,8 +97,6 @@
     <div class="loader-section section-left"></div>
     <div class="loader-section section-right"></div>
 </div>
-
-{% extends "material/base.html" %}
 
 {% block content %}
 

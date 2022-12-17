@@ -11,7 +11,7 @@
     </div> -->
     <!-- breadcrumbs end -->
     <!-- Start container -->
-    <div class="container" style="width: 95% !important;">
+    <div class="container">
         <div class="section">
             <!-- <div class="divider"></div> -->
             <div class="section">
@@ -30,45 +30,145 @@
                             <div class="card" style="height:600px !important; overflow-x:hidden; overflow-y:scroll">
                                 <div class="row" style="height:100% !important;">
                                     <div class="col s12">
-                                        <table class="responsive-table">
-                                            <thead>
-                                            <tr>
-                                                <th>{{ _("Contract Number") }}</th>
-                                                <th>{{ _("Last Name") }}</th>
-                                                <th>{{ _("First Name") }}</th>
-                                                <th>{{ _("Gender") }}</th>
-                                                <th>{{ _("Birth Date") }}</th>
-                                                <th>{{ _("Phone Number") }}</th>
-                                                <th>{{ _("City") }}</th>
-                                                <th>{{ _("KYC Status") }}</th>
-                                                <th>{{ _("Last Updated") }}</th>
-                                                <!-- <th>{{ _("City") }}</th>
-                                                <th>{{ _("Registration date") }}</th> -->
-                                                <th>{{ _("Edit") }}</th>
-                                                <!-- <th>{{ _("More") }}</th> -->
-                                            </tr>
-                                            </thead>
-                                            <tbody>
+                                        <ul class="collapsible" data-collapsible="expandable">
                                             {% if users %}
                                             {% for user in users["items"] %}
-                                            <tr>
-                                                <td>{{ user.contract_number }}</td>
-                                                <td>{{ user.last_name }}</td>
-                                                <td>{{ user.first_name }}</td>
-                                                <td>{{ user.gender[0]|upper}}{{user.gender[1:] }}</td>
-                                                <td>{{ user.date_of_birth }}</td>
-                                                <td>{{ user.phone_number }}</td>
-                                                <td>{{ user.city }}</td>
-                                                <td>{{ user.KYC_status }}</td>
-                                                {% set date_list = user.created_at.split(' ') %}
-                                                <td>{{ date_list[0] }}</td>
-                                                <td>
-                                                    <a class="waves-effect waves-light modal-trigger"
-                                                       data-target="modal_{{ user.contract_number }}">
-                                                        <i class="material-icons">create</i>
-                                                    </a>
-                                                </td>
-                                            </tr>
+                                            <li class="avatar cyan lighten-5">
+                                                <div class="collapsible-header">
+                                                    <div class="row">
+                                                        <i class="material-icons right more">expand_more</i>
+                                                        {% set name = user.last_name + " " + user.first_name%}
+                                                        <div class="col s12 m6 wrap-text">
+                                                            <p class="truncate grey-text ultra-small">
+                                                                {{ name }}
+                                                            </p>
+                                                        </div>
+                                                        <div class="collapsible-header">
+                                                            <p class="truncate grey-text ultra-small">
+                                                                {{ user.contract_number }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="collapsible-body">
+                                                    <div class="row">
+                                                        <div class="col s12 m12 l4">
+                                                            <div class="card-panel" style="height:330px !important;">
+                                                                <h4 class="header2"> {{ _("General Information") }}</h4>
+                                                                <div class="row">
+                                                                    <table class="responsive-table bordered"
+                                                                           style="background:white">
+                                                                        <tbody>
+                                                                        <tr>
+                                                                            <td><b>{{ _("Last name") }}</b></td>
+                                                                            <td>{{ user.last_name }}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><b>{{ _("First name") }}</b></td>
+                                                                            <td>{{ user.first_name }}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><b>{{ _("Date of Birth") }}</b></td>
+                                                                            <td>{{ user.date_of_birth }}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><b>{{ _("Gender") }}</b></td>
+                                                                            <td>{{
+                                                                                user.gender[0]|upper}}{{user.gender[1:]
+                                                                                }}
+                                                                            </td>
+                                                                        </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col s12 m12 l4">
+                                                            <div class="card-panel" style="height:330px !important;">
+                                                                <h4 class="header2"> {{ _("Contact Information") }}</h4>
+                                                                <div class="row">
+                                                                    <table class="responsive-table bordered"
+                                                                           style="background:white">
+                                                                        <tbody>
+                                                                        <tr>
+                                                                            <td><b>{{ _("Phone number") }}</b></td>
+                                                                            <td>{{ user.phone_number }}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><b>{{ _("City") }}</b></td>
+                                                                            <td>{{ user.city }}</td>
+                                                                        </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col s12 m12 l4">
+                                                            <div class="card-panel" style="height:330px !important;">
+                                                                <h4 class="header2"> {{ _("Account Status") }}</h4>
+                                                                <div class="row">
+                                                                    <table class="responsive-table"
+                                                                           style="background:white">
+                                                                        <tbody>
+                                                                        <tr>
+                                                                            {if user.KYC_status == "PENDING"}
+                                                                                {% if user.passport_uploaded %}
+                                                                                {% set params = "passport" %}
+                                                                                {% elif is_cni_uploaded %}
+                                                                                {% set params = "cni" %}
+                                                                                {% else %}
+                                                                                {% set params = "none" %}
+                                                                                {% endif %}
+                                                                            {% endif %}
+                                                                            <td><b>{{ _("Status") }}</b></td>
+                                                                            <td>{{ user.KYC_status }}</td>
+                                                                            <td>
+                                                                                {% if user.KYC_status == "PENDING" %}
+                                                                                <a class="btn cyan waves-effect waves-light right modal-trigger"
+                                                                                   data-target="modal_{{ user.contract_number }}_edit_status"
+                                                                                   onclick="displayImage('#result_{{ user.contract_number }}', '{{ params }}', '{{ user.contract_number }}')">
+                                                                                    {{ _("Edit") }}
+                                                                                </a>
+                                                                                {% else %}
+                                                                                <a class="btn cyan waves-effect waves-light right modal-trigger"
+                                                                                   data-target="modal_{{ user.contract_number }}_edit_status">
+                                                                                    {{ _("Edit") }}
+                                                                                </a>
+                                                                                {% endif %}
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><b>{{ _("Last modified on") }}</b></td>
+                                                                            {% set updated_on_date =
+                                                                            user.last_updated_at.split(' ') %}
+                                                                            <td>{{ updated_on_date[0] }}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><b>{{ _("Registered on") }}</b></td>
+                                                                            {% set registered_on_date =
+                                                                            user.created_at.split(' ') %}
+                                                                            <td>{{ registered_on_date[0] }}</td>
+                                                                        </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                            <div id="modal_{{ user.contract_number }}_edit_status" class="modal">
+                                                                {% include "bo_customer_edit_customer_modal.html"%}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="input-field col s12">
+                                                            <a class="btn cyan waves-effect waves-light right modal-trigger"
+                                                               data-target="modal_{{ user.contract_number }}">
+                                                                <i class="material-icons">create</i> Edit
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
                                             <div id="modal_{{ user.contract_number }}" class="modal col s12 m6"
                                                  style="overflow:auto; height:60% !important; padding-bottom: 0px;"
                                                  tabindex="-1">
@@ -77,26 +177,25 @@
                                                         <h4>{{ _("Edit Customer details")}}</h4>
                                                         <p> {{ user.contract_number }} </p>
                                                     </div>
-
                                                     <div class="row">
-                                                        {% include "corporate_dashboard_edit_employee_form.html"
+                                                        {%
+                                                            include "bo_customer_dashboard_edit_customer_form.html"
                                                         %}
                                                     </div>
                                                 </div>
                                             </div>
                                             {% endfor %}
                                             {% endif %}
-                                            </tbody>
-                                        </table>
+                                        </ul>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="divider"></div>
-                                    <div class="col s12 m11.5">
-                                        {% if users %}
-                                        {% include "bo_customer_dashboard_table_pagination.html" %}
-                                        {% endif %}
-                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="divider"></div>
+                                <div class="col s12 m11.5">
+                                    {% if users %}
+                                    {% include "bo_customer_dashboard_table_pagination.html" %}
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>

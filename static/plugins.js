@@ -94,6 +94,14 @@ $(function() {
     accordion: false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
   });
 
+   $(document).ready(function(){
+    $('.collapsible').collapsible();
+  });
+
+  $(document).ready(function(){
+    $('ul.tabs').tabs();
+  });
+
   // Pikadate datepicker
   // $('.datepicker').pickadate({
   //  selectMonths: true, // Creates a dropdown to control month
@@ -168,7 +176,6 @@ $(function() {
       $(this).toggleClass('flow-text');
     })
   });
-  
   
   //Toggle Containers on page
   var toggleContainersButton = $('#container-toggle-button');

@@ -29,7 +29,7 @@ def corp_profile():
     authorization = "Bearer {access_token}".format(access_token=access_token)
     headers = {"Authorization": authorization, "Content-Type": "application/json"}
     logged_in_employee = session["logged_in_employee"]
-    api_base_url = current_app.config.get('API_BASE_URL')
+    api_base_url = current_app.config.get("API_BASE_URL")
     try:
         user = session.pop("employee_profile")
     except KeyError:
@@ -107,7 +107,7 @@ def corp_dashboard():
     per_page = request.args.get("per_page", 10, type=int)
     authorization = "Bearer {access_token}".format(access_token=access_token)
     headers = {"Authorization": authorization}
-    api_base_url = current_app.config.get('API_BASE_URL')
+    api_base_url = current_app.config.get("API_BASE_URL")
     response = requests.get(
         f"{api_base_url}/api/v1/employees?page={page}&per_page={per_page}",
         headers=headers,
@@ -119,7 +119,9 @@ def corp_dashboard():
         flash(error, "error")
         p_language, portal = get_platform_language()
         return render_template(
-            "corporate_login.html", p_language=p_language, portal=portal,  # , error=error
+            "corporate_login.html",
+            p_language=p_language,
+            portal=portal,  # , error=error
         )
     return render_template(
         "corporate_dashboard.html",
@@ -161,7 +163,9 @@ def corp_dashboard_post():
         p_language, portal = get_platform_language()
         flash(error, "error")
         return render_template(
-            "corporate_login.html", p_language=p_language, portal=portal,  # error=error
+            "corporate_login.html",
+            p_language=p_language,
+            portal=portal,  # error=error
         )
     elif "ErrorCode" in response.json():
         users = None
@@ -178,7 +182,7 @@ def corp_dashboard_post():
 @corporate_bp.route("/corp/edit_employee_details/<employee_number>", methods=["post"])
 def corp_edit_employee_details(employee_number):
     access_token = session["access_token"]
-    api_base_url = current_app.config.get('API_BASE_URL')
+    api_base_url = current_app.config.get("API_BASE_URL")
     data = {
         "last_name": request.form.get("last_name"),
         "phone_number": request.form.get("phone_number"),
@@ -266,7 +270,7 @@ def corp_register_employee_post():
             "corporate_register_employee.html",
             logged_in_employee=logged_in_employee,
         )
-    flash( _("Employee successfully registered"), "information")
+    flash(_("Employee successfully registered"), "information")
     return redirect(url_for("corporate_bp.corp_dashboard"))
 
 
@@ -274,7 +278,7 @@ def corp_register_employee_post():
 def corp_manage_employee_status(employee_number):
     access_token = session["access_token"]
     new_status = request.form.get("status")
-    api_base_url = current_app.config.get('API_BASE_URL')
+    api_base_url = current_app.config.get("API_BASE_URL")
     authorization = "Bearer {access_token}".format(access_token=access_token)
     headers = {
         "Content-Type": "application/json",
