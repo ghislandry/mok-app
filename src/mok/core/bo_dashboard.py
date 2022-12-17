@@ -14,9 +14,6 @@ from flask_babel import _
 import requests
 import json
 
-# import copy
-import ast
-
 from mok.platform_config import get_platform_language
 from mok.auth import error_map
 
@@ -48,10 +45,6 @@ def bo_assets():
         error = _("Your session has expired. Please log in again")
         # Get the configuration for the platform
         flash(error, "error")
-        # p_language, portal = get_platform_language()
-        # return render_template(
-        #    "bo_login.html", p_language=p_language, portal=portal,
-        # )
         return redirect(url_for("auth_bo_bp.bo_login"))
     # store the fact that we are looking
     return render_template(

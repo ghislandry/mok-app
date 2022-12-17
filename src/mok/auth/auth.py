@@ -16,6 +16,7 @@ from flask_babel import _
 from mok.auth import error_map, logged_in_user
 from mok.platform_config import get_platform_language
 from mok.models import Portals
+from mok.utils.error_codes import PASSWORD_RESET_REQUIRED
 
 
 auth_bp = Blueprint("auth_bp", __name__)
@@ -54,7 +55,14 @@ def login_post():
     )
     if response.json()["status"] == "fail":
         p_language, portal = get_platform_language()
-        flash(error_map[f"{response.json()['ErrorCode']}"], "error")
+        if response.json()["ErrorCode"] == PASSWORD_RESET_REQUIRED:
+            error = _(
+                "Password reset required. Please check your email "
+                "for instructions on how to change your password"
+            )
+        else:
+            error = error_map[f"{response.json()['ErrorCode']}"]
+        flash(error, "error")
         return render_template(
             "login.html",
             p_language=p_language,
