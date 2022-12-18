@@ -1,14 +1,11 @@
 {% include "dashboard_base.html" %}
+{% extends "material/base.html" %}
 
 {% block content %}
 
-<nav class="cyan">
-    <div class="nav-wrapper">
-        <h1 class="logo-wrapper"><a href="{{url_for('corporate_bp.corp_profile')}}" class="brand-logo darken-1">
-            <img src="static/mok-logo2x_small.png" alt="mok logo" style="margin-top:15px; margin-left: 15%;"></a> <span
-                class="logo-text"></span></h1>
-    </div>
-</nav>
+<!-- start header -->
+{% include "corporate_dashboard_primary_navbar.html" %}
+<!-- end header -->
 
 <div id="main" style="flex: 1 0 auto;">
 

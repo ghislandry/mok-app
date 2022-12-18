@@ -151,7 +151,7 @@ def reset_password_post():
         return render_template(
             "reset_password.html", error=error_map[f"{response.json()['ErrorCode']}"]
         )
-    flash("Password successfully changed")
+    flash(_("Password successfully changed"), "information")
     return redirect(url_for("auth_bp.login"))
 
 
