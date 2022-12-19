@@ -112,7 +112,7 @@
                                                                            style="background:white">
                                                                         <tbody>
                                                                         <tr>
-                                                                            {if user.KYC_status == "PENDING"}
+                                                                            {% if user.KYC_status == "PENDING" %}
                                                                                 {% if user.passport_uploaded %}
                                                                                 {% set params = "passport" %}
                                                                                 {% elif is_cni_uploaded %}
