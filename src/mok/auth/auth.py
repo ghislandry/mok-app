@@ -213,8 +213,9 @@ def register_employee_post():
         except KeyError:
             error = _("Input payload validation failed")
         flash(error, "error")
-        return render_template(
-            "register_corporate_user.html",
-            error=error,
-        )
+        return redirect(url_for("auth_bp.register_employee"))
+        # return render_template(
+        #     "register_corporate_user.html",
+        #     error=error,
+        # )
     return redirect(url_for("main_bp.dashboard"))
