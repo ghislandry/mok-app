@@ -61,3 +61,12 @@ mat-card {
 
   .btn {
     text-transform: unset !important; }
+
+span.field-icon {
+    float: right;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+    z-index: 2;
+}

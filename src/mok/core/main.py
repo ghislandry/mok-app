@@ -15,7 +15,7 @@ import requests
 import json
 
 from mok.platform_config import get_platform_language
-
+from mok.models import Portals
 
 main_bp = Blueprint("main_bp", __name__)
 
@@ -29,6 +29,7 @@ def index():
     except KeyError:
         p_language = _("English")
     portal = _("Admin Portal")
+    session["portal"] = Portals.admin.name
     return render_template("login.html", p_language=p_language, portal=portal)
 
 
@@ -40,7 +41,7 @@ def dashboard():
     per_page = request.args.get("per_page", 10, type=int)
     authorization = "Bearer {access_token}".format(access_token=access_token)
     headers = {"Authorization": authorization}
-    api_base_url = current_app.config.get('API_BASE_URL')
+    api_base_url = current_app.config.get("API_BASE_URL")
     response = requests.get(
         f"{api_base_url}/api/v1/auth/corporate/users?page={page}&per_page={per_page}",
         headers=headers,
@@ -50,9 +51,7 @@ def dashboard():
         # Get the configuration for the platform
         p_language, portal = get_platform_language()
         flash(error, "error")
-        return render_template(
-            "login.html", p_language=p_language, portal=portal
-        )
+        return redirect(url_for("auth_bp.login"))
     logged_in_employee = session["logged_in_employee"]
     return render_template(
         "dashboard.html", users=response.json(), logged_in_employee=logged_in_employee
@@ -80,11 +79,8 @@ def dashboard_post():
     )
     if response.status_code == HTTPStatus.UNAUTHORIZED:
         error = _("Your session has expired. Please log in again")
-        p_language, portal = get_platform_language()
         flash(error, "error")
-        return render_template(
-            "login.html", p_language=p_language, portal=portal
-        )
+        return redirect(url_for("auth_bp.login"))
     logged_in_employee = session["logged_in_employee"]
     return render_template(
         "dashboard.html", users=response.json(), logged_in_employee=logged_in_employee

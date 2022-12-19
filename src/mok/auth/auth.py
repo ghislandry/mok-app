@@ -16,7 +16,7 @@ from flask_babel import _
 from mok.auth import error_map, logged_in_user
 from mok.platform_config import get_platform_language
 from mok.models import Portals
-from mok.utils.error_codes import PASSWORD_RESET_REQUIRED
+from mok.utils.error_codes import PASSWORD_RESET_REQUIRED, EMAIL_NOT_VERIFIED
 
 
 auth_bp = Blueprint("auth_bp", __name__)
@@ -60,6 +60,8 @@ def login_post():
                 "Password reset required. Please check your email "
                 "for instructions on how to change your password"
             )
+        elif response.json()["ErrorCode"] == EMAIL_NOT_VERIFIED:
+            error = f"{response.json()['ErrorCode']}"
         else:
             error = error_map[f"{response.json()['ErrorCode']}"]
         flash(error, "error")
