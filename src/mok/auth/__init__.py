@@ -2,8 +2,8 @@ import requests
 from flask_babel import _
 
 error_map = {
-    "2002": _("Too many login attempts"),
-    "2009": _("Email not verified!"),
+    "2002": _("Too many failed login attempts"),
+    "2009": _("Email not verified! Check your email for instructions on how to verify your email"),
     "2003": _("Incorrect password or email!"),
     "2004": _("Account has been suspended!"),
     "2001": _("Password reset required!"),
