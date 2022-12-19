@@ -208,6 +208,8 @@ def register_employee_post():
         HTTPStatus.INTERNAL_SERVER_ERROR,
         HTTPStatus.BAD_REQUEST,
     ]:
+        # TODO investigate and add appropriate message when the
+        #  phone number is not correctly formatted
         try:
             error = error_map[f"{response.json()['ErrorCode']}"]
         except KeyError:

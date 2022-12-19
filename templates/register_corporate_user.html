@@ -80,17 +80,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        {% with messages = get_flashed_messages(with_categories=true) %}
-                        {% if messages %}
-                        {% for category, message in messages %}
-                        <div class="col s12 m6">
-                            <div class="alert {{ category }}"> {{ message|capitalize }}</div>
-                        </div>
-                        {% endfor %}
-                        {% endif %}
-                        {% endwith %}
-                    </div>
+                    {% include "alert_message.html" %}
                 </div>
 
 

@@ -10,7 +10,7 @@ error_map = {
     "2023": _("Password too weak!"),
     "2000": _("The server encountered an error while processing your request."),
     "2006": _("Incorrect password or email."),
-    "2007": _("Check that the phone number is valid."),
+    "2007": _("Check that the phone number is valid. It must include the international prefix."),
     "2008": _("An employee with the provided employee number already exist!"),
     "2016": _("An employee with this number already exist"),
     "2019": _("Employee profile has not been created"),
