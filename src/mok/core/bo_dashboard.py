@@ -13,6 +13,7 @@ from flask import (
 from flask_babel import _
 import requests
 import json
+import jsonpickle
 
 from mok.platform_config import get_platform_language
 from mok.auth import error_map
@@ -131,18 +132,37 @@ def bo_customers_fetch_images(contract_number, params):
     if params != "none":
         if params == "passport":
             # Get the temporary token
+            print()
             response = requests.get(
-                f"{api_base_url}/customers/{contract_number}/passport",
+                f"{api_base_url}/api/v1/customers/{contract_number}/passport",
                 headers=headers,
             )
+            print(response.json())
             temporary_token = response.json()["temporary_token_id"]
             # Get the link to the image
             response = requests.get(
-                f"{api_base_url}/customers/{contract_number}/kyc_document/{temporary_token}",
+                f"{api_base_url}/api/v1/customers/{contract_number}/kyc_document/{temporary_token}",
                 headers=headers,
             )
-            response_headers = response.headers["filename"]
-            return jsonify({"result": response})
+            import base64
+            import codecs
+            from io import BytesIO
+            from flask import make_response, Response
+            print(dir(response))
+            response_headers = response.headers
+            print(response_headers)
+            print(response.url)
+            # print(response.json())
+            print(response_headers["Content-Disposition"])
+            # "image_data": response.content, "filename":response_headers["Content-Disposition"].split("filename=")[1]
+            filename = response_headers["Content-Disposition"].split("filename=")[1]
+            extension = "." in filename and filename.rsplit(".", 1)[1].lower()
+            # data = BytesIO(response.content)
+            print(response.links)
+            # print(response.encoding)
+            print(dir(response))
+            return {"result": jsonpickle.encode(base64.b64encode(response.content))}
+            #return {"result": jsonpickle.encode(response, unpicklable=False)}  # {"result": encoded_string, "extension": extension}
         elif params == "cni":
             images = []
             for item in ["id_card_pg1", "id_card_pg2"]:

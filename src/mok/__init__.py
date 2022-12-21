@@ -8,6 +8,8 @@ from flask_bootstrap import Bootstrap
 from flask_babel import Babel
 from flask import session
 
+from jinja2_base64_filters import jinja2_base64_filters
+
 from mok.config import get_config
 from mok.utils.logger import Logger
 from mok.core.main import main_bp
@@ -45,6 +47,7 @@ def create_app(config_name):
     Material(app)
     Bootstrap(app)
     babel.init_app(app)
+    app.jinja_env.add_extension("jinja2_base64_filters.Base64Filters")
     return app
 
 

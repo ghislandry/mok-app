@@ -25,6 +25,7 @@
     <script src="{{url_for('static', filename='plugins.js')}}"></script>
     <script src="{{url_for('static', filename='jquery-1.10.2.js')}}"></script>
     <script src="{{url_for('static', filename='jquery.min.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='jsonpickle.min.js')}}"></script>
 
     <!-- <script>
         function loadDoc() {
@@ -78,11 +79,15 @@
         }
     </script>
 
-    <script>
+    <script type="text/javascript">
         function displayImage(destElem, params, contract_number) {
-            // $(destElem).html('<img src="{{ url_for('static', filename='loading.gif') }}">');
+            $(destElem).html('<img src="{{ url_for('static', filename='loading.gif') }}">');
             $.get('/bo/customers_fetch_images/' + contract_number + '/' + params).done(function(response) {
-                $(destElem).text(response['result'])
+                var obj = jsonpickle.decode(response['result'])
+                console.log("data:image/png;base64,"+ obj["py/b64"]);
+                // text(obj._content);
+                $(destElem).html('<img src="data:image/png;base64,"+ obj["py/b64"]>');
+                //$(destElem).html
             }).fail(function() {
                 $(destElem).text("{{ _('Error: Could not contact server.') }}");
             });

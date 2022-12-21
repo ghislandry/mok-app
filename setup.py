@@ -35,6 +35,8 @@ INSTALL_REQUIRES = [
     "flask_session",
     "flask_bootstrap",
     "flask-babel",
+    "jsonpickle",
+    "jinja2-base64-filters",
 ]
 
 
