@@ -39,12 +39,12 @@
                                                         <i class="material-icons right more">expand_more</i>
                                                         {% set name = user.last_name + " " + user.first_name%}
                                                         <div class="col s12 m6 wrap-text">
-                                                            <p class="truncate grey-text ultra-small">
-                                                                {{ name }}
-                                                            </p>
+                                                            <span class="truncate grey-text ultra">
+                                                            {{ name }}
+                                                            </span>
                                                         </div>
                                                         <div class="collapsible-header">
-                                                            <p class="truncate grey-text ultra-small">
+                                                            <p class="truncate grey-text small">
                                                                 {{ user.contract_number }}
                                                             </p>
                                                         </div>
@@ -53,11 +53,11 @@
                                                 <div class="collapsible-body">
                                                     <div class="row">
                                                         <div class="col s12 m12 l4">
-                                                            <div class="card-panel" style="height:330px !important;">
+                                                            <div class="card-panel" style="height:330px !important; overflow-x:auto;">
                                                                 <h4 class="header2"> {{ _("General Information") }}</h4>
                                                                 <div class="row">
                                                                     <table class="responsive-table bordered"
-                                                                           style="background:white">
+                                                                           style="background:white; table-layout:fixed;">
                                                                         <tbody>
                                                                         <tr>
                                                                             <td><b>{{ _("Last name") }}</b></td>
@@ -84,7 +84,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col s12 m12 l4">
-                                                            <div class="card-panel" style="height:330px !important;">
+                                                            <div class="card-panel" style="height:330px !important; overflow-x:auto;">
                                                                 <h4 class="header2"> {{ _("Contact Information") }}</h4>
                                                                 <div class="row">
                                                                     <table class="responsive-table bordered"
@@ -105,7 +105,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col s12 m12 l4">
-                                                            <div class="card-panel" style="height:330px !important;">
+                                                            <div class="card-panel" style="height:330px !important; overflow-x:auto;">
                                                                 <h4 class="header2"> {{ _("Account Status") }}</h4>
                                                                 <div class="row">
                                                                     <table class="responsive-table"
@@ -155,7 +155,7 @@
                                                                 </div>
                                                             </div>
                                                             <div id="modal_{{ user.contract_number }}_edit_status" class="modal">
-                                                                {% include "bo_customer_edit_customer_modal.html"%}
+                                                                {% include "bo_customer_edit_customer_kyc_modal.html"%}
                                                             </div>
                                                         </div>
                                                     </div>

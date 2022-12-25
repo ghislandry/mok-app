@@ -37,7 +37,7 @@ def bo_login():
 
 @auth_bo_bp.route("/bo/login", methods=["post"])
 def bo_login_post():
-    api_base_url = current_app.config.get('API_BASE_URL')
+    api_base_url = current_app.config.get("API_BASE_URL")
     password = request.form.get("bo_password")
     corporate_id = request.form.get("corporate_id")
     data = {
@@ -67,11 +67,7 @@ def bo_login_post():
             return redirect(url_for("auth_corp_bp.reset_password"))
         else:
             flash(error_map[f"{response.json()['ErrorCode']}"], "error")
-            return render_template(
-                "corporate_login.html",
-                p_language=p_language,
-                portal=portal,
-            )
+            return redirect(url_for("auth_bo_bp.bo_login"))
     # Store the session token and employee number
     access_token = response.json()["access_token"]
     session["access_token"] = access_token
@@ -82,24 +78,14 @@ def bo_login_post():
     if response.status_code == HTTPStatus.UNAUTHORIZED:
         error = _("Your session has expired. Please log in again")
         flash(error, "error")
-        p_language, portal = get_platform_language()
-        return render_template(
-            "corporate_login.html",
-            p_language=p_language,
-            portal=portal,
-        )
+        return redirect(url_for("auth_bo_bp.bo_login"))
     if (
         "ErrorCode" in response.json()
         and response.json()["ErrorCode"] == EMPLOYEE_NOT_FOUND
     ):
         error = error_map[f"{response.json()['ErrorCode']}"]
-        p_language, portal = get_platform_language()
         flash(error, "error")
-        return render_template(
-            "corporate_login.html",
-            p_language=p_language,
-            portal=portal,
-        )
+        return redirect(url_for("auth_bo_bp.bo_login"))
     logged_in_employee = {
         "employee_number": response.json()["employee_number"],
         "phone_number": response.json()["phone_number"],
@@ -114,15 +100,10 @@ def bo_login_post():
     if response.status_code == HTTPStatus.UNAUTHORIZED:
         error = _("Your session has expired. Please log in again")
         flash(error, "error")
-        p_language, portal = get_platform_language()
-        return render_template(
-            "corporate_login.html",
-            p_language=p_language,
-            portal=portal,
-        )
+        return redirect(url_for("auth_bo_bp.bo_login"))
     if (
-            "ErrorCode" in response.json()
-            and response.json()["ErrorCode"] == EMPLOYEE_NOT_FOUND
+        "ErrorCode" in response.json()
+        and response.json()["ErrorCode"] == EMPLOYEE_NOT_FOUND
     ):
         found = False
     if role in [RolesTypes.senioremployee.name, RolesTypes.employee.name]:
@@ -131,7 +112,9 @@ def bo_login_post():
         session["logged_in_employee"] = logged_in_employee
         return redirect(url_for("backoffice_bp.bo_assets"))
     else:
-        flash(_("You are not authorized to access this portal! Contact your administrator"))
+        flash(
+            _("You are not authorized to access this portal! Contact your administrator")
+        )
         return redirect(url_for("backoffice_bp.bo_login"))
 
 

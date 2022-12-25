@@ -1,0 +1,139 @@
+<div class="modal-content">
+    <h4>{{ _("Edit Customer KYC information")}}</h4>
+    <p> {{ user.contract_number }} </p>
+    <p>
+        {{ _("Here you'll be able to view customers uploaded documents. Each file is tagged with the uploaded file type
+        (Passport or CNI). To edit the KYC status select an option from the dropdown and click save!") }}
+    </p>
+    <form action="{{url_for('backoffice_bp.bo_edit_customer_details', contract_number=user['contract_number'])}}" method="post">
+        <div class="row">
+            <div class="input-field col s12 m4">
+                <select name="kyc_status" class="browser-default">
+                    {% if user.KYC_status == "UNVERIFIED" %}
+                    <option value="UNVERIFIED" selected>{{ _("UNVERIFIED") }}</option>
+                    {% else %}
+                    <option value="UNVERIFIED">{{ _("UNVERIFIED") }}</option>
+                    {% endif %}
+                    {% if user.KYC_status == "PENDING" %}
+                    <option value="PENDING" selected>{{ _("PENDING") }}</option>
+                    {% else %}
+                    <option value="PENDING">{{ _("PENDING") }}</option>
+                    {% endif %}
+                    {% if user.KYC_status == "VERIFIED" %}
+                    <option value="VERIFIED" selected>{{ _("VERIFIED") }}</option>
+                    {% else %}
+                    <option value="VERIFIED">{{ _("VERIFIED") }}</option>
+                    {% endif %}
+                    {% if user.KYC_status == "SUSPENDED" %}
+                    <option value="SUSPENDED" selected>{{ _("SUSPENDED") }}</option>
+                    {% else %}
+                    <option value="SUSPENDED">{{ _("SUSPENDED") }}</option>
+                    {% endif %}
+                </select>
+                <label class="active" style="font-size:18px">{{ _("Status") }}</label>
+            </div>
+        </div>
+
+        <div class="row" style="display:none">
+                    <div class="input-field col s12 m4 l4">
+                        <input value="{{user.last_name}}" id="last_name" type="text" name="last_name" class="validate">
+                    </div>
+                    <div class="input-field col s12 m4 l4">
+                        <input value="{{ user.first_name }}" id="first_name" name="first_name" type="text"
+                               class="validate">
+                    </div>
+                    <div class="input-field col s12 m4">
+                        <input value="{{ user.phone_number }}" type="text" class="validate" id="phone_number"
+                               name="phone_number">
+                    </div>
+                </div>
+                <div class="row" style="display:none">
+                    <div class="input-field col s12 m4">
+                        <select name="gender" class="browser-default">
+                            {% if user.gender == "female" %}
+                            <option value="female" selected>{{ _("Female") }}</option>
+                            <option value="male">{{ _("Male") }}</option>
+                            {% else %}
+                            <option value="female">{{ _("Female") }}</option>
+                            <option value="male" selected>{{ _("Male") }}</option>
+                            {% endif %}
+                        </select>
+                    </div>
+
+                    <div class="input-field col s12 m4">
+                        <input value="{{ user.date_of_birth }}" type="date" id="date_of_birth" name="date_of_birth">
+                    </div>
+
+                </div>
+                <div class="row" style="display:none">
+                    <div class="input-field col s12 m4">
+                        <input value="{{ user.city }}" type="text" class="validate" id="city" name="city">
+                    </div>
+
+                </div>
+
+        <div class="row">
+            <div class="input-field col s12">
+                <button class="btn cyan waves-effect waves-light right" type="submit"
+                        name="action_customer_status">{{ _("Close & Save") }}
+                </button>
+            </div>
+        </div>
+    </form>
+    {% if user.KYC_status == "PENDING" %}
+    <div class="row">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="card-panel">
+                    {% if params == "passport" %}
+                    <h4 class="header2"> {{ _("Passport") }}</h4>
+                    {% elif params == "cni" %}
+                    <h4 class="header2"> {{ _("National Identity Card") }}</h4>
+                    {% endif %}
+                    <div class="divider"></div>
+                    <div class="row">
+                        <div class="col s12 m8 l8">
+                            <span id="result_{{ user.contract_number }}">
+                            </span>
+                        </div>
+                        <div class="col s12 m4 l4">
+                            <div class="card-panel" style="height:330px !important; overflow-x:auto;">
+                                <h4 class="header2"> {{ _("User Provided Information") }}</h4>
+                                <div class="row">
+                                    <table class="responsive-table bordered"
+                                           style="background:white; table-layout:fixed;">
+                                        <tbody>
+                                        <tr>
+                                            <td><b>{{ _("Last name") }}</b></td>
+                                            <td>{{ user.last_name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>{{ _("First name") }}</b></td>
+                                            <td>{{ user.first_name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>{{ _("Date of Birth") }}</b></td>
+                                            <td>{{ user.date_of_birth }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>{{ _("Gender") }}</b></td>
+                                            <td>{{
+                                                user.gender[0]|upper}}{{user.gender[1:]
+                                                }}
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+<div class="modal-footer">
+</div>

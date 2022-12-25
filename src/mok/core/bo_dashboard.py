@@ -8,14 +8,12 @@ from flask import (
     session,
     render_template,
     flash,
-    jsonify,
 )
 from flask_babel import _
 import requests
 import json
-import jsonpickle
+import base64
 
-from mok.platform_config import get_platform_language
 from mok.auth import error_map
 
 # from mok.utils.error_codes import EMPLOYEE_NOT_FOUND
@@ -53,6 +51,131 @@ def bo_assets():
         assets=response.json(),
         logged_in_employee=logged_in_employee,
     )
+
+
+@backoffice_bp.route("/bo/register_asset")
+def bo_register_asset():
+    try:
+        logged_in_employee = session["logged_in_employee"]
+    except KeyError:
+        error = _("Your session has expired. Please log in again.")
+        flash(error, "error")
+        return redirect(url_for("auth_bo_bp.bo_login"))
+    return render_template(
+        "bo_asset_register.html", logged_in_employee=logged_in_employee
+    )
+
+
+@backoffice_bp.route("/bo/register_asset", methods=["post"])
+def bo_register_asset_post():
+    try:
+        access_token = session["access_token"]
+    except KeyError:
+        error = _("Your session has expired. Please log in again.")
+        flash(error, "error")
+        return redirect(url_for("auth_bo_bp.bo_login"))
+
+    data = {
+        "contract_number": request.form.get("contract_number"),
+        "meter_number": request.form.get("meter_number"),
+        "serial_number": request.form.get("serial_number"),
+    }
+    authorization = "Bearer {access_token}".format(access_token=access_token)
+    headers = {"Authorization": authorization}
+
+    if request.files["file"]:
+        datafile = request.files["file"]
+        response = requests.post(
+            f"{current_app.config.get('API_BASE_URL')}/api/v1/assets",
+            headers=headers,
+            data=data,
+            files={
+                "document": (f"{datafile.filename}", datafile, datafile.content_type)
+            },
+        )
+    else:
+        response = requests.post(
+            f"{current_app.config.get('API_BASE_URL')}/api/v1/assets",
+            headers=headers,
+            data=data,
+        )
+    if response.status_code == HTTPStatus.UNAUTHORIZED:
+        error = _("Your session has expired. Please log in again.")
+        flash(error, "error")
+        return redirect(url_for("auth_bo_bp.bo_login"))
+    elif response.status_code in [
+        HTTPStatus.CONFLICT,
+        HTTPStatus.INTERNAL_SERVER_ERROR,
+        HTTPStatus.BAD_REQUEST,
+    ]:
+        try:
+            error = error_map[f"{response.json()['ErrorCode']}"]
+        except KeyError:
+            error = _("Input payload validation failed")
+        flash(error, "error")
+        logged_in_employee = session["logged_in_employee"]
+        return render_template(
+            "bo_asset_register.html",
+            logged_in_employee=logged_in_employee,
+        )
+    flash(_("Meter successfully added"), "information")
+    return redirect(url_for("backoffice_bp.bo_assets"))
+
+
+@backoffice_bp.route("/bo/asset/<meter_number>", methods=["post"])
+def bo_edit_asset(meter_number):
+    try:
+        access_token = session["access_token"]
+    except KeyError:
+        error = _("Your session has expired. Please log in again.")
+        flash(error, "error")
+        return redirect(url_for("auth_bo_bp.bo_login"))
+
+    data = {
+        "meter_number": meter_number,
+        "serial_number": request.form.get("serial_number"),
+        "contract_number": request.form.get("contract_number"),
+    }
+
+    authorization = "Bearer {access_token}".format(access_token=access_token)
+    headers = {"Authorization": authorization}
+    if request.files["file"]:
+        datafile = request.files["file"]
+        response = requests.put(
+            f"{current_app.config.get('API_BASE_URL')}/api/v1/assets/{meter_number}",
+            headers=headers,
+            data=data,
+            files={
+                "document": (f"{datafile.filename}", datafile, datafile.content_type)
+            },
+        )
+    else:
+        response = requests.put(
+            f"{current_app.config.get('API_BASE_URL')}/api/v1/assets/{meter_number}",
+            headers=headers,
+            data=data,
+        )
+    if response.status_code == HTTPStatus.UNAUTHORIZED:
+        error = _("Your session has expired. Please log in again.")
+        flash(error, "error")
+        return redirect(url_for("auth_bo_bp.bo_login"))
+    elif response.status_code in [
+        HTTPStatus.CONFLICT,
+        HTTPStatus.INTERNAL_SERVER_ERROR,
+        HTTPStatus.BAD_REQUEST,
+    ]:
+        try:
+            error = error_map[f"{response.json()['ErrorCode']}"]
+        except KeyError:
+            error = _("Input payload validation failed")
+        flash(error, "error")
+        logged_in_employee = session["logged_in_employee"]
+        return render_template(
+            "bo_asset_register.html",
+            logged_in_employee=logged_in_employee,
+        )
+    flash(_("Meter successfully Updated"), "information")
+    return redirect(url_for("backoffice_bp.bo_assets"))
 
 
 @backoffice_bp.route("/bo/customers")
@@ -132,52 +255,70 @@ def bo_customers_fetch_images(contract_number, params):
     if params != "none":
         if params == "passport":
             # Get the temporary token
-            print()
             response = requests.get(
                 f"{api_base_url}/api/v1/customers/{contract_number}/passport",
                 headers=headers,
             )
-            print(response.json())
+            if response.status_code == HTTPStatus.UNAUTHORIZED:
+                error = _("Your session has expired. Please log in again")
+                # Get the configuration for the platform
+                flash(error, "error")
+                return redirect(url_for("auth_bo_bp.bo_login"))
             temporary_token = response.json()["temporary_token_id"]
             # Get the link to the image
             response = requests.get(
-                f"{api_base_url}/api/v1/customers/{contract_number}/kyc_document/{temporary_token}",
+                f"{api_base_url}/api/v1/customers/"
+                f"{contract_number}/kyc_document/{temporary_token}",
                 headers=headers,
             )
-            import base64
-            import codecs
-            from io import BytesIO
-            from flask import make_response, Response
-            print(dir(response))
-            response_headers = response.headers
-            print(response_headers)
-            print(response.url)
-            # print(response.json())
-            print(response_headers["Content-Disposition"])
-            # "image_data": response.content, "filename":response_headers["Content-Disposition"].split("filename=")[1]
-            filename = response_headers["Content-Disposition"].split("filename=")[1]
+            if response.status_code == HTTPStatus.UNAUTHORIZED:
+                error = _("Your session has expired. Please log in again")
+                # Get the configuration for the platform
+                flash(error, "error")
+                return redirect(url_for("auth_bo_bp.bo_login"))
+
+            filename = response.headers["Content-Disposition"].split("filename=")[1]
             extension = "." in filename and filename.rsplit(".", 1)[1].lower()
-            # data = BytesIO(response.content)
-            print(response.links)
-            # print(response.encoding)
-            print(dir(response))
-            return {"result": jsonpickle.encode(base64.b64encode(response.content))}
-            #return {"result": jsonpickle.encode(response, unpicklable=False)}  # {"result": encoded_string, "extension": extension}
+            data = response.content
+            data = base64.b64encode(data)
+            data = data.decode()
+            return {
+                "result": '<img src="data:image/{};base64,{}" width="100%" '
+                'height="auto" oncontextmenu="return false;"/>'.format(extension, data)
+            }
         elif params == "cni":
             images = []
             for item in ["id_card_pg1", "id_card_pg2"]:
                 response = requests.get(
-                    f"{api_base_url}/customers/{contract_number}/{item}",
+                    f"{api_base_url}/api/v1/customers/{contract_number}/{item}",
                     headers=headers,
                 )
                 temporary_token = response.json()["temporary_token_id"]
                 # Get the link to the image
                 response = requests.get(
-                    f"{api_base_url}/customers/{contract_number}/kyc_document/{temporary_token}",
+                    f"{api_base_url}/api/v1/customers/{contract_number}"
+                    f"/kyc_document/{temporary_token}",
                     headers=headers,
                 )
-                images.append(response.json())
-            return jsonify({"result": images})
+                filename = response.headers["Content-Disposition"].split("filename=")[1]
+                extension = "." in filename and filename.rsplit(".", 1)[1].lower()
+                data = response.content
+                data = base64.b64encode(data)
+                data = data.decode()
+                img_str = (
+                    '<img src="data:image/{};base64,{}" width="100%" '
+                    'height="auto" oncontextmenu="return false;"/>'.format(
+                        extension, data
+                    )
+                )
+                images.append(img_str)
+            st = (
+                "<span style='color:darkolivegreen;font-weight:bold'> Page 1 </span>"
+                + images[0]
+                + "<br><span style='color:darkolivegreen;font-weight:bold'> "
+                "Page 2 </span>" + images[1]
+            )
+            return {"result": st}
 
 
 @backoffice_bp.route("/bo/register_customer")
@@ -262,6 +403,10 @@ def bo_edit_customer_details(contract_number):
         "gender": request.form.get("gender"),
         "city": request.form.get("city"),
     }
+    try:
+        data.update({"kyc_status": request.form.get("kyc_status")})
+    except KeyError:
+        pass
     authorization = "Bearer {access_token}".format(access_token=access_token)
     headers = {
         "Content-Type": "application/json",
@@ -293,7 +438,13 @@ def bo_edit_customer_details(contract_number):
 
 @backoffice_bp.route("/bo/readings")
 def bo_readings():
-    access_token = _get_access_token("auth_bo_bp.bo_login")
+    try:
+        access_token = session["access_token"]
+    except KeyError:
+        error = _("Your session has expired. Please log in again.")
+        flash(error, "error")
+        return redirect(url_for("auth_bo_bp.bo_login"))
+
     api_base_url = current_app.config.get("API_BASE_URL")
     page = request.args.get("page", 1, type=int)
     per_page = request.args.get("per_page", 10, type=int)
@@ -308,19 +459,156 @@ def bo_readings():
         error = _("Your session has expired. Please log in again")
         # Get the configuration for the platform
         flash(error, "error")
-        p_language, portal = get_platform_language()
-        return render_template(
-            "bo_login.html",
-            p_language=p_language,
-            portal=portal,
-        )
-    print(response.json())
+        return redirect(url_for("auth_bo_bp.bo_login"))
     # store the fact that we are looking
     return render_template(
         "bo_readings.html",
         readings=response.json(),
         logged_in_employee=logged_in_employee,
     )
+
+
+@backoffice_bp.route("/bo/submit_reading")
+def bo_submit_reading():
+    try:
+        logged_in_employee = session["logged_in_employee"]
+    except KeyError:
+        error = _("Your session has expired. Please log in again.")
+        flash(error, "error")
+        return redirect(url_for("auth_bo_bp.bo_login"))
+    return render_template(
+        "bo_reading_submit.html", logged_in_employee=logged_in_employee
+    )
+
+
+@backoffice_bp.route("/bo/submit_reading", methods=["post"])
+def bo_submit_reading_post():
+    try:
+        access_token = session["access_token"]
+    except KeyError:
+        error = _("Your session has expired. Please log in again.")
+        flash(error, "error")
+        return redirect(url_for("auth_bo_bp.bo_login"))
+    data = {
+        "contract_number": request.form.get("contract_number"),
+        "meter_number": request.form.get("meter_number"),
+        "energy": request.form.get("energy"),
+        "unit": request.form.get("unit"),
+        "reading_date": request.form.get("reading_date"),
+    }
+    if request.files["reading_photo"]:
+        print("here we hare the pic")
+
+    datafile = request.files["reading_photo"]
+
+    authorization = "Bearer {access_token}".format(access_token=access_token)
+    headers = {"Authorization": authorization}
+    response = requests.post(
+        f"{current_app.config.get('API_BASE_URL')}/api/v1/readings",
+        headers=headers,
+        data=data,
+        files={"document": (f"{datafile.filename}", datafile, datafile.content_type)},
+    )
+
+    if response.status_code == HTTPStatus.UNAUTHORIZED:
+        error = _("Your session has expired. Please log in again.")
+        flash(error, "error")
+        return redirect(url_for("auth_bo_bp.bo_login"))
+    elif response.status_code in [
+        HTTPStatus.CONFLICT,
+        HTTPStatus.INTERNAL_SERVER_ERROR,
+        HTTPStatus.BAD_REQUEST,
+    ]:
+        try:
+            error = error_map[f"{response.json()['ErrorCode']}"]
+        except KeyError:
+            error = _("Input payload validation failed")
+        flash(error, "error")
+        logged_in_employee = session["logged_in_employee"]
+        return render_template(
+            "bo_reading_submit.html",
+            logged_in_employee=logged_in_employee,
+        )
+    flash(_("Meter reading successfully submitted"), "information")
+    return redirect(url_for("backoffice_bp.bo_readings"))
+
+
+@backoffice_bp.route("/bo/reading_fetch_images/<reading_reference>/<meter_number>")
+def bo_reading_fetch_image(reading_reference, meter_number):
+    try:
+        access_token = session["access_token"]
+    except KeyError:
+        error = _("Your session has expired. Please log in again.")
+        flash(error, "error")
+        return redirect(url_for("auth_bo_bp.bo_login"))
+
+    authorization = "Bearer {access_token}".format(access_token=access_token)
+    headers = {"Authorization": authorization}
+    api_base_url = current_app.config.get("API_BASE_URL")
+
+    # Get the temporary token
+    response = requests.get(
+        f"{api_base_url}/api/v1/readings/{meter_number}/{reading_reference}",
+        headers=headers,
+    )
+    if response.status_code != HTTPStatus.OK:
+        return {"result": "session expires"}, response.status_code
+
+    filename = response.headers["Content-Disposition"].split("filename=")[1]
+    extension = "." in filename and filename.rsplit(".", 1)[1].lower()
+    data = response.content
+    data = base64.b64encode(data)
+    data = data.decode()
+    return {
+        "result": '<img src="data:image/{};base64,{}" width="100%" '
+        'height="auto" oncontextmenu="return false;"/>'.format(extension, data)
+    }
+
+
+@backoffice_bp.route(
+    "/bo/reading/update/<contract_number>/<reading_reference>", methods=["post"]
+)
+def bo_reading_update_reading(contract_number, reading_reference):
+    try:
+        access_token = session["access_token"]
+    except KeyError:
+        error = _("Your session has expired. Please log in again.")
+        flash(error, "error")
+        return redirect(url_for("auth_bo_bp.bo_login"))
+
+    authorization = "Bearer {access_token}".format(access_token=access_token)
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": authorization,
+    }
+    api_base_url = current_app.config.get("API_BASE_URL")
+    data = {
+        "reading_verified": request.form.get("reading_verified"),
+        "contract_number": contract_number,
+    }
+    # Get the corresponding meter details
+    response = requests.put(
+        f"{api_base_url}/api/v1/readings/{reading_reference}",
+        headers=headers,
+        data=json.dumps(data),
+    )
+    if response.status_code == HTTPStatus.UNAUTHORIZED:
+        error = _("Your session has expired. Please log in again.")
+        flash(error, "error")
+        return redirect(url_for("auth_bo_bp.bo_login"))
+    elif response.status_code in [
+        HTTPStatus.CONFLICT,
+        HTTPStatus.INTERNAL_SERVER_ERROR,
+        HTTPStatus.BAD_REQUEST,
+    ]:
+        try:
+            error = error_map[f"{response.json()['ErrorCode']}"]
+        except KeyError:
+            error = _("Input payload validation failed")
+        flash(error, "error")
+        redirect(url_for("backoffice_bp.bo_readings"))
+    flash(_("Meter reading successfully updated"), "information")
+    return redirect(url_for("backoffice_bp.bo_readings"))
 
 
 def _get_access_token(login_url):

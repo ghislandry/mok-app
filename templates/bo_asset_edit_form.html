@@ -1,0 +1,45 @@
+<div class="col s12">
+    <div class="card-panel">
+        <form action="{{url_for('backoffice_bp.bo_edit_asset', meter_number=asset['meter_number'])}}" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <div class="input-field col s12 m6">
+                    <input readonly="readonly" type="text" class="validate" value="{{ asset.meter_number }}" id="meter_number" name="meter_number">
+                    <label for="meter_number">{{ _("Meter number") }}</label>
+                </div>
+
+                <div class="input-field col s12 m6">
+                    <input type="text" class="validate" value="{{ asset.serial_number }}" id="serial_number" name="serial_number">
+                    <label for="serial_number">{{ _("Serial number") }}</label>
+                </div>
+
+            </div>
+            <br>
+            <div class="row">
+                <div class="input-field col s12 m6">
+                    <input readonly="readonly" type="text" value="{{ asset.contract_number }}" class="validate" id="contract_number" name="contract_number">
+                    <label for="contract_number">{{ _("Owner Contract number") }}</label>
+                </div>
+            </div>
+            <div class="file-field input-field">
+                <div class="btn">
+                    <span>{{ _("File") }}</span>
+                    <input type="file" name="file" id="file_input">
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" name="file_path" placeholder='{{ _("Add photo") }}'>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="input-field col s12">
+                    <button class="btn cyan waves-effect waves-light right" type="submit"
+                            name="action_asset_edit">{{ _("Save & Close") }}
+                        <!-- <i class="mdi-content-send right"></i> -->
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        {% include "alert_message.html" %}
+    </div>
+</div>

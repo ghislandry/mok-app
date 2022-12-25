@@ -1,10 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<div class="container">
+    <p class="caption">
+        {{ _("Please enter the reading details.") }}
+    </p>
+    <div class="divider"></div>
+    <br>
+    <div class="section">
+        <div class="row">
+            <div class="col s12">
+                <div class="card-panel">
+                    <form action="{{ url_for('backoffice_bp.bo_submit_reading_post') }}" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="input-field col s12 m4">
+                                <input type="text" class="validate" id="contract_number" name="contract_number">
+                                <label for="contract_number">{{ _("Owner Contract number") }}</label>
+                            </div>
 
-</body>
-</html>
+                            <div class="input-field col s12 m4">
+                                <input type="text" class="validate" id="meter_number" name="meter_number">
+                                <label for="meter_number">{{ _("Meter number") }}</label>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="input-field col s12 m4">
+                                <input type="number" min="1" class="validate" id="energy" name="energy">
+                                <label for="energy">{{ _("Consumption") }}</label>
+                            </div>
+
+                            <div class="input-field col s12 m4">
+                                <select name="unit" class="browser-default">
+                                    <option value="kwh">{{ _("kWh") }}</option>
+                                    <option value="wh">{{ _("Wh") }}</option>
+                                </select>
+                                <label class="active" style="font-size:18px">{{ _("Unit") }}</label>
+                            </div>
+
+                            <div class="input-field col s12 m4">
+                                <input type="date" id="reading_date" name="reading_date"/>
+                                <label for="reading_date">{{ _("When was this reading taken?") }}</label>
+                            </div>
+                        </div>
+                        <div class="file-field input-field">
+                            <div class="btn">
+                                <span>{{ _("File") }}</span>
+                                <input type="file" name="reading_photo">
+                            </div>
+                            <div class="col s12 m8 file-path-wrapper">
+                                <input class="file-path validate" type="text" name="file_p" placeholder='{{ _("Add photo") }}'>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <button class="btn cyan waves-effect waves-light right" type="submit"
+                                        name="action_reading_submit">{{ _("Save & Close") }}
+                                    <!-- <i class="mdi-content-send right"></i> -->
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    {% include "alert_message.html" %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
