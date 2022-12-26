@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='alert_messages.css')}}"/>
     <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='style.css') }}"/>
     <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='page-center.css') }}"/>
-    <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='materialize.css') }}"/>
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='materialize.min.css') }}"/>
     <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='perfect-scrollbar.css') }}"/>
 </head>
 <body class="grey lighten-2 loaded">
@@ -28,7 +28,7 @@
 {% endblock %}
 {% block script %}
 <script src="{{url_for('static', filename='jquery-1.11.3.min.js')}}"></script>
-<script src="{{url_for('static', filename='materialize.js')}}"></script>
+<script src="{{url_for('static', filename='materialize.min.js')}}"></script>
 <script src="{{url_for('static', filename='perfect-scrollbar.min.js')}}"></script>
 <script src="{{url_for('static', filename='prism.js')}}"></script>
 <script src="{{url_for('static', filename='chartist.min.js')}}"></script>
