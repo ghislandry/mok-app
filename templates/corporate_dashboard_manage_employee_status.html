@@ -5,7 +5,7 @@
                   method="post">
                 <div class="row">
                     <div class="input-field col s12 m6">
-                        <select name="status" class="browser-default">
+                        <select name="status" class="browser-default grey lighten-3">
                             {% if user.status|lower == "active" %}
                             <option value="suspend" selected>{{ _("SUSPEND") }}</option>
                             <option value="reinstate">{{ _("REINSTATE") }}</option>

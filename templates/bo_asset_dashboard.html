@@ -33,7 +33,7 @@
                                     <div class="col s12">
                                         <table class="responsive-table">
                                             <thead>
-                                            <tr>
+                                            <tr class="grey lighten-1">
                                                 <th>{{ _("Meter Number") }}</th>
                                                 <th>{{ _("Serial Number") }}</th>
                                                 <th>{{ _("Last Updated") }}</th>
@@ -55,8 +55,8 @@
                                                     </a>
                                                 </td>
                                             </tr>
-                                            <div id="modal_{{ asset.meter_number }}" class="modal col s12 m6"
-                                                 style="overflow:auto; padding-bottom: 0px;"
+                                            <div id="modal_{{ asset.meter_number }}" class="modal"
+                                                 style="overflow:auto"
                                                  tabindex="-1">
                                                 <div class="modal-content">
                                                     <div class="row">
@@ -75,13 +75,13 @@
                                         </table>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="divider"></div>
-                                    <div class="col s12 m11.5">
-                                        {% if assets %}
-                                        {% include "bo_asset_dashboard_table_pagination.html" %}
-                                        {% endif %}
-                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="divider"></div>
+                                <div class="col s12 m11.5">
+                                    {% if assets %}
+                                    {% include "bo_asset_dashboard_table_pagination.html" %}
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
