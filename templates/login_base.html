@@ -35,6 +35,26 @@
 <script src="{{url_for('static', filename='jquery.min.js')}}"></script>
 <script src="{{url_for('static', filename='jquery-1.10.2.js')}}"></script>
 <script src="{{url_for('static', filename='plugins.js')}}"></script>
+
+<script>
+function showPassword() {
+  var x = document.getElementById("password");
+  if (x.type === "password") {
+    $('#show_password').html('<span class="material-icons">visibility_off</span >')
+    x.type = "text";
+  } else {
+    $('#show_password').html('<span class="material-icons">visibility</span >')
+    x.type = "password";
+  }
+}
+</script>
+<script>
+function hidePassword() {
+  var x = document.getElementById("password");
+  $('#show_password').html('<span class="material-icons">visibility</span >')
+  x.type = "password";
+}
+</script>
 {% endblock %}
 </body>
 </html>

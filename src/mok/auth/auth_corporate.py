@@ -16,7 +16,12 @@ from flask_babel import _
 from mok.auth import error_map, logged_in_user
 from mok.platform_config import get_platform_language
 from mok.models import RolesTypes, Portals
-from mok.utils.error_codes import PASSWORD_RESET_REQUIRED, EMPLOYEE_NOT_FOUND
+from mok.utils.error_codes import (
+    PASSWORD_RESET_REQUIRED,
+    EMPLOYEE_NOT_FOUND,
+    WRONG_USERNAME_OR_PASSWORD,
+    USER_NOT_FOUND,
+)
 
 
 auth_corp_bp = Blueprint("auth_corp_bp", __name__)
@@ -30,7 +35,7 @@ def corp_login():
 
 @auth_corp_bp.route("/corp/login", methods=["post"])
 def corp_login_post():
-    api_base_url = current_app.config.get('API_BASE_URL')
+    api_base_url = current_app.config.get("API_BASE_URL")
     password = request.form.get("corp_password")
     corporate_id = request.form.get("corporate_id")
     data = {
@@ -59,7 +64,13 @@ def corp_login_post():
             session["corporate_id"] = corporate_id
             return redirect(url_for("auth_corp_bp.reset_password"))
         else:
-            flash(error_map[f"{response.json()['ErrorCode']}"], "error")
+            error = (
+                _("Incorrect Corporate Id or Password")
+                if response.json()["ErrorCode"]
+                in [WRONG_USERNAME_OR_PASSWORD, USER_NOT_FOUND]
+                else error_map[f"{response.json()['ErrorCode']}"]
+            )
+            flash(error, "error")
             return render_template(
                 "corporate_login.html",
                 p_language=p_language,
@@ -85,7 +96,12 @@ def corp_login_post():
         "ErrorCode" in response.json()
         and response.json()["ErrorCode"] == EMPLOYEE_NOT_FOUND
     ):
-        error = error_map[f"{response.json()['ErrorCode']}"]
+        error = (
+            _("Incorrect Corporate Id or Password")
+            if response.json()["ErrorCode"]
+            in [WRONG_USERNAME_OR_PASSWORD, USER_NOT_FOUND]
+            else error_map[f"{response.json()['ErrorCode']}"]
+        )
         p_language, portal = get_platform_language()
         flash(error, "error")
         return render_template(
@@ -148,7 +164,7 @@ def forgot_password_post():
         "Content-Type": "application/json",
         "Authorization": authorization,
     }
-    api_base_url = current_app.config.get('API_BASE_URL')
+    api_base_url = current_app.config.get("API_BASE_URL")
     _ = requests.post(
         f"{api_base_url}/api/v1/auth/corporate/forgot_password",
         headers=headers,
@@ -210,8 +226,7 @@ def reset_password_post():
     return (
         redirect(url_for("auth_corp_bp.corp_login"))
         if portal == Portals.corp.name
-        else
-        redirect(url_for("auth_bo_bp.bo_login"))
+        else redirect(url_for("auth_bo_bp.bo_login"))
     )
 
 

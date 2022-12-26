@@ -18,8 +18,9 @@
             </div>
             <div class="row margin">
                 <div class="input-field col s12 center">
-                    <input id="bo_password" type="password" name="bo_password" class="validate">
-                    <label for="bo_password">{{ _("Password") }}</label>
+                    <input id="password" type="password" name="bo_password" class="validate">
+                    <label for="password">{{ _("Password") }}</label>
+                    <span id="show_password" onclick="showPassword()" onmouseleave="hidePassword()" class="field-icon toggle-password"><span class="material-icons">visibility</span></span>
                 </div>
             </div>
 

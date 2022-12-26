@@ -38,7 +38,7 @@
                                                     <div class="row">
                                                         <i class="material-icons right more">expand_more</i>
                                                         {% set name = user.last_name + " " + user.first_name%}
-                                                        <div class="col s12 m6 wrap-text">
+                                                        <div class="col s6 m6 wrap-text">
                                                             <span class="truncate grey-text ultra">
                                                             {{ name }}
                                                             </span>
@@ -169,8 +169,8 @@
                                                     </div>
                                                 </div>
                                             </li>
-                                            <div id="modal_{{ user.contract_number }}" class="modal col s12 m6"
-                                                 style="overflow:auto; height:60% !important; padding-bottom: 0px;"
+                                            <div id="modal_{{ user.contract_number }}" class="modal"
+                                                 style="overflow-y:auto;"
                                                  tabindex="-1">
                                                 <div class="modal-content">
                                                     <div class="row">

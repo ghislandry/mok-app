@@ -492,3 +492,13 @@ footer.page-footer { padding-top: 0px; }
 .doughnut-chart-status { display: none; }
 #card-stats .card-stats-compare { font-size: 0.8rem; }
 }
+
+/* Password visibility */
+span.field-icon {
+    float: right;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+    z-index: 2;
+}

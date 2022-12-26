@@ -14,10 +14,13 @@ import json
 from flask_babel import _
 
 from mok.auth import error_map, logged_in_user
-from mok.platform_config import get_platform_language
 from mok.models import RolesTypes, Portals
-from mok.utils.error_codes import PASSWORD_RESET_REQUIRED, EMPLOYEE_NOT_FOUND
-
+from mok.utils.error_codes import (
+    PASSWORD_RESET_REQUIRED,
+    EMPLOYEE_NOT_FOUND,
+    WRONG_USERNAME_OR_PASSWORD,
+    USER_NOT_FOUND,
+)
 
 auth_bo_bp = Blueprint("auth_bo_bp", __name__)
 
@@ -41,8 +44,8 @@ def bo_login_post():
     password = request.form.get("bo_password")
     corporate_id = request.form.get("corporate_id")
     data = {
-        "corporate_id": request.form.get("corporate_id"),
-        "password": request.form.get("bo_password"),
+        "corporate_id": request.form.get("corporate_id").strip(),
+        "password": request.form.get("bo_password").strip(),
     }
     authorization = "Bearer {access_token}".format(
         access_token=current_app.config.get("API_KEY")
@@ -57,7 +60,6 @@ def bo_login_post():
         data=json.dumps(data),
     )
     if response.json()["status"] == "fail":
-        p_language, portal = get_platform_language()
         if (
             "ErrorCode" in response.json()
             and response.json()["ErrorCode"] == PASSWORD_RESET_REQUIRED
@@ -66,7 +68,13 @@ def bo_login_post():
             session["corporate_id"] = corporate_id
             return redirect(url_for("auth_corp_bp.reset_password"))
         else:
-            flash(error_map[f"{response.json()['ErrorCode']}"], "error")
+            error = (
+                _("Incorrect Corporate Id or Password")
+                if response.json()["ErrorCode"]
+                in [WRONG_USERNAME_OR_PASSWORD, USER_NOT_FOUND]
+                else error_map[f"{response.json()['ErrorCode']}"]
+            )
+            flash(error, "error")
             return redirect(url_for("auth_bo_bp.bo_login"))
     # Store the session token and employee number
     access_token = response.json()["access_token"]
@@ -83,7 +91,12 @@ def bo_login_post():
         "ErrorCode" in response.json()
         and response.json()["ErrorCode"] == EMPLOYEE_NOT_FOUND
     ):
-        error = error_map[f"{response.json()['ErrorCode']}"]
+        error = (
+            _("Incorrect Corporate Id or Password")
+            if response.json()["ErrorCode"]
+            in [WRONG_USERNAME_OR_PASSWORD, USER_NOT_FOUND]
+            else error_map[f"{response.json()['ErrorCode']}"]
+        )
         flash(error, "error")
         return redirect(url_for("auth_bo_bp.bo_login"))
     logged_in_employee = {

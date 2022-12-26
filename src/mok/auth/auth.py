@@ -38,8 +38,8 @@ def login():
 @auth_bp.route("/login", methods=["post"])
 def login_post():
     data = {
-        "email": request.form.get("email"),
-        "password": request.form.get("password"),
+        "email": request.form.get("email").strip(),
+        "password": request.form.get("password").strip(),
     }
     authorization = "Bearer {access_token}".format(
         access_token=current_app.config.get("API_KEY")
