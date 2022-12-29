@@ -14,6 +14,8 @@ import requests
 import json
 import copy
 import ast
+import base64
+
 
 from mok.platform_config import get_platform_language
 from mok.auth import error_map
@@ -59,7 +61,12 @@ def corp_profile():
 
 @corporate_bp.route("/update_profile/<data_dict>", methods=["post"])
 def update_profile_post(data_dict):
-    access_token = session["access_token"]
+    try:
+        access_token = session["access_token"]
+    except KeyError:
+        error = _("Your session has expired. Please log in again.")
+        flash(error, "error")
+        return redirect(url_for("auth_corp_bp.corp_login"))
     data = copy.deepcopy(data_dict)
     city = request.form.get("city")
     phone_number = request.form.get("phone_number")
@@ -89,14 +96,53 @@ def update_profile_post(data_dict):
         error = _("Your session has expired. Please log in again")
         flash(error, "error")
         return redirect(url_for("auth_corp_bp.corp_login"))
-    # return render_template("login.html", error=error)
-    # flash(
-    #     _("Role of user %(corporate_id)s successfully changed to %(role)s!").format(
-    #         corporate_id=corporate_id, role=role
-    #     ),
-    #     "success"
-    # )
     flash("Contact information successfully updated", "information")
+    return redirect(url_for("corporate_bp.corp_profile"))
+
+
+@corporate_bp.route("/upload_avatar/<corporate_id>", methods=["post"])
+def upload_profile_avatar(corporate_id):
+    try:
+        access_token = session["access_token"]
+    except KeyError:
+        error = _("Your session has expired. Please log in again.")
+        flash(error, "error")
+        return redirect(url_for("auth_corp_bp.corp_login"))
+    print(request.form)
+    print(request.files)
+    datafile = request.files["id_image"]
+    if not datafile:
+        return redirect(url_for("corporate_bp.corp_profile"))
+
+    extension = "." in datafile.filename and datafile.filename.rsplit(".", 1)[1].lower()
+    # data = datafile.content
+    data = base64.b64encode(datafile.read())
+    data = data.decode()
+    data = {"avatar_image": "data:image/{};base64,{}".format(extension, data)}
+    authorization = "Bearer {access_token}".format(access_token=access_token)
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": authorization,
+    }
+    response = requests.put(
+        f"{current_app.config.get('API_BASE_URL')}/api/v1/employees/{corporate_id}",
+        headers=headers,
+        data=json.dumps(data),
+    )
+    print(response.json())
+    if response.status_code == HTTPStatus.UNAUTHORIZED:
+        # return {"result": url_for("auth_corp_bp.corp_login", _external=True)}, 302
+        return redirect(url_for("auth_corp_bp.corp_login"))
+    elif response.status_code in [
+        HTTPStatus.CONFLICT,
+        HTTPStatus.INTERNAL_SERVER_ERROR,
+        HTTPStatus.BAD_REQUEST,
+    ]:
+        flash(error_map[f"{response.json()['ErrorCode']}"], "error")
+        # return {"result": url_for("corporate_bp.corp_profile", _external=True)}, 302
+        return redirect(url_for("corporate_bp.corp_profile"))
+    # return {"result": url_for("corporate_bp.corp_profile", _external=True)}, 302
+    flash("Avatar successfully updated")
     return redirect(url_for("corporate_bp.corp_profile"))
 
 
