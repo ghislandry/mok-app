@@ -8,7 +8,7 @@
     <form action="{{url_for('backoffice_bp.bo_reading_update_reading', contract_number=reading['contract_number'], reading_reference=reading['reading_reference'])}}" method="post">
         <div class="row">
             <div class="input-field col s12 m4">
-                <select name="reading_verified" class="browser-default">
+                <select name="reading_verified" class="browser-default" required aria-required="true">
                     {% if reading.verification_status == "PENDING" %}
                     <option value="PENDING" selected>{{ _("PENDING") }}</option>
                     {% else %}

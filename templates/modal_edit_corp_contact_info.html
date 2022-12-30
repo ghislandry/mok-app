@@ -22,11 +22,11 @@
                             <div class="row">
                                 <div class="input-field col s12 m6">
                                     <input value="{{ user.phone_number }}" id="phone_number" type="text"
-                                           name="phone_number" class="validate grey lighten-3">
+                                           name="phone_number" class="validate grey lighten-3" required aria-required="true">
                                     <label for="phone_number">{{ _("Phone number") }}</label>
                                 </div>
                                 <div class="input-field col s12 m6">
-                                    <input value="{{ user.city }}" id="city" type="text" name="city" class="validate grey lighten-3">
+                                    <input value="{{ user.city }}" id="city" type="text" name="city" class="validate grey lighten-3" required aria-required="true">
                                     <label for="city">{{ _("City") }}</label>
                                 </div>
                             </div>

@@ -11,12 +11,12 @@
                     <form action="/bo/register_customer" method="post">
                         <div class="row">
                             <div class="input-field col s12 m4">
-                                <input type="text" class="validate grey lighten-3" id="contract_number" name="contract_number">
+                                <input type="text" class="validate grey lighten-3" id="contract_number" name="contract_number" required aria-required="true">
                                 <label for="contract_number">{{ _("Contract number") }}</label>
                             </div>
 
                             <div class="input-field col s12 m4">
-                                <input type="text" class="validate grey lighten-3" id="first_name" name="first_name">
+                                <input type="text" class="validate grey lighten-3" id="first_name" name="first_name" required aria-required="true">
                                 <label for="first_name">{{ _("First name") }}</label>
                             </div>
 
@@ -28,7 +28,7 @@
                         <br>
                         <div class="row">
                             <div class="input-field col s12 m4">
-                                <select name="gender" class="browser-default grey lighten-3">
+                                <select name="gender" class="browser-default grey lighten-3" required aria-required="true">
                                     <option value="female">{{ _("Female") }}</option>
                                     <option value="male">{{ _("Male") }}</option>
                                 </select>
@@ -36,19 +36,19 @@
                             </div>
 
                             <div class="input-field col s12 m4">
-                                <input type="date" id="date_of_birth" name="date_of_birth" class="grey lighten-3"/>
+                                <input type="date" id="date_of_birth" name="date_of_birth" class="grey lighten-3" required aria-required="true"/>
                                 <label for="date_of_birth">{{ _("Birth date") }}</label>
                             </div>
 
                             <div class="input-field col s12 m4">
-                                <input type="text" class="validate grey lighten-3" id="phone_number" name="phone_number">
+                                <input type="text" class="validate grey lighten-3" id="phone_number" name="phone_number" required aria-required="true">
                                 <label for="phone_number">{{ _("Phone number") }}</label>
                             </div>
                         </div>
                         <br>
                         <div class="row">
                             <div class="input-field col s12 m4">
-                                <input type="text" class="validate grey lighten-3" id="city" name="city">
+                                <input type="text" class="validate grey lighten-3" id="city" name="city" required aria-required="true">
                                 <label for="city">{{ _("City") }}</label>
                             </div>
 

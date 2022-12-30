@@ -40,14 +40,14 @@
 
                                     <div class="row">
                                         <div class="input-field col s12">
-                                            <input type="text" class="validate grey lighten-3" id="corporate_id" name="corporate_id">
+                                            <input type="text" class="validate grey lighten-3" id="corporate_id" name="corporate_id" required aria-required="true">
                                             <label for="corporate_id">{{ _("Employee number") }}</label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12">
                                             <i class="material-icons prefix">local_phone</i>
-                                            <input type="text" class="validate grey lighten-3" id="phone_number" name="phone_number">
+                                            <input type="text" class="validate grey lighten-3" id="phone_number" name="phone_number" required aria-required="true">
                                             <label for="phone_number">{{ _("Phone number") }}</label>
                                         </div>
 
@@ -55,7 +55,7 @@
                                     <br>
                                     <div class="row">
                                         <div class="input-field col s12 m6">
-                                            <select name="role" class="browser-default grey lighten-3">
+                                            <select name="role" class="browser-default grey lighten-3" required aria-required="true">
                                                 <option value="employee">{{ _("Employee") }}</option>
                                                 <option value="meterreader">{{ _("Meter reader") }}</option>
                                                 <option value="senioremployee">{{ _("Senior Employee") }}</option>

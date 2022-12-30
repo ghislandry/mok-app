@@ -11,24 +11,24 @@
                     <form action="{{ url_for('backoffice_bp.bo_submit_reading_post') }}" method="post" enctype="multipart/form-data">
                         <div class="row">
                             <div class="input-field col s12 m4">
-                                <input type="text" class="validate grey lighten-3" id="contract_number" name="contract_number">
+                                <input type="text" class="validate grey lighten-3" id="contract_number" name="contract_number" required aria-required="true">
                                 <label for="contract_number">{{ _("Owner Contract number") }}</label>
                             </div>
 
                             <div class="input-field col s12 m4">
-                                <input type="text" class="validate grey lighten-3" id="meter_number" name="meter_number">
+                                <input type="text" class="validate grey lighten-3" id="meter_number" name="meter_number" required aria-required="true">
                                 <label for="meter_number">{{ _("Meter number") }}</label>
                             </div>
                         </div>
                         <br>
                         <div class="row">
                             <div class="input-field col s12 m4">
-                                <input type="number" min="1" class="validate grey lighten-3" id="energy" name="energy">
+                                <input type="number" min="1" class="validate grey lighten-3" id="energy" name="energy" required aria-required="true">
                                 <label for="energy">{{ _("Consumption") }}</label>
                             </div>
 
                             <div class="input-field col s12 m4">
-                                <select name="unit" class="browser-default grey lighten-3">
+                                <select name="unit" class="browser-default grey lighten-3" required aria-required="true">
                                     <option value="kwh">{{ _("kWh") }}</option>
                                     <option value="wh">{{ _("Wh") }}</option>
                                 </select>
@@ -36,14 +36,14 @@
                             </div>
 
                             <div class="input-field col s12 m4">
-                                <input type="date" id="reading_date" name="reading_date" class="validate grey lighten-3"/>
+                                <input type="date" id="reading_date" name="reading_date" class="validate grey lighten-3" required aria-required="true"/>
                                 <label for="reading_date">{{ _("When was this reading taken?") }}</label>
                             </div>
                         </div>
                         <div class="file-field input-field">
                             <div class="btn">
                                 <span>{{ _("File") }}</span>
-                                <input type="file" name="reading_photo">
+                                <input type="file" name="reading_photo" required aria-required="true">
                             </div>
                             <div class="col s12 m8 file-path-wrapper">
                                 <input class="file-path validate" type="text" name="file_p" placeholder='{{ _("Add photo") }}'>

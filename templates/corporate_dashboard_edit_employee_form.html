@@ -6,18 +6,18 @@
                   method="post">
                 <div class="row">
                     <div class="input-field col s12 m4 l4">
-                        <input value="{{user.last_name}}" id="last_name" type="text" name="last_name" class="validate grey lighten-3">
+                        <input value="{{user.last_name}}" id="last_name" type="text" name="last_name" class="validate grey lighten-3" required aria-required="true">
                         <label for="last_name">{{ _("Last name") }}</label>
                     </div>
                     <div class="input-field col s12 m4 l4">
                         <input value="{{ user.first_name }}" id="first_name" name="first_name" type="text"
-                               class="validate grey lighten-3">
+                               class="validate grey lighten-3" required aria-required="true">
                         <label for="first_name">{{ _("Frist name") }}</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s12 m4">
-                        <select name="gender" class="browser-default grey lighten-3">
+                        <select name="gender" class="browser-default grey lighten-3" required aria-required="true">
                             {% if user.gender == "female" %}
                             <option value="female" selected>{{ _("Female") }}</option>
                             <option value="male">{{ _("Male") }}</option>
@@ -30,19 +30,19 @@
                     </div>
 
                     <div class="input-field col s12 m4">
-                        <input value="{{ user.date_of_birth }}" type="date" id="date_of_birth" name="date_of_birth">
+                        <input value="{{ user.date_of_birth }}" type="date" id="date_of_birth" name="date_of_birth" required aria-required="true">
                         <label for="date_of_birth">{{ _("Birth date") }}</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s12 m4">
-                        <input value="{{ user.city }}" type="text" class="validate grey lighten-3" id="city" name="city">
+                        <input value="{{ user.city }}" type="text" class="validate grey lighten-3" id="city" name="city" required aria-required="true">
                         <label for="city">{{ _("City") }}</label>
                     </div>
 
                     <div class="input-field col s12 m4">
                         <input value="{{ user.phone_number }}" type="text" class="validate grey lighten-3" id="phone_number"
-                               name="phone_number">
+                               name="phone_number" required aria-required="true">
                         <label for="phone_number">{{ _("Phone number") }}</label>
                     </div>
 
