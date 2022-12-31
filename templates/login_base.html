@@ -35,26 +35,13 @@
 <script src="{{url_for('static', filename='jquery.min.js')}}"></script>
 <script src="{{url_for('static', filename='jquery-1.10.2.js')}}"></script>
 <script src="{{url_for('static', filename='plugins.js')}}"></script>
+<script src="{{url_for('static', filename='kyc_image.js')}}"></script>
+<script src="{{url_for('static', filename='reading_image.js')}}"></script>
+<script src="{{url_for('static', filename='crop_image.js')}}"></script>
+<script src="{{url_for('static', filename='authentication_hide.js')}}"></script>
+<script src="{{url_for('static', filename='authentication_display.js')}}"></script>
+<script src="{{url_for('static', filename='alert.js')}}"></script>
 
-<script>
-function showPassword() {
-  var x = document.getElementById("password");
-  if (x.type === "password") {
-    $('#show_password').html('<span class="material-icons">visibility_off</span >')
-    x.type = "text";
-  } else {
-    $('#show_password').html('<span class="material-icons">visibility</span >')
-    x.type = "password";
-  }
-}
-</script>
-<script>
-function hidePassword() {
-  var x = document.getElementById("password");
-  $('#show_password').html('<span class="material-icons">visibility</span >')
-  x.type = "password";
-}
-</script>
 {% endblock %}
 </body>
 </html>

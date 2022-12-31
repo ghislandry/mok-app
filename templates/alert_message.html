@@ -2,19 +2,19 @@
 {% if messages %}
 {% for category, message in messages %}
 {% if category == "error" %}
-<div class="alert card red lighten-4 red-text text-darken-4">
+<div class="alert card red lighten-4 red-text text-darken-4" onclick="closeAlert(this)">
   <div class="card-content">
     <p><i class="material-icons">report</i><span>{{ message}}</span></p>
   </div>
 </div>
 {% elif category == "information" %}
-<div class="alert card blue lighten-4 blue-text text-darken-3">
+<div class="alert card blue lighten-4 blue-text text-darken-3" onclick="closeAlert(this)">
   <div class="card-content">
     <p><i class="material-icons">info</i><span>{{ message }}</span></p>
   </div>
 </div>
 {% elif category == "warning" %}
-<div class="alert card amber lighten-4 brown-text">
+<div class="alert card amber lighten-4 brown-text" onclick="closeAlert(this)">
   <div class="card-content">
     <p><i class="material-icons">report_problem</i><span>{{ message }}</span></p>
   </div>

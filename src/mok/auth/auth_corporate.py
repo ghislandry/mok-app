@@ -11,6 +11,7 @@ from flask import (
 )
 import requests
 import json
+
 from flask_babel import _
 
 from mok.auth import error_map, logged_in_user
@@ -113,6 +114,7 @@ def corp_login_post():
         "employee_number": response.json()["employee_number"],
         "phone_number": response.json()["phone_number"],
         "last_name": None,
+        "avatar": None,
     }
     role = response.json()["role"]
     # Get employee profile details
@@ -135,6 +137,7 @@ def corp_login_post():
         found = False
     if found is True:
         logged_in_employee.update({"last_name": response.json()["last_name"]})
+        logged_in_employee.update({"avatar": response.json()["avatar"]})
 
     session["logged_in_employee"] = logged_in_employee
     if role in [RolesTypes.senioremployee.name]:

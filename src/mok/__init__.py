@@ -4,7 +4,8 @@ from flask_material import Material
 
 # from flask_materialize import Material
 from flask_session import Session
-from flask_bootstrap import Bootstrap
+
+# from flask_bootstrap import Bootstrap
 from flask_babel import Babel
 from flask import session
 
@@ -45,7 +46,7 @@ def create_app(config_name):
     Session(app)
     Scss(app)
     Material(app)
-    Bootstrap(app)
+    # Bootstrap(app)
     babel.init_app(app)
     app.jinja_env.add_extension("jinja2_base64_filters.Base64Filters")
     return app
