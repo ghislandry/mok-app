@@ -55,10 +55,19 @@
                     <form action="{{url_for('corporate_bp.upload_profile_avatar', corporate_id=user['employee_number'])}}" method="post" enctype="multipart/form-data">
 
                         <div class="row">
-                            <div id="image-box"></div>
-                        <button class="btn col s12 m4 offset-m4 cyan waves-effect waves-light center" id="crop-btn"
-                                style="width: 100%; margin-top: 10px; display: none;" type="button">Crop
-                        </button>
+
+                                <div class="row">
+                                    <div id="image-box"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12 m2 offset-m5">
+                                        <button class="btn col s12 cyan waves-effect waves-light center"
+                                        id="crop-btn"
+                                        style="display: none;" type="button">Crop
+                                </button>
+                                    </div>
+
+                                </div>
 
                             <div class="col s12 m4 file-field input-field">
                                 <div class="col s12 btn cyan waves-effect waves-light">
