@@ -8,10 +8,11 @@
         <label for="reading_reference">{{ _("Reading Reference") }}</label>
     </div>
     <div class="input-field col s12 m2 l2">
-        <select name="verification_status" class="browser-default grey lighten-3">
+        <select name="reading_verified" class="browser-default grey lighten-3">
             <option value="VERIFIED" selected>{{ _("VERIFIED") }}</option>
             <option value="PENDING">{{ _("PENDING") }}</option>
             <option value="REJECTED">{{ _("REJECTED") }}</option>
+            <option value="CLEAR">{{ _("CLEAR") }}</option>
         </select>
         <label class="active" style="font-size:18px">{{ _("Status") }}</label>
     </div>

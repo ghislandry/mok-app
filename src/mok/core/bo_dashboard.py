@@ -53,6 +53,45 @@ def bo_assets():
     )
 
 
+@backoffice_bp.route("/bo/assets", methods=["post"])
+def bo_assets_post():
+    try:
+        access_token = session["access_token"]
+    except KeyError:
+        error = _("Your session has expired. Please log in again.")
+        flash(error, "error")
+        return redirect(url_for("auth_bo_bp.bo_login"))
+    try:
+        meter_number = request.form.get("meter_number")
+        serial_number = request.form.get("serial_number")
+        data = {
+            "meter_number": meter_number if len(meter_number) > 0 else None,
+            "serial_number": serial_number if len(serial_number) > 0 else None,
+        }
+        authorization = "Bearer {access_token}".format(access_token=access_token)
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": authorization,
+        }
+        response = requests.post(
+            f"{current_app.config.get('API_BASE_URL')}/api/v1/assets/search",
+            headers=headers,
+            data=json.dumps(data),
+        )
+        logged_in_employee = session["logged_in_employee"]
+        if response.status_code == HTTPStatus.UNAUTHORIZED:
+            error = _("Your session has expired. Please log in again")
+            flash(error, "error")
+            return redirect(url_for("auth_bo_bp.bo_login"))
+        return render_template(
+            "bo_assets.html",
+            assets=response.json(),
+            logged_in_employee=logged_in_employee,
+        )
+    except requests.exceptions.ConnectionError:
+        return render_template("connection_error.html")
+
+
 @backoffice_bp.route("/bo/register_asset")
 def bo_register_asset():
     try:
@@ -120,7 +159,7 @@ def bo_register_asset_post():
             )
         flash(_("Meter successfully added"), "information")
         return redirect(url_for("backoffice_bp.bo_assets"))
-    except requests.exceptions.ConnectionError as e:
+    except requests.exceptions.ConnectionError:
         return render_template("connection_error.html")
 
 
@@ -178,7 +217,7 @@ def bo_edit_asset(meter_number):
             )
         flash(_("Meter successfully Updated"), "information")
         return redirect(url_for("backoffice_bp.bo_assets"))
-    except requests.exceptions.ConnectionError as e:
+    except requests.exceptions.ConnectionError:
         return render_template("connection_error.html")
 
 
@@ -212,6 +251,47 @@ def bo_customers():
             flash(error, "error")
             return redirect(url_for("auth_bo_bp.bo_login"))
         # store the fact that we are looking
+        return render_template(
+            "bo_customers.html",
+            users=response.json(),
+            logged_in_employee=logged_in_employee,
+        )
+    except requests.exceptions.ConnectionError:
+        return render_template("connection_error.html")
+
+
+@backoffice_bp.route("/bo/customers", methods=["post"])
+def bo_customers_post():
+    try:
+        access_token = session["access_token"]
+    except KeyError:
+        error = _("Your session has expired. Please log in again.")
+        flash(error, "error")
+        return redirect(url_for("auth_bo_bp.bo_login"))
+    try:
+        contract_number = request.form.get("contract_number")
+        phone_number = request.form.get("phone_number")
+        last_name = request.form.get("last_name")
+        data = {
+            "contract_number": contract_number if len(contract_number) > 0 else None,
+            "phone_number": phone_number if len(phone_number) > 0 else None,
+            "last_name": last_name if len(last_name) > 0 else None,
+        }
+        authorization = "Bearer {access_token}".format(access_token=access_token)
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": authorization,
+        }
+        response = requests.post(
+            f"{current_app.config.get('API_BASE_URL')}/api/v1/customers/search",
+            headers=headers,
+            data=json.dumps(data),
+        )
+        logged_in_employee = session["logged_in_employee"]
+        if response.status_code == HTTPStatus.UNAUTHORIZED:
+            error = _("Your session has expired. Please log in again")
+            flash(error, "error")
+            return redirect(url_for("auth_bo_bp.bo_login"))
         return render_template(
             "bo_customers.html",
             users=response.json(),
@@ -484,6 +564,49 @@ def bo_readings():
             flash(error, "error")
             return redirect(url_for("auth_bo_bp.bo_login"))
         # store the fact that we are looking
+        return render_template(
+            "bo_readings.html",
+            readings=response.json(),
+            logged_in_employee=logged_in_employee,
+        )
+    except requests.exceptions.ConnectionError:
+        return render_template("connection_error.html")
+
+
+@backoffice_bp.route("/bo/readings", methods=["post"])
+def bo_readings_post():
+    try:
+        access_token = session["access_token"]
+    except KeyError:
+        error = _("Your session has expired. Please log in again.")
+        flash(error, "error")
+        return redirect(url_for("auth_bo_bp.bo_login"))
+    try:
+        meter_number = request.form.get("meter_number")
+        reading_ref = request.form.get("reading_reference")
+        reading_verified = request.form.get("verification_status")
+        data = {
+            "meter_number": meter_number if len(meter_number) > 0 else None,
+            "reading_ref": reading_ref if len(reading_ref) > 0 else None,
+            "reading_verified": reading_verified
+            if reading_verified != "CLEAR"
+            else None,
+        }
+        authorization = "Bearer {access_token}".format(access_token=access_token)
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": authorization,
+        }
+        response = requests.post(
+            f"{current_app.config.get('API_BASE_URL')}/api/v1/readings/search",
+            headers=headers,
+            data=json.dumps(data),
+        )
+        logged_in_employee = session["logged_in_employee"]
+        if response.status_code == HTTPStatus.UNAUTHORIZED:
+            error = _("Your session has expired. Please log in again")
+            flash(error, "error")
+            return redirect(url_for("auth_bo_bp.bo_login"))
         return render_template(
             "bo_readings.html",
             readings=response.json(),

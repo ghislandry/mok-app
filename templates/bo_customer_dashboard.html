@@ -16,7 +16,7 @@
             <!-- <div class="divider"></div> -->
             <div class="section">
                 <div class="row">
-                    <form action="/corp/dashboard" method="post">
+                    <form action="{{ url_for('backoffice_bp.bo_customers_post') }}" method="post">
                         {% include "bo_customer_dashboard_search_form.html" %}
                     </form>
                 </div>
