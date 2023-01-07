@@ -18,7 +18,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col s12 m12 l12">
-                            <h5 class="breadcrumbs-title">{{ _("Employee Account Registration") }}</h5>
+                            <h5 class="breadcrumbs-title">{{ _("Account Registration") }}</h5>
                         </div>
                     </div>
                 </div>
@@ -27,62 +27,28 @@
 
             <!-- start container -->
             <div class="container">
-                <p class="caption">
+                <p class="caption" id="text_message" style="display:block">
+                    {{ _("Please select the account type to start.") }}
+                </p>
+                <p class="caption" id="text_message_explanation" style="display:none">
                     {{ _("Please enter account details. Note that an employee number is the same as their corporate id.") }}
                 </p>
                 <div class="divider"></div>
                 <br>
-                <div class="section">
-                    <div class="row">
-                        <div class="col s12 m6 offset-m2">
-                            <div class="card-panel">
-                                <form action="/register_employee" method="post">
-
-                                    <div class="row">
-                                        <div class="input-field col s12">
-                                            <input type="text" class="validate grey lighten-3" id="corporate_id" name="corporate_id" required aria-required="true">
-                                            <label for="corporate_id">{{ _("Employee number") }}</label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="input-field col s12">
-                                            <i class="material-icons prefix">local_phone</i>
-                                            <input type="text" class="validate grey lighten-3" id="phone_number" name="phone_number" required aria-required="true">
-                                            <label for="phone_number">{{ _("Phone number") }}</label>
-                                        </div>
-
-                                    </div>
-                                    <br>
-                                    <div class="row">
-                                        <div class="input-field col s12 m6">
-                                            <select name="role" class="browser-default grey lighten-3" required aria-required="true">
-                                                <option value="employee">{{ _("Employee") }}</option>
-                                                <option value="meterreader">{{ _("Meter reader") }}</option>
-                                                <option value="senioremployee">{{ _("Senior Employee") }}</option>
-                                            </select>
-                                            <label class="active" style="font-size:18px">{{ _("Role") }}</label>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="input-field col s12">
-                                            <button class="btn cyan waves-effect waves-light right" type="submit"
-                                                    name="action">{{ _("Register") }}
-                                                <!-- <i class="mdi-content-send right"></i> -->
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-
-                            </div>
-
-
-                        </div>
+                <div class="row">
+                    <div class="input-field col s12 m3">
+                        <select onchange="selectRegistrationForm(this)" id="role_selection" name="role_selection" class="browser-default grey lighten-3" required aria-required="true">
+                            <option value="employee">{{ _("Employee") }}</option>
+                            <option value="meterreader">{{ _("Meter reader") }}</option>
+                            <option value="senioremployee">{{ _("Senior Employee") }}</option>
+                            <option value="admin">{{ _("Administrator") }}</option>
+                        </select>
+                        <label class="active" style="font-size:18px">{{ _("Role") }}</label>
                     </div>
-
-                    {% include "alert_message.html" %}
                 </div>
 
+                {% include "admin_register_employee_form.html" %}
+                {% include "admin_register_admin_form.html" %}
 
             </div>
         </section>

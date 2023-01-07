@@ -19,6 +19,10 @@ error_map = {
     "2008": _("An employee with the provided employee number already exist!"),
     "2016": _("An employee with this number already exist"),
     "2019": _("Employee profile has not been created"),
+    "2024": _(
+        "Last name or first name of the existing user with "
+        "the name employee number does not match"
+    ),
 }
 
 

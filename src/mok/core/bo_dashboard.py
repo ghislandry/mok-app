@@ -16,7 +16,6 @@ import base64
 
 from mok.auth import error_map
 
-# from mok.utils.error_codes import EMPLOYEE_NOT_FOUND
 
 backoffice_bp = Blueprint("backoffice_bp", __name__)
 

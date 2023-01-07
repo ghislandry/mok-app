@@ -3,15 +3,18 @@
         <li class="user-details cyan darken-2">
             <div class="row">
                 <div class="col col s4 m4 l4">
-                    <img src="{{ logged_in_employee.avatar }}" alt="" class="circle responsive-img valign profile-image">
+                    <img src="{{ avatars.default() }}" alt="" class="circle responsive-img valign profile-image">
                 </div>
-                <div class="col col s8 m8 l8">
-
-                    <a class="btn-flat dropdown-button white-text profile-btn">
-                        {{ logged_in_employee.email_address }}
+                <!--<div class="col col s8 m8 l8" >
+                    <a class="btn-flat dropdown-button white-text profile-btn" >
+                        <p>{{ logged_in_employee.email_address }}
                     </a>
                     <p class="user-roal">{{ logged_in_employee.role }}</p>
-                </div>
+                </div>-->
+            </div>
+            <div class="row">
+                <p class="user-roal">{{ logged_in_employee.email_address }}</p>
+                <p class="user-roal">{{ logged_in_employee.role[0]|upper}}{{ logged_in_employee.role[1:]}}</p>
             </div>
         </li>
 
@@ -23,9 +26,16 @@
         </li>
 
         <li>
-            <a href="{{url_for('auth_bp.register_employee')}}">
+            <a href="{{url_for('main_bp.admins')}}">
                 <i class="material-icons" aria-hidden="false" aria-label="people"> person_add
                 </i> {{ _("Register Employee") }}
+            </a>
+        </li>
+
+        <li>
+            <a href="{{url_for('auth_bp.register_employee')}}">
+                <i class="material-icons" aria-hidden="false" aria-label="people"> people_outline
+                </i> {{ _("Administrators") }}
             </a>
         </li>
         <!--

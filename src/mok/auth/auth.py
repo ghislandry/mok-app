@@ -66,25 +66,17 @@ def login_post():
             else:
                 error = error_map[f"{response.json()['ErrorCode']}"]
             flash(error, "error")
-            return render_template(
-                "login.html",
-                p_language=p_language,
-                portal=portal,
-            )
+            return redirect(url_for("auth_bp.login"))
         # Store the session token and employee number
         session["access_token"] = response.json()["access_token"]
         # find out which user is connected and route accordingly
         url = f"{current_app.config.get('API_BASE_URL')}/api/v1/auth/admin/user"
         response = logged_in_user(access_token=response.json()["access_token"], url=url)
+        print(response.json)
         if response.status_code == HTTPStatus.UNAUTHORIZED:
             error = _("Your session has expired. Please log in again")
             flash(error, "error")
-            p_language, portal = get_platform_language()
-            return render_template(
-                "login.html",
-                p_language=p_language,
-                portal=portal,
-            )
+            return redirect(url_for("auth_bp.login"))
         logged_in_employee = {
             "email_address": response.json()["email"],
             "role": response.json()["role"],
@@ -200,21 +192,33 @@ def register_employee():
 def register_employee_post():
     try:
         access_token = session["access_token"]
-        data = {
-            "corporate_id": request.form.get("corporate_id"),
-            "phone_number": request.form.get("phone_number"),
-            "role": request.form.get("role"),
-        }
+    except KeyError:
+        error = _("Your session has expired. Please log in again.")
+        flash(error, "error")
+        return redirect(url_for("auth_bp.login", error=error))
+    try:
+        if "role" in request.form.keys():  # Regular employee
+            data = {
+                "corporate_id": request.form.get("corporate_id"),
+                "phone_number": request.form.get("phone_number"),
+                "role": request.form.get("role"),
+            }
+            url = f"{current_app.config.get('API_BASE_URL')}/api/v1/auth/corporate/register"
+        else:
+            data = {
+                "employee_number": request.form.get("admin_employee_number"),
+                "last_name": request.form.get("last_name"),
+                "first_name": request.form.get("first_name"),
+                "email": request.form.get("email_address"),
+            }
+            url = f"{current_app.config.get('API_BASE_URL')}/api/v1/auth/admin/register"
+
         authorization = "Bearer {access_token}".format(access_token=access_token)
         headers = {
             "Content-Type": "application/json",
             "Authorization": authorization,
         }
-        response = requests.post(
-            f"{current_app.config.get('API_BASE_URL')}/api/v1/auth/corporate/register",
-            headers=headers,
-            data=json.dumps(data),
-        )
+        response = requests.post(url, headers=headers, data=json.dumps(data))
         if response.status_code == HTTPStatus.UNAUTHORIZED:
             error = _("Your session has expired. Please log in again.")
             return redirect(url_for("auth_bp.login", error=error))

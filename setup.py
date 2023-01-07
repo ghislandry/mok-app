@@ -36,6 +36,7 @@ INSTALL_REQUIRES = [
     "flask_bootstrap",
     "flask-babel",
     "jinja2-base64-filters",
+    "flask-avatars",
 ]
 
 

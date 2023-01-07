@@ -1,0 +1,60 @@
+<div class="section" id="register_admin_form" style="display:none;">
+    <div class="row">
+        <div class="col s12 m8 offset-m3">
+            <div class="card-panel">
+                <form action="/register_employee" method="post">
+                    <div class="row">
+                        <div class="col s12 m6">
+                            <div class="input-field">
+                                <input type="text" class="validate grey lighten-3" id="email_address"
+                                       name="email_address"
+                                       required aria-required="true">
+                                <label for="email_address">{{ _("Email address") }}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 m6">
+                            <div class="input-field">
+                                <!-- <i class="material-icons prefix">local_phone</i> -->
+                                <input type="text" class="validate grey lighten-3" id="last_name" name="last_name"
+                                       required aria-required="true">
+                                <label for="last_name">{{ _("Last name") }}</label>
+                            </div>
+                        </div>
+                        <div class="col s12 m6">
+                            <div class="input-field">
+                                <input type="text" class="validate grey lighten-3" id="first_name" name="first_name"
+                                       required aria-required="true">
+                                <label for="first_name">{{ _("First name") }}</label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col s12 m6">
+                            <div class="input-field">
+                                <input type="text" class="validate grey lighten-3" id="admin_employee_number" name="admin_employee_number"
+                                       required aria-required="true">
+                                <label for="admin_employee_number">{{ _("Employee number") }}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <button class="btn cyan waves-effect waves-light right" type="submit"
+                                    name="action_register_admin">{{ _("Register") }}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+
+        </div>
+    </div>
+
+    {% include "alert_message.html" %}
+</div>
