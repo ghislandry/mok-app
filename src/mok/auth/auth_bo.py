@@ -62,8 +62,8 @@ def bo_login_post():
         )
         if response.json()["status"] == "fail":
             if (
-                "ErrorCode" in response.json()
-                and response.json()["ErrorCode"] == PASSWORD_RESET_REQUIRED
+                "error_code" in response.json()
+                and response.json()["error_code"] == PASSWORD_RESET_REQUIRED
             ):
                 session["verification_code"] = password
                 session["corporate_id"] = corporate_id
@@ -71,9 +71,9 @@ def bo_login_post():
             else:
                 error = (
                     _("Incorrect Corporate Id or Password")
-                    if response.json()["ErrorCode"]
+                    if response.json()["error_code"]
                     in [WRONG_USERNAME_OR_PASSWORD, USER_NOT_FOUND]
-                    else error_map[f"{response.json()['ErrorCode']}"]
+                    else error_map[f"{response.json()['error_code']}"]
                 )
                 flash(error, "error")
                 return redirect(url_for("auth_bo_bp.bo_login"))
@@ -89,14 +89,14 @@ def bo_login_post():
             flash(error, "error")
             return redirect(url_for("auth_bo_bp.bo_login"))
         if (
-            "ErrorCode" in response.json()
-            and response.json()["ErrorCode"] == EMPLOYEE_NOT_FOUND
+            "error_code" in response.json()
+            and response.json()["error_code"] == EMPLOYEE_NOT_FOUND
         ):
             error = (
                 _("Incorrect Corporate Id or Password")
-                if response.json()["ErrorCode"]
+                if response.json()["error_code"]
                 in [WRONG_USERNAME_OR_PASSWORD, USER_NOT_FOUND]
-                else error_map[f"{response.json()['ErrorCode']}"]
+                else error_map[f"{response.json()['error_code']}"]
             )
             flash(error, "error")
             return redirect(url_for("auth_bo_bp.bo_login"))
@@ -117,8 +117,8 @@ def bo_login_post():
             flash(error, "error")
             return redirect(url_for("auth_bo_bp.bo_login"))
         if (
-            "ErrorCode" in response.json()
-            and response.json()["ErrorCode"] == EMPLOYEE_NOT_FOUND
+            "error_code" in response.json()
+            and response.json()["error_code"] == EMPLOYEE_NOT_FOUND
         ):
             found = False
         if role in [RolesTypes.senioremployee.name, RolesTypes.employee.name]:

@@ -8,13 +8,11 @@ from flask import (
     session,
     render_template,
     flash,
-    get_flashed_messages,
 )
 from flask_babel import _
 import requests
 import json
 
-from mok.platform_config import get_platform_language
 from mok.models import Portals
 
 main_bp = Blueprint("main_bp", __name__)
@@ -91,7 +89,7 @@ def admins():
             return redirect(url_for("auth_bp.login"))
         logged_in_employee = session["logged_in_employee"]
         return render_template(
-            "dashboard.html",
+            "admin_dashboard_administrators.html",
             users=response.json(),
             logged_in_employee=logged_in_employee,
         )

@@ -50,8 +50,8 @@ def corp_profile():
                 # error=error,
             )
         if (
-            "ErrorCode" in response.json()
-            and response.json()["ErrorCode"] == EMPLOYEE_NOT_FOUND
+            "error_code" in response.json()
+            and response.json()["error_code"] == EMPLOYEE_NOT_FOUND
         ):
             # the user does not have a profile yet!
             return redirect(url_for("corporate_bp.corp_dashboard"))
@@ -140,7 +140,7 @@ def upload_profile_avatar(corporate_id):
             HTTPStatus.INTERNAL_SERVER_ERROR,
             HTTPStatus.BAD_REQUEST,
         ]:
-            flash(error_map[f"{response.json()['ErrorCode']}"], "error")
+            flash(error_map[f"{response.json()['error_code']}"], "error")
             # return {"result": url_for("corporate_bp.corp_profile", _external=True)}, 302
             return redirect(url_for("corporate_bp.corp_profile"))
         # return {"result": url_for("corporate_bp.corp_profile", _external=True)}, 302
@@ -232,7 +232,7 @@ def corp_dashboard_post():
                 p_language=p_language,
                 portal=portal,  # error=error
             )
-        elif "ErrorCode" in response.json():
+        elif "error_code" in response.json():
             users = None
             flash(_("No user found"), "information")
         else:
@@ -279,7 +279,7 @@ def corp_edit_employee_details(employee_number):
             HTTPStatus.BAD_REQUEST,
         ]:
             try:
-                error = error_map[f"{response.json()['ErrorCode']}"]
+                error = error_map[f"{response.json()['error_code']}"]
             except KeyError:
                 error = _("Input payload validation failed")
             flash(error, "error")
@@ -332,7 +332,7 @@ def corp_register_employee_post():
             HTTPStatus.BAD_REQUEST,
         ]:
             try:
-                error = error_map[f"{response.json()['ErrorCode']}"]
+                error = error_map[f"{response.json()['error_code']}"]
             except KeyError:
                 error = _("Input payload validation failed")
             flash(error, "error")
@@ -375,7 +375,7 @@ def corp_manage_employee_status(employee_number):
             HTTPStatus.BAD_REQUEST,
         ]:
             try:
-                error = error_map[f"{response.json()['ErrorCode']}"]
+                error = error_map[f"{response.json()['error_code']}"]
             except KeyError:
                 error = _("Input payload validation failed")
             flash(error, "error")

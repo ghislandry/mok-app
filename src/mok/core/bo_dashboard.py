@@ -147,7 +147,7 @@ def bo_register_asset_post():
             HTTPStatus.BAD_REQUEST,
         ]:
             try:
-                error = error_map[f"{response.json()['ErrorCode']}"]
+                error = error_map[f"{response.json()['error_code']}"]
             except KeyError:
                 error = _("Input payload validation failed")
             flash(error, "error")
@@ -205,7 +205,7 @@ def bo_edit_asset(meter_number):
             HTTPStatus.BAD_REQUEST,
         ]:
             try:
-                error = error_map[f"{response.json()['ErrorCode']}"]
+                error = error_map[f"{response.json()['error_code']}"]
             except KeyError:
                 error = _("Input payload validation failed")
             flash(error, "error")
@@ -468,7 +468,7 @@ def bo_register_customer_post():
             HTTPStatus.BAD_REQUEST,
         ]:
             try:
-                error = error_map[f"{response.json()['ErrorCode']}"]
+                error = error_map[f"{response.json()['error_code']}"]
             except KeyError:
                 error = _("Input payload validation failed")
             flash(error, "error")
@@ -526,7 +526,7 @@ def bo_edit_customer_details(contract_number):
             HTTPStatus.BAD_REQUEST,
         ]:
             try:
-                error = error_map[f"{response.json()['ErrorCode']}"]
+                error = error_map[f"{response.json()['error_code']}"]
             except KeyError:
                 error = _("Input payload validation failed")
             flash(error, "error")
@@ -670,7 +670,7 @@ def bo_submit_reading_post():
             HTTPStatus.BAD_REQUEST,
         ]:
             try:
-                error = error_map[f"{response.json()['ErrorCode']}"]
+                error = error_map[f"{response.json()['error_code']}"]
             except KeyError:
                 error = _("Input payload validation failed")
             flash(error, "error")
@@ -758,7 +758,7 @@ def bo_reading_update_reading(contract_number, reading_reference):
             HTTPStatus.BAD_REQUEST,
         ]:
             try:
-                error = error_map[f"{response.json()['ErrorCode']}"]
+                error = error_map[f"{response.json()['error_code']}"]
             except KeyError:
                 error = _("Input payload validation failed")
             flash(error, "error")

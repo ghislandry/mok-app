@@ -17,108 +17,74 @@
                 <!-- <div class="divider"></div> -->
                 <div class="section">
                     <div class="row">
-                        <h5 class="header">{{ _("Platform Administrators") }} </h5>
-                        <div class="col s12">
-                            <div class="card" style="height:600px !important; overflow-x:hidden">
-                                <div class="row" style="height:100% !important; overflow-y:auto;">
-                                    <div class="col s12"> <!-- height: 80%; overflow:auto; position:relative-->
-                                        <div class="row" style="overflow-y:scroll !important; position:relative;">
-                                            <div class="col s12">
+                        <h5 class="header">{{ _("Administrators") }} </h5>
+                    </div>
+                    <div class="card-panel" style="overflow-y: scroll; height:600px !important;">
 
-                                        <table class="responsive-table" style="overflow-y: scroll">
-                                            <thead>
-                                            <tr class="grey lighten-3">
-                                                <th>{{ _("Email address") }}</th>
-                                                <th>{{ _("Added on") }}</th>
-                                                <th>{{ _("Edit") }}</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            {% for user in users["items"] %}
-                                            <tr>
-                                                <td>{{ user.employee_number }}</td>
-                                                <td>{{ user.email }}</td>
-                                                <td>{{ user.phone_number }}</td>
-                                                {% if user.role == "senioremployee" %}
-                                                <td>{{ _("Senior employee") }}</td>
-                                                {% elif user.role == "meterreader" %}
-                                                <td>{{ _("Meter reader") }}</td>
-                                                {% else %}
-                                                <td>{{ user.role[0]|upper}}{{user.role[1:] }}</td>
-                                                {% endif %}
-                                                <td>{{ user.registered_on}}</td>
-                                                <td>
-                                                    <a class="waves-effect waves-light modal-trigger"
-                                                       data-target="modal_{{ user.employee_number }}">
-                                                        <i class="material-icons">create</i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <div id="modal_{{ user.employee_number }}" class="modal" tabindex="-1">
-                                                <div class="modal-content">
-                                                    <div class="row">
-                                                        <h4>{{ _("Edit Employee role")}}</h4>
-                                                        <p> {{ user.employee_number }} </p>
-                                                    </div>
+                        {% for chunk in users["items"]|batch(3) %}
+                        <div class="row">
+                            {% for user in chunk %}
 
-                                                    <div class="row">
-                                                        <div class="col s12">
-                                                        <div class="card-panel">
-                                                        <form action="{{url_for('main_bp.change_role_post', corporate_id=user['employee_number'])}}"
-                                                              method="post">
-                                                            <div class="row">
-                                                                <div class="col input-field s12 m6 l6">
-                                                                    <select name="new_role" class="browser-default grey lighten-3">
-                                                                        <option value="employee">{{ _("Employee") }}
-                                                                        </option>
-                                                                        <option value="meterreader">{{ _("Meter reader")
-                                                                            }}
-                                                                        </option>
-                                                                        <option value="senioremployee">{{ _("Senior
-                                                                            employee") }}
-                                                                        </option>
-                                                                    </select>
-                                                                    <label class="active" style="font-size:18px">{{
-                                                                        _("Role") }}</label>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="row">
-                                                                <div class="input-field col s12">
-                                                                    <button class="btn cyan waves-effect waves-light right"
-                                                                            type="submit"
-                                                                            name="btn_change_corp_role">
-                                                                        {{ _("Close & Save") }}
-                                                                        <!-- <i class="mdi-content-send right"></i> -->
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                        </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                </div>
-                                            </div>
-                                            {% endfor %}
-                                            </tbody>
-                                        </table>
-                                            </div>
-                                        </div>
+                            <div class="col s12 m3">
+                                <div class="card medium">
+                                    <div class="row center">
+                                        <img src="{{ user.avatar }}" alt="" class="circle responsive-img valign profile-image" style="padding-top:15px; width:100px;height:auto;">
                                     </div>
-                                </div>
+                                    <br>
+                                    <div class="card-content">
+                                        <div class="row center">
+                                            <span class="card-title activator grey-text text-darken-4">{{ user.last_name + " " + user.first_name }}
+                                            </span>
+                                        </div>
+                                        <div class="row center">
+                                            <span class="grey-text text-darken-4">{{ user.email }}
+                                            </span>
+                                        </div>
 
-                            </div>
-                            <div class="row">
-                                <div class="divider"></div>
-                                <div class="col s12 m12 l12">
-                                    {% include "admin_dashboard_table_pagination.html" %}
+                                        <div class="row center">
+                                            <span class="grey-text text-darken-4">{{ user.email }}
+                                            </span>
+                                        </div>
+
+                                    </div>
+
+
                                 </div>
+                                <!--
+                                <div class="card small">
+                                    <div class="card-image waves-effect waves-block waves-light">
+                                        <img class="activator"
+                                             src="https://s-media-cache-ak0.pinimg.com/originals/7f/8d/2c/7f8d2cc47b1851081ec19b3da1d35699.jpg">
+                                    </div>
+                                    <div class="card-content">
+                                <span class="card-title activator grey-text text-darken-4">{{ user.last_name + " " + user.first_name }} <i
+                                        class="material-icons right">more_vert</i>
+                                </span>
+                                        <p><a href="https://www.pinterest.com/pin/554083560386026921/">Visit the
+                                            site</a></p>
+                                    </div>
+                                    <div class="card-reveal">
+                                <span class="card-title grey-text text-darken-4">Card Title<i
+                                        class="material-icons right">close</i></span>
+                                        <p>Here is some more information about this product that is only revealed once
+                                            clicked
+                                            on.</p>
+                                    </div>
+                                </div> -->
                             </div>
+
+                            {% endfor %}
                         </div>
+                        {% endfor %}
 
                     </div>
+                    <div class="row">
+                        <div class="divider"></div>
+                            <div class="col s12 m12 l12">
+                                {% include "admin_dashboard_table_pagination.html" %}
+                            </div>
+                    </div>
+
                 </div>
 
             </div>

@@ -58,8 +58,8 @@ def corp_login_post():
     if response.json()["status"] == "fail":
         p_language, portal = get_platform_language()
         if (
-            "ErrorCode" in response.json()
-            and response.json()["ErrorCode"] == PASSWORD_RESET_REQUIRED
+            "error_code" in response.json()
+            and response.json()["error_code"] == PASSWORD_RESET_REQUIRED
         ):
             session["verification_code"] = password
             session["corporate_id"] = corporate_id
@@ -67,9 +67,9 @@ def corp_login_post():
         else:
             error = (
                 _("Incorrect Corporate Id or Password")
-                if response.json()["ErrorCode"]
+                if response.json()["error_code"]
                 in [WRONG_USERNAME_OR_PASSWORD, USER_NOT_FOUND]
-                else error_map[f"{response.json()['ErrorCode']}"]
+                else error_map[f"{response.json()['error_code']}"]
             )
             flash(error, "error")
             return render_template(
@@ -94,14 +94,14 @@ def corp_login_post():
             portal=portal,
         )
     if (
-        "ErrorCode" in response.json()
-        and response.json()["ErrorCode"] == EMPLOYEE_NOT_FOUND
+        "error_code" in response.json()
+        and response.json()["error_code"] == EMPLOYEE_NOT_FOUND
     ):
         error = (
             _("Incorrect Corporate Id or Password")
-            if response.json()["ErrorCode"]
+            if response.json()["error_code"]
             in [WRONG_USERNAME_OR_PASSWORD, USER_NOT_FOUND]
-            else error_map[f"{response.json()['ErrorCode']}"]
+            else error_map[f"{response.json()['error_code']}"]
         )
         p_language, portal = get_platform_language()
         flash(error, "error")
@@ -131,8 +131,8 @@ def corp_login_post():
             portal=portal,
         )
     if (
-        "ErrorCode" in response.json()
-        and response.json()["ErrorCode"] == EMPLOYEE_NOT_FOUND
+        "error_code" in response.json()
+        and response.json()["error_code"] == EMPLOYEE_NOT_FOUND
     ):
         found = False
     if found is True:
@@ -222,7 +222,7 @@ def reset_password_post():
         data=json.dumps(data),
     )
     if response.json()["status"] == "fail":
-        flash(error_map[f"{response.json()['ErrorCode']}"], "error")
+        flash(error_map[f"{response.json()['error_code']}"], "error")
         return render_template("corporate_reset_password.html")
     flash(_("Password successfully changed"), "information")
     p_language, portal = get_platform_language()

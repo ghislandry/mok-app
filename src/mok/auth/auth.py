@@ -16,7 +16,7 @@ from flask_babel import _
 from mok.auth import error_map, logged_in_user
 from mok.platform_config import get_platform_language
 from mok.models import Portals
-from mok.utils.error_codes import PASSWORD_RESET_REQUIRED, EMAIL_NOT_VERIFIED
+from mok.utils.error_codes import PASSWORD_RESET_REQUIRED, EMAIL_NOT_VERIFIED, NEW_LINK_HAS_BEEN_SENT
 
 
 auth_bp = Blueprint("auth_bp", __name__)
@@ -56,19 +56,23 @@ def login_post():
         )
         if response.json()["status"] == "fail":
             p_language, portal = get_platform_language()
-            if response.json()["ErrorCode"] == PASSWORD_RESET_REQUIRED:
+            if response.json()["error_code"] == PASSWORD_RESET_REQUIRED:
                 error = _(
                     "Password reset required. Please check your email "
                     "for instructions on how to change your password"
                 )
-            elif response.json()["ErrorCode"] == EMAIL_NOT_VERIFIED:
-                error = f"{response.json()['ErrorCode']}"
+            elif response.json()["error_code"] == EMAIL_NOT_VERIFIED:
+                error = _(
+                    "Email address not verified. Check your mailbox "
+                    "for instructions on how to verify your email."
+                )
             else:
-                error = error_map[f"{response.json()['ErrorCode']}"]
+                error = error_map[f"{response.json()['error_code']}"]
             flash(error, "error")
             return redirect(url_for("auth_bp.login"))
         # Store the session token and employee number
         session["access_token"] = response.json()["access_token"]
+        print(response.json())
         # find out which user is connected and route accordingly
         url = f"{current_app.config.get('API_BASE_URL')}/api/v1/auth/admin/user"
         response = logged_in_user(access_token=response.json()["access_token"], url=url)
@@ -152,7 +156,7 @@ def reset_password_post():
         )
         if response.json()["status"] == "fail":
             return render_template(
-                "reset_password.html", error=error_map[f"{response.json()['ErrorCode']}"]
+                "reset_password.html", error=error_map[f"{response.json()['error_code']}"]
             )
         flash(_("Password successfully changed"), "information")
         return redirect(url_for("auth_bp.login"))
@@ -230,7 +234,7 @@ def register_employee_post():
             # TODO investigate and add appropriate message when the
             #  phone number is not correctly formatted
             try:
-                error = error_map[f"{response.json()['ErrorCode']}"]
+                error = error_map[f"{response.json()['error_code']}"]
             except KeyError:
                 error = _("Input payload validation failed")
             flash(error, "error")
@@ -238,3 +242,19 @@ def register_employee_post():
         return redirect(url_for("main_bp.dashboard"))
     except requests.exceptions.ConnectionError:
         return render_template("connection_error.html")
+
+
+@auth_bp.route("/auth/admin/confirm_email/<token>")
+def confirm_email_address(token):
+    url = f"{current_app.config.get('API_BASE_URL')}/api/v1/auth/admin/confirm_email/{token}"
+    print(url)
+    response = requests.get(url)
+    if "error_code" in response.json():
+        if response.json()["error_code"] == NEW_LINK_HAS_BEEN_SENT:
+            error = _("The link has expired, a new link has been sent to your email address")
+        else:
+            error = _("Invalid confirmation link")
+        flash(error, "error")
+        return redirect(url_for("auth_bp.login"))
+    flash("Email address successfully confirmed", "information")
+    return redirect(url_for("auth_bp.login"))

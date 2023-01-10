@@ -1,200 +1,96 @@
-<section id="content">
-    <!-- breadcrumbs start -->
-    <!-- <div id="breadcrumbs-wrapper" class=" gray lighten-3">
-        <div class="container">
-            <div class="row">
-                <div class="col s12 m12 l12">
-                    <h5 class="breadcrumbs-title">{{ _("List of Employees") }}</h5>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <!-- breadcrumbs end -->
-    <!-- Start container -->
+<div class="card" style="height:600px !important; overflow-x:hidden">
+                                <div class="row" style="height:100% !important; overflow-y:auto;">
+                                    <div class="col s12">
+                                        <div class="row" style="overflow-y:scroll !important; position:relative;">
+                                            <div class="col s12">
 
-    <div class="container">
-        <div class="section">
-            <div class="section">
-                <div class="row">
-                    <form action="/bo/dashboard" method="post">
-                        {% include "bo_customer_dashboard_search_form.html" %}
-                    </form>
-                </div>
-            </div>
+                                        <table class="responsive-table" style="overflow-y: scroll">
+                                            <thead>
+                                            <tr class="grey lighten-3">
+                                                <th>{{ _("Email address") }}</th>
+                                                <th>{{ _("Added on") }}</th>
+                                                <th>{{ _("Edit") }}</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for user in users["items"] %}
+                                            <tr>
+                                                <td>{{ user.Last name }}</td>
+                                                <td>{{ user.email }}</td>
+                                                <td>{{ user.phone_number }}</td>
+                                                {% if user.role == "senioremployee" %}
+                                                <td>{{ _("Senior employee") }}</td>
+                                                {% elif user.role == "meterreader" %}
+                                                <td>{{ _("Meter reader") }}</td>
+                                                {% else %}
+                                                <td>{{ user.role[0]|upper}}{{user.role[1:] }}</td>
+                                                {% endif %}
+                                                <td>{{ user.registered_on}}</td>
+                                                <td>
+                                                    <a class="waves-effect waves-light modal-trigger"
+                                                       data-target="modal_{{ user.employee_number }}">
+                                                        <i class="material-icons">create</i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <div id="modal_{{ user.employee_number }}" class="modal" tabindex="-1">
+                                                <div class="modal-content">
+                                                    <div class="row">
+                                                        <h4>{{ _("Edit Employee role")}}</h4>
+                                                        <p> {{ user.employee_number }} </p>
+                                                    </div>
 
-            <div class="section">
-                <div class="row">
-                    <h5 class="header">{{ _("List of Customers") }} </h5>
-                    <div class="row">
-                        <div class="col s12">
-                            <div class="col s12 m4 l4 card-panel z-depth-1">
-                                {% if users %}
-                                {%
-                                    set data_dict = ({
-                                        "users": users
-                                    })
-                                %}
-                                {% set active_user = [] %}
-                                <ul class="collection">
-                                {% for user in users["items"] %}
-                                    {% if not contract_number and loop.first %}
-                                        {% do active_user.append(user) %}
-                                        <li class="collection-item avatar red lighten-5">
-                                            <i class="material-icons circle blue">{{ user.last_name[0] }}</i>
-                                            <span class="title">{{ user.last_name }}</span>
-                                            <p class="truncate grey-text ultra-small">{{ user.contract_number }}</p>
-                                            <a id="test" class="btn secondary-content">
-                                                <span class="blue-text ultra-small">{{ _("View") }}</span>
-                                            </a>
-                                        </li>
-                                    {% elif contract_number and contract_number == user.contract_number %}
-                                        {% do active_user.append(user) %}
-                                        <li class="collection-item avatar cyan lighten-5">
-                                            <i class="material-icons circle blue">{{ user.last_name[0] }}</i>
-                                            <span class="title">{{ user.last_name }}</span>
-                                            <p class="truncate grey-text ultra-small">{{ user.contract_number }}</p>
-                                            <a href="{{url_for('backoffice_bp.bo_customer', contract_number=contract_number)}}" class="secondary-content">
-                                                <span class="blue-text ultra-small">{{ _("View") }}</span>
-                                            </a>
-                                        </li>
-                                    {% else %}
-                                        <li class="collection-item avatar lighten-5">
-                                            <i class="material-icons circle blue">{{ user.last_name[0] }}</i>
-                                            <span class="title">{{ user.last_name }}</span>
-                                            <p class="truncate grey-text ultra-small">{{ user.contract_number }}</p>
-                                            <a href="{{url_for('backoffice_bp.bo_customer', contract_number=contract_number)}}" class="secondary-content">
-                                                <span class="blue-text ultra-small">{{ _("View") }}</span>
-                                            </a>
-                                        </li>
-                                    {% endif %}
+                                                    <div class="row">
+                                                        <div class="col s12">
+                                                        <div class="card-panel">
+                                                        <form action="{{url_for('main_bp.change_role_post', corporate_id=user['employee_number'])}}"
+                                                              method="post">
+                                                            <div class="row">
+                                                                <div class="col input-field s12 m6 l6">
+                                                                    <select name="new_role" class="browser-default grey lighten-3">
+                                                                        <option value="employee">{{ _("Employee") }}
+                                                                        </option>
+                                                                        <option value="meterreader">{{ _("Meter reader")
+                                                                            }}
+                                                                        </option>
+                                                                        <option value="senioremployee">{{ _("Senior
+                                                                            employee") }}
+                                                                        </option>
+                                                                    </select>
+                                                                    <label class="active" style="font-size:18px">{{
+                                                                        _("Role") }}</label>
+                                                                </div>
+                                                            </div>
 
-                                {% endfor %}
-                                {% endif %}
-                                </ul>
-                            </div>
-                            <div id="user_details" class="col s12 m8 l8 card-panel">
-                                <p> Here we are !!!</p>
-
-                                <p id="result">
-
-                                </p>
-
-                                {% if result %}
-                                <p> {{ result_2 }} </p>
-                                <p> This is done </p>
-                                {% endif %}
-
-                                <!-- <script>
-                                    document.getElementById("result").innerHTML;
-                                </script> -->
-                                {% if user %}
-                                <p>{{ user }}</p>
-                                {% endif %}
-                                {% if active_user %}
-                                {% set user = active_user[0] %}
-                                <div class="row">
-                                    <div class="col s12 m12 l6">
-                                        <div class="card-panel" style="height:330px !important;">
-                                            <h4 class="header2"> {{ _("General Information") }}</h4>
-                                            <div class="row">
-                                                <table class="responsive-table bordered" style="background:white">
-                                                    <tbody>
-                                                    <tr>
-                                                        <td><b>{{ _("Last name") }}</b></td>
-                                                        <td>{{ user.last_name }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><b>{{ _("First name") }}</b></td>
-                                                        <td>{{ user.first_name }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><b>{{ _("Date of Birth") }}</b></td>
-                                                        <td>{{ user.date_of_birth }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><b>{{ _("Gender") }}</b></td>
-                                                        <td>{{ user.gender[0]|upper}}{{user.gender[1:] }}</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
+                                                            <div class="row">
+                                                                <div class="input-field col s12">
+                                                                    <button class="btn cyan waves-effect waves-light right"
+                                                                            type="submit"
+                                                                            name="btn_change_corp_role">
+                                                                        {{ _("Close & Save") }}
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
                                             </div>
                                         </div>
-
-                                    </div>
-                                    <div class="col s12 m12 l6">
-                                        <div class="card-panel" style="height:330px !important;">
-                                            <h4 class="header2"> {{ _("Contact Information") }}</h4>
-                                            <div class="row">
-                                                <table class="responsive-table bordered" style="background:white">
-                                                    <tbody>
-                                                    <tr>
-                                                        <td><b>{{ _("Phone number") }}</b></td>
-                                                        <td>{{ user.phone_number }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><b>{{ _("City") }}</b></td>
-                                                        <td>{{ user.city }}</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <br>
-                                            {% include "modal_edit_corp_contact_info.html" %}
-                                        </div>
-
-                                    </div>
-
-                                    <div class="col s12 m12 l12">
-                                        <div class="card-panel" style="height:330px !important;">
-                                            <h4 class="header2"> {{ _("Account Status") }}</h4>
-                                            <div class="row">
-                                                <table class="responsive-table" style="background:white">
-                                                    <tbody>
-                                                    <tr>
-                                                        <td><b>{{ _("Status") }}</b></td>
-                                                        <td>{{ user.KYC_status }}</td>
-                                                        <td>
-                                                            <a class="btn cyan waves-effect waves-light modal-trigger right"
-                                                               data-target="modal_edit_status">
-                                                                <i class="material-icons right">create</i>
-                                                                {{ _("Change") }}
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><b>{{ _("Last modified on") }}</b></td>
-                                                        {% set updated_on_date = user.last_updated_at.split(' ') %}
-                                                        <td>{{ updated_on_date[0] }}</td>
-                                                        <td></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><b>{{ _("Registered on") }}</b></td>
-                                                        {% set registered_on_date = user.created_at.split(' ') %}
-                                                        <td>{{ registered_on_date[0] }}</td>
-                                                        <td></td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="input-field col s12">
-                                        <button class="btn cyan waves-effect waves-light right" type="submit"
-                                                name="edit-user-details">Edit
-                                            <i class="material-icons right">create</i>
-                                        </button>
-                                    </div>
-                                </div>
-                                {% endif %}
+
                             </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-    <!-- end container -->
-</section>
+                            <div class="row">
+                                <div class="divider"></div>
+                                <div class="col s12 m12 l12">
+                                    {% include "admin_dashboard_table_pagination.html" %}
+                                </div>
+                            </div>
