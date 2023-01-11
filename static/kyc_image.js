@@ -1,5 +1,5 @@
 function displayImage(destElem, params, contract_number){
-    // $(destElem).html('<img src="{{ url_for('static', filename='loading.gif') }}">');
+    // $(destElem).html('<img src="{{ url_for('static', filename='loading.gif') }}">'));
     $.get('/bo/customers_fetch_images/' + contract_number + '/' + params).done(function(response) {
     if (!response.ok){
         $(destElem).html(response['result'])

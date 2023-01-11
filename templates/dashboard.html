@@ -26,46 +26,86 @@
                 <div class="section">
                     <div class="row">
                         <h5 class="header">{{ _("List of Users") }} </h5>
-                        <div class="col s12">
-                            <div class="card" style="height:600px !important; overflow-x:hidden">
-                                <div class="row" style="height:100% !important; overflow-y:auto;">
-                                    <div class="col s12"> <!-- height: 80%; overflow:auto; position:relative-->
-                                        <div class="row" style="overflow-y:scroll !important; position:relative;">
-                                            <div class="col s12">
+                    </div>
+                    <div class="card-panel" style="overflow-y: scroll; height:600px !important;">
 
-                                        <table class="responsive-table" style="overflow-y: scroll">
-                                            <thead>
-                                            <tr class="grey lighten-3">
-                                                <th>{{ _("Corporate Id") }}</th>
-                                                <th>{{ _("Email") }}</th>
-                                                <th>{{ _("Phone number") }}</th>
-                                                <th>{{ _("Role") }}</th>
-                                                <th>{{ _("Registration date") }}</th>
-                                                <th>{{ _("Edit") }}</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            {% for user in users["items"] %}
-                                            <tr>
-                                                <td>{{ user.employee_number }}</td>
-                                                <td>{{ user.email }}</td>
-                                                <td>{{ user.phone_number }}</td>
+                        {% for chunk in users["items"]|batch(3) %}
+                        <div class="row">
+                            {% for user in chunk %}
+
+                            <div class="col s12 m4">
+                                <div class="card">
+                                    <div class="row user-details center">
+                                        <img src="{{ user.avatar }}" alt="" class="circle responsive-img valign profile-image" style="padding-top:15px; width:75px;height:auto;">
+                                    </div>
+                                    <br>
+                                    <div class="card-content">
+                                        <div class="row center">
+                                            {% if user.last_name %}
+                                            <span class="card-title activator grey-text text-darken-4">{{ user.last_name + " " + user.first_name }}
+                                            </span>
+                                            {% else %}
+                                            <span class="card-title activator grey-text text-darken-4">
+                                                -
+                                            </span>
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="row center">
+                                            <span class="grey-text text-darken-1">{{ user.email }}
+                                            </span>
+                                        </div>
+                                        <div class="row" style="margin-top:10px;">
+                                            <div class="col s12 m6">
+                                                <div class="row center">
+                                                    <span>{{ _("Corporate Id") }}</span>
+                                                </div>
+                                                <div class="row center">
+                                                    <span class="grey-text text-darken-1">
+                                                        {{ user.employee_number }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col s12 m6">
+                                                <div class="row center">
+                                                    <span>{{ _("Role") }}</span>
+                                                </div>
+                                                <div class="row center">
                                                 {% if user.role == "senioremployee" %}
-                                                <td>{{ _("Senior employee") }}</td>
+                                                <label> {{ _("Senior employee") }} </label>
                                                 {% elif user.role == "meterreader" %}
-                                                <td>{{ _("Meter reader") }}</td>
+                                                <label> {{ _("Meter reader") }} </label>
                                                 {% else %}
-                                                <td>{{ user.role[0]|upper}}{{user.role[1:] }}</td>
+                                                <label> {{ user.role[0]|upper}}{{user.role[1:] }} </label>
                                                 {% endif %}
-                                                <td>{{ user.registered_on}}</td>
-                                                <td>
-                                                    <a class="waves-effect waves-light modal-trigger"
-                                                       data-target="modal_{{ user.employee_number }}">
-                                                        <i class="material-icons">create</i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <div id="modal_{{ user.employee_number }}" class="modal" tabindex="-1">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="margin-top:5px;">
+                                            <div class="col s12 center">
+                                                <span> Phone number</span>
+                                            </div>
+                                            <div class="col s12 center">
+                                                <label> {{ user.phone_number }} </label>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="margin-top:10px;">
+                                            <div class="col s12 center">
+                                                <span>{{ _("Registration date") }}</span>
+                                            </div>
+                                            <div class="col s12 center">
+                                                <label> {{ user.registered_on}} </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer row center">
+                                        <a class="btn-floating btn-large waves-effect cyan center modal-trigger"
+                                                data-target="modal_{{ user.employee_number }}">
+                                        <i class="material-icons">mode_edit</i>
+                                        </a>
+                                    </div>
+
+                                    <div id="modal_{{ user.employee_number }}" class="modal" tabindex="-1">
                                                 <div class="modal-content">
                                                     <div class="row">
                                                         <h4>{{ _("Edit Employee role")}}</h4>
@@ -100,7 +140,6 @@
                                                                             type="submit"
                                                                             name="btn_change_corp_role">
                                                                         {{ _("Close & Save") }}
-                                                                        <!-- <i class="mdi-content-send right"></i> -->
                                                                     </button>
                                                                 </div>
                                                             </div>
@@ -112,24 +151,22 @@
                                                 <div class="modal-footer">
                                                 </div>
                                             </div>
-                                            {% endfor %}
-                                            </tbody>
-                                        </table>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
 
                             </div>
-                            <div class="row">
-                                <div class="divider"></div>
-                                <div class="col s12 m12 l12">
-                                    {% include "admin_dashboard_table_pagination.html" %}
-                                </div>
-                            </div>
+
+                            {% endfor %}
                         </div>
+                        {% endfor %}
 
                     </div>
+                    <div class="row">
+                        <div class="divider"></div>
+                        <div class="col s12 m12 l12">
+                            {% include "admin_dashboard_table_pagination.html" %}
+                        </div>
+                    </div>
+                    
                 </div>
 
             </div>

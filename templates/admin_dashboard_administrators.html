@@ -26,9 +26,9 @@
                             {% for user in chunk %}
 
                             <div class="col s12 m3">
-                                <div class="card medium">
-                                    <div class="row center">
-                                        <img src="{{ user.avatar }}" alt="" class="circle responsive-img valign profile-image" style="padding-top:15px; width:100px;height:auto;">
+                                <div class="card small">
+                                    <div class="row user-details center">
+                                        <img src="{{ user.avatar }}" alt="" class="circle responsive-img valign profile-image" style="padding-top:15px; width:75px;height:auto;">
                                     </div>
                                     <br>
                                     <div class="card-content">
@@ -36,18 +36,24 @@
                                             <span class="card-title activator grey-text text-darken-4">{{ user.last_name + " " + user.first_name }}
                                             </span>
                                         </div>
+
                                         <div class="row center">
-                                            <span class="grey-text text-darken-4">{{ user.email }}
+                                            <span class="grey-text text-darken-1">{{ user.email }}
                                             </span>
                                         </div>
 
                                         <div class="row center">
-                                            <span class="grey-text text-darken-4">{{ user.email }}
+                                            <span class="grey-text text-darken-1">{{ user.corporate_id }}
                                             </span>
                                         </div>
 
                                     </div>
-
+                                    <div class="card-footer row center">
+                                        <a class="btn-floating btn-large waves-effect modal-trigger cyan center"
+                                                data-target="modal_edit_employee">
+                                        <i class="material-icons">mode_edit</i>
+                                    </a>
+                                    </div>
 
                                 </div>
                                 <!--

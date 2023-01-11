@@ -39,7 +39,7 @@
                     <div class="section">
                         <div class="row">
                             <div class="col s12 m12 l4">
-                                <div class="card-panel" style="height:330px !important;">
+                                <div class="card-panel" style="height:350px !important; overflow:auto">
                                     <h4 class="header2"> {{ _("General Information") }}</h4>
                                     <div class="row">
                                         <table class="bordered" style="background:white">
@@ -68,7 +68,7 @@
                             </div>
 
                             <div class="col s12 m12 l4">
-                                <div class="card-panel" style="height:330px !important;">
+                                <div class="card-panel" style="height:350px !important; overflow:auto">
                                     <h4 class="header2"> {{ _("Contact Information") }}</h4>
                                     <div class="row">
                                         <table class="bordered" style="background:white">
@@ -90,23 +90,21 @@
                                             </tr>
                                             </tbody>
                                         </table>
+
                                     </div>
                                     <br>
-                                    <div class="row">
-                                        <div class="col s12 m8 offset-m4">
-                                            <a class="btn waves-effect waves-light modal-trigger right"
+                                    <a class="btn-floating btn-large waves-effect modal-trigger cyan right"
                                                 data-target="modal_edit_employee">
-                                                {{ _("Edit") }}
-                                            </a>
-                                        </div>
-                                    </div>
+                                        <i class="material-icons">mode_edit</i>
+                                    </a>
+
                                     {% include "modal_edit_corp_contact_info.html" %}
                                 </div>
 
                             </div>
 
                             <div class="col s12 m12 l4">
-                                <div class="card-panel" style="height:330px !important;">
+                                <div class="card-panel" style="height:350px !important; overflow:auto">
                                     <h4 class="header2"> {{ _("Employment Information") }}</h4>
                                     <div class="row">
                                         <table class="bordered" style="background:white">
@@ -135,62 +133,6 @@
 
                 </div>
                 <div class="section">
-                    <div class="row">
-                        <div class="col s12 m12">
-                            <!-- <div class="row">
-                                <div class="caption right">
-                                    <p> {{ _("Upload profile image or avatar") }} </p>
-                                </div>
-                            </div> -->
-                            <!-- <div class="row">
-                                <form>
-                                    <div id="image-box"></div>
-                                    <button class="btn btn-outline-info" id="crop-btn"
-                                            style="width: 100%; margin-top: 10px; display: none;" type="button">Crop
-                                    </button>
-
-                                    <div class="file-field input-field">
-                                        <div class="btn col s12 m2 offset-m10 cyan waves-effect waves-light right">
-                                            <span>{{ _("Browse") }}</span>
-                                            <i class="material-icons right">file_upload</i>
-                                            <input type="file" id="id_image" name="id_image"
-                                                   onchange="cropImage('#image-box', '#image_id', '#crop-btn')">
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-outline-info" id="confirm-btn"
-                                            style="width: 100%; margin-top: 10px;" type="submit">Post
-                                    </button>
-
-                                </form>
-                            </div> -->
-
-
-
-                        <!-- <div class="file-field input-field">
-                            <div class="btn">
-                                <span>{{ _("File") }}</span>
-                                <input type="file" name="reading_photo">
-                            </div>
-                            <div class="col s12 m8 file-path-wrapper">
-                                <input class="file-path validate" type="text" name="file_p" placeholder='{{ _("Add photo") }}'>
-                            </div>
-                        </div> -->
-
-                        <!-- <div id="image-box" ></div>
-                            <button class="btn btn-outline-info" id="crop-btn"
-                                    style="width: 100%; margin-top: 10px; display: none;" type="button">Crop
-                            </button>
-
-                        <div class="file-field col s12">
-                            <div class="btn" id="confirm-btn" >
-                                <span>Upload</span>
-                                <input type="file" id="id_image">
-
-                            </div>
-                        </div> -->
-
-                            </div>
-                    </div>
                     {% include "alert_message.html" %}
                 </div>
 
