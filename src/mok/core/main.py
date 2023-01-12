@@ -39,7 +39,6 @@ def dashboard():
         error = _("Your session has expired. Please log in again.")
         flash(error, "error")
         return redirect(url_for("auth_bp.login"))
-
     try:
         page = request.args.get("page", 1, type=int)
         per_page = request.args.get("per_page", 10, type=int)
@@ -47,7 +46,8 @@ def dashboard():
         headers = {"Authorization": authorization}
         api_base_url = current_app.config.get("API_BASE_URL")
         response = requests.get(
-            f"{api_base_url}/api/v1/auth/corporate/users?page={page}&per_page={per_page}",
+            f"{api_base_url}/api/v1/auth/corporate/"
+            f"users?page={page}&per_page={per_page}",
             headers=headers,
         )
         if response.status_code == HTTPStatus.UNAUTHORIZED:
@@ -68,11 +68,19 @@ def dashboard():
 def dashboard_post():
     try:
         access_token = session["access_token"]
+    except KeyError:
+        error = _("Your session has expired. Please log in again.")
+        flash(error, "error")
+        return redirect(url_for("auth_bp.login"))
+
+    try:
         corporate_id = request.form.get("corporate_id")
         phone_number = request.form.get("phone_number")
+        role = request.form.get("search_role")
         data = {
             "corporate_id": corporate_id if len(corporate_id) > 0 else None,
             "phone_number": phone_number if len(phone_number) > 0 else None,
+            "roles_list": role if role != "All" else None,
         }
         authorization = "Bearer {access_token}".format(access_token=access_token)
         headers = {
@@ -110,7 +118,8 @@ def change_role_post(corporate_id):
             "Authorization": authorization,
         }
         response = requests.put(
-            f"{current_app.config.get('API_BASE_URL')}/api/v1/auth/corporate/{corporate_id}",
+            f"{current_app.config.get('API_BASE_URL')}"
+            f"/api/v1/auth/corporate/{corporate_id}",
             headers=headers,
             data=json.dumps(data),
         )

@@ -16,7 +16,11 @@ from flask_babel import _
 from mok.auth import error_map, logged_in_user
 from mok.platform_config import get_platform_language
 from mok.models import Portals
-from mok.utils.error_codes import PASSWORD_RESET_REQUIRED, EMAIL_NOT_VERIFIED, NEW_LINK_HAS_BEEN_SENT
+from mok.utils.error_codes import (
+    PASSWORD_RESET_REQUIRED,
+    EMAIL_NOT_VERIFIED,
+    NEW_LINK_HAS_BEEN_SENT,
+)
 
 
 auth_bp = Blueprint("auth_bp", __name__)
@@ -72,11 +76,10 @@ def login_post():
             return redirect(url_for("auth_bp.login"))
         # Store the session token and employee number
         session["access_token"] = response.json()["access_token"]
-        print(response.json())
         # find out which user is connected and route accordingly
         url = f"{current_app.config.get('API_BASE_URL')}/api/v1/auth/admin/user"
         response = logged_in_user(access_token=response.json()["access_token"], url=url)
-        print(response.json)
+
         if response.status_code == HTTPStatus.UNAUTHORIZED:
             error = _("Your session has expired. Please log in again")
             flash(error, "error")
@@ -85,6 +88,7 @@ def login_post():
             "email_address": response.json()["email"],
             "role": response.json()["role"],
             "avatar": response.json()["avatar"],
+            "name": f"{response.json()['last_name']} {response.json()['first_name']}",
         }
         session["logged_in_employee"] = logged_in_employee
         return redirect(url_for("main_bp.dashboard"))
@@ -111,7 +115,8 @@ def forgot_password_post():
             "Authorization": authorization,
         }
         _ = requests.post(
-            f"{current_app.config.get('API_BASE_URL')}/api/v1/auth/admin/forgot_password",
+            f"{current_app.config.get('API_BASE_URL')}"
+            f"/api/v1/auth/admin/forgot_password",
             headers=headers,
             data=json.dumps(data),
         )
@@ -156,7 +161,8 @@ def reset_password_post():
         )
         if response.json()["status"] == "fail":
             return render_template(
-                "reset_password.html", error=error_map[f"{response.json()['error_code']}"]
+                "reset_password.html",
+                error=error_map[f"{response.json()['error_code']}"],
             )
         flash(_("Password successfully changed"), "information")
         return redirect(url_for("auth_bp.login"))
@@ -207,7 +213,10 @@ def register_employee_post():
                 "phone_number": request.form.get("phone_number"),
                 "role": request.form.get("role"),
             }
-            url = f"{current_app.config.get('API_BASE_URL')}/api/v1/auth/corporate/register"
+            url = (
+                f"{current_app.config.get('API_BASE_URL')}"
+                f"/api/v1/auth/corporate/register"
+            )
         else:
             data = {
                 "employee_number": request.form.get("admin_employee_number"),
@@ -246,12 +255,16 @@ def register_employee_post():
 
 @auth_bp.route("/auth/admin/confirm_email/<token>")
 def confirm_email_address(token):
-    url = f"{current_app.config.get('API_BASE_URL')}/api/v1/auth/admin/confirm_email/{token}"
-    print(url)
+    url = (
+        f"{current_app.config.get('API_BASE_URL')}/"
+        f"api/v1/auth/admin/confirm_email/{token}"
+    )
     response = requests.get(url)
     if "error_code" in response.json():
         if response.json()["error_code"] == NEW_LINK_HAS_BEEN_SENT:
-            error = _("The link has expired, a new link has been sent to your email address")
+            error = _(
+                "The link has expired, a new link has been sent to your email address"
+            )
         else:
             error = _("Invalid confirmation link")
         flash(error, "error")

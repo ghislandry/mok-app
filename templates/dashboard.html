@@ -17,9 +17,12 @@
 
                 <div class="section">
                     <div class="row">
-                        <form action="/dashboard" method="post">
+                        <form action="{{ url_for('main_bp.dashboard_post') }}" method="post">
                             {% include "admin_dashboard_search_form.html" %}
                         </form>
+                    </div>
+                    <div class="row">
+                        {% include "alert_message.html" %}
                     </div>
                 </div>
                 <!-- <div class="divider"></div> -->
@@ -36,7 +39,9 @@
                             <div class="col s12 m4">
                                 <div class="card">
                                     <div class="row user-details center">
-                                        <img src="{{ user.avatar }}" alt="" class="circle responsive-img valign profile-image" style="padding-top:15px; width:75px;height:auto;">
+                                        <img src="{{ user.avatar }}" alt=""
+                                             class="circle responsive-img valign profile-image"
+                                             style="padding-top:15px; width:75px;height:auto;">
                                     </div>
                                     <br>
                                     <div class="card-content">
@@ -71,13 +76,13 @@
                                                     <span>{{ _("Role") }}</span>
                                                 </div>
                                                 <div class="row center">
-                                                {% if user.role == "senioremployee" %}
-                                                <label> {{ _("Senior employee") }} </label>
-                                                {% elif user.role == "meterreader" %}
-                                                <label> {{ _("Meter reader") }} </label>
-                                                {% else %}
-                                                <label> {{ user.role[0]|upper}}{{user.role[1:] }} </label>
-                                                {% endif %}
+                                                    {% if user.role == "senioremployee" %}
+                                                    <label> {{ _("Senior employee") }} </label>
+                                                    {% elif user.role == "meterreader" %}
+                                                    <label> {{ _("Meter reader") }} </label>
+                                                    {% else %}
+                                                    <label> {{ user.role[0]|upper}}{{user.role[1:] }} </label>
+                                                    {% endif %}
                                                 </div>
                                             </div>
                                         </div>
@@ -100,26 +105,28 @@
                                     </div>
                                     <div class="card-footer row center">
                                         <a class="btn-floating btn-large waves-effect cyan center modal-trigger"
-                                                data-target="modal_{{ user.employee_number }}">
-                                        <i class="material-icons">mode_edit</i>
+                                           data-target="modal_{{ user.employee_number }}">
+                                            <i class="material-icons">mode_edit</i>
                                         </a>
                                     </div>
 
                                     <div id="modal_{{ user.employee_number }}" class="modal" tabindex="-1">
-                                                <div class="modal-content">
-                                                    <div class="row">
-                                                        <h4>{{ _("Edit Employee role")}}</h4>
-                                                        <p> {{ user.employee_number }} </p>
-                                                    </div>
+                                        <div class="modal-content">
+                                            <div class="row">
+                                                <h4>{{ _("Edit Employee role")}}</h4>
+                                                <p> {{ user.employee_number }} </p>
+                                            </div>
 
-                                                    <div class="row">
-                                                        <div class="col s12">
-                                                        <div class="card-panel">
+                                            <div class="row">
+                                                <div class="col s12">
+                                                    <div class="card-panel">
+                                                        <p>user['employee_number']</p>
                                                         <form action="{{url_for('main_bp.change_role_post', corporate_id=user['employee_number'])}}"
                                                               method="post">
                                                             <div class="row">
                                                                 <div class="col input-field s12 m6 l6">
-                                                                    <select name="new_role" class="browser-default grey lighten-3">
+                                                                    <select name="new_role"
+                                                                            class="browser-default grey lighten-3">
                                                                         <option value="employee">{{ _("Employee") }}
                                                                         </option>
                                                                         <option value="meterreader">{{ _("Meter reader")
@@ -144,13 +151,13 @@
                                                                 </div>
                                                             </div>
                                                         </form>
-                                                        </div>
-                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                </div>
                                             </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                        </div>
+                                    </div>
                                 </div>
 
                             </div>
