@@ -15,6 +15,7 @@ import json
 import base64
 
 from mok.auth import error_map
+from mok.models import ReadingFilters
 
 
 backoffice_bp = Blueprint("backoffice_bp", __name__)
@@ -500,6 +501,7 @@ def bo_edit_customer_details(contract_number):
         "date_of_birth": request.form.get("date_of_birth"),
         "gender": request.form.get("gender"),
         "city": request.form.get("city"),
+        "kyc_status": request.form.get("kyc_status"),
     }
     try:
         data.update({"kyc_status": request.form.get("kyc_status")})
@@ -540,13 +542,13 @@ def bo_edit_customer_details(contract_number):
 @backoffice_bp.route("/bo/readings")
 def bo_readings():
     try:
-        try:
-            access_token = session["access_token"]
-        except KeyError:
-            error = _("Your session has expired. Please log in again.")
-            flash(error, "error")
-            return redirect(url_for("auth_bo_bp.bo_login"))
+        access_token = session["access_token"]
+    except KeyError:
+        error = _("Your session has expired. Please log in again.")
+        flash(error, "error")
+        return redirect(url_for("auth_bo_bp.bo_login"))
 
+    try:
         api_base_url = current_app.config.get("API_BASE_URL")
         page = request.args.get("page", 1, type=int)
         per_page = request.args.get("per_page", 10, type=int)
@@ -562,7 +564,9 @@ def bo_readings():
             # Get the configuration for the platform
             flash(error, "error")
             return redirect(url_for("auth_bo_bp.bo_login"))
-        # store the fact that we are looking
+        # Store the value of the reading filter to display it correctly
+        # in the template
+        session["reading_filter"] = ReadingFilters.CLEAR.name
         return render_template(
             "bo_readings.html",
             readings=response.json(),
@@ -582,11 +586,18 @@ def bo_readings_post():
         return redirect(url_for("auth_bo_bp.bo_login"))
     try:
         meter_number = request.form.get("meter_number")
-        reading_ref = request.form.get("reading_reference")
+        reading_date = request.form.get("reading_date")
         reading_verified = request.form.get("verification_status")
+        # update the session with the value of the last reading filter
+        # to display it correctly in the template
+        session["reading_filter"] = reading_verified
+        session["filter_reading_taken_on"] = (
+            reading_date if len(reading_date) > 0 else None
+        )
+        session["filter_meter_number"] = meter_number if len(meter_number) > 0 else None
         data = {
             "meter_number": meter_number if len(meter_number) > 0 else None,
-            "reading_ref": reading_ref if len(reading_ref) > 0 else None,
+            "reading_taken_on": reading_date if len(reading_date) > 0 else None,
             "reading_verified": reading_verified
             if reading_verified != "CLEAR"
             else None,

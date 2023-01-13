@@ -9,16 +9,15 @@
                         <img src="static/default_avatar.png" alt="" class="circle responsive-img valign profile-image">
                     {% endif %}
                 </div>
-                <div class="col col s8 m8 l8">
-                    <a class="btn-flat dropdown-button white-text profile-btn">
-                        {% if logged_in_employee.last_name %}
-                        {{ logged_in_employee.last_name }}
-                        {% else %}
-                        {{ logged_in_employee.phone_number }}
+
+            </div>
+            <div class="row">
+                <span><p class="user-roal">{{ logged_in_employee.last_name }}</p>
+                    <p class="user-roal">{{ logged_in_employee.employee_number }}</p></span>
+                {% if logged_in_employee.phone_number %}
+                <p class="user-roal">{{ logged_in_employee.phone_number }}</p>
+
                         {% endif %}
-                    </a>
-                    <p class="user-role">{{ logged_in_employee.employee_number }}</p>
-                </div>
             </div>
         </li>
 

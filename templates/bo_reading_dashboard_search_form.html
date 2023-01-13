@@ -1,18 +1,42 @@
 <div class="row">
     <div class="input-field col s12 m2 l2">
-        <input id="meter_number" type="text" name="meter_number" class="validate grey lighten-3">
-        <label for="meter_number">{{ _("Meter Number") }}</label>
+        {% if session["filter_meter_number"] %}
+        <input type="text" value="{{ session['filter_meter_number'] }}" name="meter_number" class="validate grey lighten-3">
+        {% else %}
+        <input type="text" name="meter_number" class="validate grey lighten-3">
+        {% endif %}
+        <label> {{ _("Meter Number") }}</label>
     </div>
     <div class="input-field col s12 m2 l2">
-        <input id="reading_reference" name="reading_reference" type="text" class="validate grey lighten-3">
-        <label for="reading_reference">{{ _("Reading Reference") }}</label>
+        {% if session["filter_reading_taken_on"] %}
+        <input name="reading_date" value="{{ session['filter_reading_taken_on'] }}" type="date" class="validate grey lighten-3">
+        {% else %}
+        <input name="reading_date" type="date" class="validate grey lighten-3">
+        {% endif %}
+        <label>{{ _("Reading date") }}</label>
     </div>
     <div class="input-field col s12 m2 l2">
-        <select name="reading_verified" class="browser-default grey lighten-3">
-            <option value="CLEAR" selected>{{ _("All") }}</option>
-            <option value="VERIFIED">{{ _("VERIFIED") }}</option>
-            <option value="PENDING">{{ _("PENDING") }}</option>
-            <option value="REJECTED">{{ _("REJECTED") }}</option>
+        <select name="verification_status" class="browser-default grey lighten-3">
+            {% if session["reading_filter"] == "CLEAR" %}
+                <option value="CLEAR" selected>{{ _("All") }}</option>
+            {% else %}
+                <option value="CLEAR">{{ _("All") }}</option>
+            {% endif %}
+            {% if session["reading_filter"] == "VERIFIED" %}
+                <option value="VERIFIED" selected>{{ _("VERIFIED") }}</option>
+            {% else %}
+                <option value="VERIFIED">{{ _("VERIFIED") }}</option>
+            {% endif %}
+            {% if session["reading_filter"] == "PENDING" %}
+                <option value="PENDING" selected>{{ _("PENDING") }}</option>
+            {% else %}
+                <option value="PENDING">{{ _("PENDING") }}</option>
+            {% endif %}
+            {% if session["reading_filter"] == "REJECTED" %}
+                <option value="REJECTED" selected>{{ _("REJECTED") }}</option>
+            {% else %}
+                <option value="REJECTED">{{ _("REJECTED") }}</option>
+            {% endif %}
         </select>
         <label class="active" style="font-size:18px">{{ _("Status") }}</label>
     </div>

@@ -5,13 +5,14 @@
                 <div class="col col s4 m4 l4">
                     <img src="{{ user.avatar }}" alt="" class="circle responsive-img valign profile-image">
                 </div>
-                <div class="col col s8 m8 l8">
-
-                    <a class="btn-flat dropdown-button white-text profile-btn">
-                        {{ user.last_name }}
-                    </a>
+            </div>
+            <div class="row">
+                <span><p class="user-roal">{{ user.last_name }}</p>
                     <p class="user-roal">{{ user.employee_number }}</p>
-                </div>
+                </span>
+                {% if user.email_address %}
+                <p class="user-roal">{{ user.email_address }}</p>
+                {% endif %}
             </div>
         </li>
         <li>
