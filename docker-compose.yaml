@@ -1,0 +1,47 @@
+
+version: '3.3'
+
+services:
+  application:
+    image: mok-app:build
+    build: .
+    hostname: mok-app
+    ports:
+      - "${FLASK_RUN_PORT}:${FLASK_RUN_PORT}"
+    environment:
+      FLASK_APP: $FLASK_APP
+      FLASK_ENV: $FLASK_ENV
+      FLASK_RUN_PORT: $FLASK_RUN_PORT
+      SECRET_KEY: "${SECRET_KEY}"
+      API_KEY: $API_KEY
+      MAIL_USERNAME: $MAIL_USERNAME
+      MAIL_PASSWORD: $MAIL_PASSWORD
+      DEV_API_BASE_URL: $DEV_API_BASE_URL
+    networks:
+      - mok-app-network
+    command: >
+      bash -c "cd /app && gunicorn -c src/mok/gunicorn_config.py wsgi:app"
+
+  nginx:
+    build:
+      context: ./nginx
+      args:
+          DOMAIN_NAME: $DOMAIN_NAME
+          DOMAIN_NAME_1: $DOMAIN_NAME_1
+          DOMAIN_NAME_2: $DOMAIN_NAME_2
+          EMAIL_ADDRESS: $EMAIL_ADDRESS
+          FLASK: $FLASK
+          FLASK_RUN_PORT: $FLASK_RUN_PORT
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+    networks:
+      - mok-app-network
+    depends_on:
+      - application
+
+networks:
+  mok-app-network:
+    driver: bridge

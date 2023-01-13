@@ -1,0 +1,116 @@
+{% include "dashboard_base.html" %}
+{% extends "material/base.html" %}
+
+{% block content %}
+
+<!-- start header -->
+{% include "corporate_dashboard_primary_navbar.html" %}
+<!-- end header -->
+
+<div id="main" style="flex: 1 0 auto;">
+
+<div class="wrapper" style="height:100% !important;">
+    <!-- start side nav bar -->
+    {% include "corporate_dashboard_secondary_navbar.html" %}
+    <!-- end side nav bar -->
+    <section id="content">
+        <!-- breadcrumbs start -->
+        <div id="breadcrumbs-wrapper" class=" gray lighten-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <h5 class="breadcrumbs-title">{{ _("Employee registration") }}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- breadcrumbs end -->
+        <!-- start container -->
+        <div class="container">
+            <p class="caption">
+                {{ _("Please enter employee details. Note that an employee number is the same as their corporate id.") }}
+            </p>
+            <div class="divider"></div>
+            <br>
+            <div class="section">
+                <div class="row">
+                    <div class="col s12 m12">
+                        <div class="card-panel">
+                            <form action="/corp/register_employee" method="post">
+                                <div class="row">
+                                    <div class="input-field col s12 m4">
+                                        <input type="text" class="validate grey lighten-3" id="corporate_id" name="corporate_id">
+                                        <label for="corporate_id">{{ _("Employee number") }}</label>
+                                    </div>
+
+                                    <div class="input-field col s12 m4">
+                                        <input type="text" class="validate grey lighten-3" id="first_name" name="first_name">
+                                        <label for="first_name">{{ _("First name") }}</label>
+                                    </div>
+
+                                    <div class="input-field col s12 m4">
+                                        <input type="text" class="validate grey lighten-3" id="last_name" name="last_name">
+                                        <label for="last_name">{{ _("Last name") }}</label>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="input-field col s12 m4">
+                                        <select name="gender" class="browser-default grey lighten-3">
+                                            <option value="female">{{ _("Female") }}</option>
+                                            <option value="male">{{ _("Male") }}</option>
+                                        </select>
+                                        <label class="active" style="font-size:18px">{{ _("Gender") }}</label>
+                                    </div>
+
+                                    <div class="input-field col s12 m4">
+                                        <input type="date" id="date_of_birth" name="date_of_birth" class="grey lighten-3"/>
+                                        <label for="date_of_birth">{{ _("Birth date") }}</label>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="input-field col s12 m4">
+                                        <input type="text" class="validate grey lighten-3" id="city" name="city">
+                                        <label for="city">{{ _("City") }}</label>
+                                    </div>
+
+                                    <div class="input-field col s12 m4">
+                                        <input type="text" class="validate grey lighten-3" id="phone_number" name="phone_number">
+                                        <label for="phone_number">{{ _("Phone number") }}</label>
+                                    </div>
+
+                                    <div class="input-field col s12 m4">
+                                        <input type="email" class="validate grey lighten-3" id="email" name="email">
+                                        <label for="email">{{ _("Email") }}</label>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <button class="btn cyan waves-effect waves-light right" type="submit"
+                                                name="action">{{ _("Register") }}
+                                            <!-- <i class="mdi-content-send right"></i> -->
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+
+                            {% include "alert_message.html" %}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <!-- end container -->
+
+
+    </section>
+
+</div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,65 @@
+<div class="row">
+    <div class="col s12">
+        <div class="card-panel">
+            <form id="edit_customer_details"
+                  action="{{url_for('backoffice_bp.bo_edit_customer_details', contract_number=user['contract_number'])}}"
+                  method="post">
+                <div class="row">
+                    <div class="input-field col s12 m4 l4">
+                        <input value="{{user.last_name}}" id="last_name" type="text" name="last_name" class="validate grey lighten-3" required aria-required="true">
+                        <label for="last_name">{{ _("Last name") }}</label>
+                    </div>
+                    <div class="input-field col s12 m4 l4">
+                        <input value="{{ user.first_name }}" id="first_name" name="first_name" type="text"
+                               class="validate grey lighten-3" required aria-required="true">
+                        <label for="first_name">{{ _("Frist name") }}</label>
+                    </div>
+                    <div class="input-field col s12 m4">
+                        <input value="{{ user.phone_number }}" type="text" class="validate grey lighten-3" id="phone_number"
+                               name="phone_number" required aria-required="true">
+                        <label for="phone_number">{{ _("Phone number") }}</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12 m4">
+                        <select name="gender" class="browser-default grey lighten-3" required aria-required="true">
+                            {% if user.gender == "female" %}
+                            <option value="female" selected>{{ _("Female") }}</option>
+                            <option value="male">{{ _("Male") }}</option>
+                            {% else %}
+                            <option value="female">{{ _("Female") }}</option>
+                            <option value="male" selected>{{ _("Male") }}</option>
+                            {% endif %}
+                        </select>
+                        <label class="active" style="font-size:18px">{{ _("Gender") }}</label>
+                    </div>
+
+                    <div class="input-field col s12 m4">
+                        <input value="{{ user.date_of_birth }}" type="date" id="date_of_birth" name="date_of_birth" class="grey lighten-3" required aria-required="true">
+                        <label for="date_of_birth">{{ _("Birth date") }}</label>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="input-field col s12 m4">
+                        <input value="{{ user.city }}" type="text" class="validate grey lighten-3" id="city" name="city" required aria-required="true">
+                        <label for="city">{{ _("City") }}</label>
+                    </div>
+                </div>
+                <div class="row" style="display:None">
+                    <div class="input-field col s12 m4">
+                        <input value="{{ user.KYC_status }}" type="text" class="validate grey lighten-3" id="kyc_status" name="kyc_status">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <button class="btn cyan waves-effect waves-light right" type="submit"
+                                name="action">{{ _("Close & Save") }}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

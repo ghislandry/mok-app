@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="col s12">
+        <div class="card-panel">
+            <form action="{{url_for('corporate_bp.corp_manage_employee_status', employee_number=user['employee_number'])}}"
+                  method="post">
+                <div class="row">
+                    <div class="input-field col s12 m6">
+                        <select name="status" class="browser-default grey lighten-3">
+                            {% if user.status|lower == "active" %}
+                            <option value="suspend" selected>{{ _("SUSPEND") }}</option>
+                            <option value="reinstate">{{ _("REINSTATE") }}</option>
+                            {% else %}
+                            <option value="suspend">{{ _("SUSPEND") }}</option>
+                            <option value="reinstate" selected>{{ _("REINSTATE") }}</option>
+                            {% endif %}
+                        </select>
+                        <label class="active" style="font-size:18px">{{ _("Change status") }}</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <button class="btn cyan waves-effect waves-light right" type="submit"
+                                name="btn_manage_employee_status">{{ _("Close & Save") }}
+                            <!-- <i class="mdi-content-send right"></i> -->
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,106 @@
+{% include "dashboard_base.html" %}
+{% extends "material/base.html" %}
+
+{% block content %}
+
+<!-- start header -->
+{% include "corporate_dashboard_primary_navbar.html" %}
+<!-- end header -->
+
+<div id="main" style="flex: 1 0 auto;">
+
+    <div class="wrapper" style="height:100% !important;">
+        {% include "admin_dashboard_secondary_navbar.html" %}
+        <section id="content">
+
+            <div class="container">
+                <!-- <div class="divider"></div> -->
+                <div class="section">
+                    <div class="row">
+                        <h5 class="header">{{ _("Administrators") }} </h5>
+                    </div>
+                    <div class="card-panel" style="overflow-y: scroll; height:600px !important;">
+
+                        {% for chunk in users["items"]|batch(3) %}
+                        <div class="row">
+                            {% for user in chunk %}
+
+                            <div class="col s12 m3">
+                                <div class="card small">
+                                    <div class="row user-details center">
+                                        <img src="{{ user.avatar }}" alt="" class="circle responsive-img valign profile-image" style="padding-top:15px; width:75px;height:auto;">
+                                    </div>
+                                    <br>
+                                    <div class="card-content">
+                                        <div class="row center">
+                                            <span class="card-title activator grey-text text-darken-4">{{ user.last_name + " " + user.first_name }}
+                                            </span>
+                                        </div>
+
+                                        <div class="row center">
+                                            <span class="grey-text text-darken-1">{{ user.email }}
+                                            </span>
+                                        </div>
+
+                                        <div class="row center">
+                                            <span class="grey-text text-darken-1">{{ user.corporate_id }}
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                    <div class="card-footer row center">
+                                        <a class="btn-floating btn-large waves-effect modal-trigger cyan center"
+                                                data-target="modal_edit_employee">
+                                        <i class="material-icons">mode_edit</i>
+                                    </a>
+                                    </div>
+
+                                </div>
+                                <!--
+                                <div class="card small">
+                                    <div class="card-image waves-effect waves-block waves-light">
+                                        <img class="activator"
+                                             src="https://s-media-cache-ak0.pinimg.com/originals/7f/8d/2c/7f8d2cc47b1851081ec19b3da1d35699.jpg">
+                                    </div>
+                                    <div class="card-content">
+                                <span class="card-title activator grey-text text-darken-4">{{ user.last_name + " " + user.first_name }} <i
+                                        class="material-icons right">more_vert</i>
+                                </span>
+                                        <p><a href="https://www.pinterest.com/pin/554083560386026921/">Visit the
+                                            site</a></p>
+                                    </div>
+                                    <div class="card-reveal">
+                                <span class="card-title grey-text text-darken-4">Card Title<i
+                                        class="material-icons right">close</i></span>
+                                        <p>Here is some more information about this product that is only revealed once
+                                            clicked
+                                            on.</p>
+                                    </div>
+                                </div> -->
+                            </div>
+
+                            {% endfor %}
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                    <div class="row">
+                        <div class="divider"></div>
+                            <div class="col s12 m12 l12">
+                                {% include "admin_dashboard_table_pagination.html" %}
+                            </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+{% include "footer.html" %}
+
+{% endblock %}

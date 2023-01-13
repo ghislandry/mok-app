@@ -1,0 +1,9 @@
+Welcome to the Mok App!
+
+
+Thanks for signing up. Please please copy the link bellow to your browser to activate your account
+
+{{ url }}
+
+
+The Mok Team

@@ -1,0 +1,85 @@
+<aside id="left-sidebar-nav">
+    <ul id="slide-out" class="side-nav fixed leftside-navigation ps-container ps-active-y" style="width: 240px;">
+        <li class="user-details cyan darken-2">
+            <div class="row">
+                <div class="col col s4 m4 l4">
+                    {% if logged_in_employee.avatar %}
+                        <img src="{{ logged_in_employee.avatar }}" alt="" class="circle responsive-img valign profile-image">
+                    {% else %}
+                        <img src="static/default_avatar.png" alt="" class="circle responsive-img valign profile-image">
+                    {% endif %}
+                </div>
+
+            </div>
+            <div class="row">
+                <span><p class="user-roal">{{ logged_in_employee.last_name }}</p>
+                    <p class="user-roal">{{ logged_in_employee.employee_number }}</p></span>
+                {% if logged_in_employee.phone_number %}
+                <p class="user-roal">{{ logged_in_employee.phone_number }}</p>
+
+                        {% endif %}
+            </div>
+        </li>
+
+        <li>
+            <a href="{{url_for('backoffice_bp.bo_assets')}}">
+                <i class="material-icons" aria-hidden="false" aria-label="people"> home
+                </i> {{ _("Meters") }}
+            </a>
+        </li>
+
+        <li>
+            <a href="{{url_for('backoffice_bp.bo_register_asset')}}">
+                <i class="material-icons" aria-hidden="false" aria-label="people"> add_to_photos
+                </i> {{ _("Add Meters") }}
+            </a>
+        </li>
+
+        <li>
+            <a href="{{url_for('backoffice_bp.bo_customers')}}">
+                <i class="material-icons" aria-hidden="false" aria-label="people"> people
+                </i> {{ _("Customers") }}
+            </a>
+        </li>
+
+        <li>
+            <a href="{{url_for('backoffice_bp.bo_register_customer')}}">
+                <i class="material-icons" aria-hidden="false" aria-label="add_customer"> person_add
+                </i> {{ _("Register Customer") }}
+            </a>
+        </li>
+
+        <li>
+            <a href="{{url_for('backoffice_bp.bo_readings')}}">
+                <i class="material-icons" aria-hidden="false" aria-label="reading"> book
+                </i> {{ _("Readings") }}
+            </a>
+        </li>
+        <li>
+            <a href="{{url_for('backoffice_bp.bo_submit_reading')}}">
+                <i class="material-icons" aria-hidden="false" aria-label="add_reading"> collections_bookmark
+                </i> {{ _("Submit Reading") }}
+            </a>
+        </li>
+        <li class="li-hover">
+            <div class="divider"></div>
+        </li>
+
+        <li>
+            <a href="{{url_for('auth_bo_bp.bo_logout')}}">
+                <i class="material-icons" aria-hidden="false" aria-label="Logout"> exit_to_app
+                </i> {{ _("Logout") }}
+            </a>
+        </li>
+
+        <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;">
+            <div class="ps-scrollbar-x" style="left: 0px; width: 0px;"></div>
+        </div>
+        <div class="ps-scrollbar-y-rail" style="top: 0px; height: 843px; right: 3px;">
+            <div class="ps-scrollbar-y" style="top: 0px; height: 685px;"></div>
+        </div>
+    </ul>
+    <a href="#" data-activates="slide-out"
+       class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only darken-2"><i
+            class="mdi-navigation-menu"></i></a>
+</aside>

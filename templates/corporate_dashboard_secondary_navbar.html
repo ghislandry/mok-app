@@ -1,0 +1,68 @@
+<aside id="left-sidebar-nav">
+    <ul id="slide-out" class="side-nav fixed leftside-navigation ps-container ps-active-y" style="width: 240px;">
+        <li class="user-details cyan darken-2">
+            <div class="row">
+                <div class="col col s4 m4 l4">
+                   {% if logged_in_employee.avatar %}
+                        <img src="{{ logged_in_employee.avatar }}" alt="" class="circle responsive-img valign profile-image">
+                    {% else %}
+                        <img src="static/default_avatar.png" alt="" class="circle responsive-img valign profile-image">
+                    {% endif %}
+                </div>
+                <div class="col col s8 m8 l8">
+
+                    <a class="btn-flat dropdown-button white-text profile-btn">
+                        {% if logged_in_employee.last_name %}
+                        {{ logged_in_employee.last_name }}
+                        {% else %}
+                        {{ logged_in_employee.phone_number }}
+                        {% endif %}
+                    </a>
+                    <p class="user-role">{{ logged_in_employee.employee_number }}</p>
+                </div>
+            </div>
+        </li>
+
+        <li>
+            <a href="{{url_for('corporate_bp.corp_dashboard')}}">
+                <i class="material-icons" aria-hidden="false" aria-label="people"> people
+                </i> {{ _("Employees") }}
+            </a>
+        </li>
+
+        <li>
+            <a href="{{url_for('corporate_bp.corp_register_employee')}}">
+                <i class="material-icons" aria-hidden="false" aria-label="people"> person_add
+                </i> {{ _("Register Employee") }}
+            </a>
+        </li>
+
+        <li>
+            <a href="{{url_for('corporate_bp.corp_profile')}}">
+                <i class="material-icons" aria-hidden="false" aria-label="people"> person_pin_circle
+                </i> {{ _("Profile") }}
+            </a>
+        </li>
+
+        <li class="li-hover">
+            <div class="divider"></div>
+        </li>
+
+        <li>
+            <a href="{{url_for('auth_corp_bp.corp_logout')}}">
+                <i class="material-icons" aria-hidden="false" aria-label="Logout"> exit_to_app
+                </i> {{ _("Logout") }}
+            </a>
+        </li>
+
+        <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;">
+            <div class="ps-scrollbar-x" style="left: 0px; width: 0px;"></div>
+        </div>
+        <div class="ps-scrollbar-y-rail" style="top: 0px; height: 843px; right: 3px;">
+            <div class="ps-scrollbar-y" style="top: 0px; height: 685px;"></div>
+        </div>
+    </ul>
+    <a href="#" data-activates="slide-out"
+       class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only darken-2"><i
+            class="mdi-navigation-menu"></i></a>
+</aside>

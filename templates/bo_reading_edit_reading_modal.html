@@ -1,0 +1,72 @@
+<div class="modal-content">
+    <h4>{{ _("Edit Meter reading status")}}</h4>
+    <p> {{ reading.reading_reference }} </p>
+    <p>
+        {{ _("Here you'll be able to view customer's uploaded photo of the reading. To verify or reject a
+        Reading status select an option from the dropdown and click save!") }}
+    </p>
+    <form action="{{url_for('backoffice_bp.bo_reading_update_reading', contract_number=reading['contract_number'], reading_reference=reading['reading_reference'])}}" method="post">
+        <div class="row">
+            <div class="input-field col s12 m4">
+                <select name="reading_verified" class="browser-default" required aria-required="true">
+                    {% if reading.verification_status == "PENDING" %}
+                    <option value="PENDING" selected>{{ _("PENDING") }}</option>
+                    {% else %}
+                    <option value="PENDING">{{ _("PENDING") }}</option>
+                    {% endif %}
+                    {% if reading.verification_status == "REJECTED" %}
+                    <option value="REJECTED" selected>{{ _("REJECTED") }}</option>
+                    {% else %}
+                    <option value="REJECTED">{{ _("REJECTED") }}</option>
+                    {% endif %}
+                    {% if reading.verification_status == "VERIFIED" %}
+                    <option value="VERIFIED" selected>{{ _("VERIFIED") }}</option>
+                    {% else %}
+                    <option value="VERIFIED">{{ _("VERIFIED") }}</option>
+                    {% endif %}
+                </select>
+                <label class="active" style="font-size:18px">{{ _("Status") }}</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field col s12">
+                <button class="btn cyan waves-effect waves-light right" type="submit"
+                        name="action_reading_status">{{ _("Close & Save") }}
+                </button>
+            </div>
+        </div>
+    </form>
+    {% if reading.verification_status == "PENDING" %}
+    <div class="row">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="card-panel">
+                    <h4 class="header2"> {{ _("Meter reading supporting document") }}</h4>
+                    <div class="divider"></div>
+                    <div class="row">
+                        <div class="col s12 m8 l8">
+                            <span id="result_{{ reading.reading_reference }}">
+                            </span>
+                        </div>
+                        <div class="col s12 m4 l4">
+                            <div class="card-panel" style="height:330px !important; overflow-x:auto;">
+                                <h4 class="header2"> {{ _("User Provided Reading") }}</h4>
+                                <div class="row">
+                                    <span><label style="font-size:18px;"> {{ _("Consumption") }} </label>: {{ reading.energy }}</span>
+                                </div>
+                                <div class="row">
+                                    <span><label style="font-size:18px;"> {{ _("Unit") }} </label>: {{ reading.unit }}</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+<div class="modal-footer">
+</div>

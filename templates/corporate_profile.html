@@ -1,0 +1,147 @@
+{% include "dashboard_base.html" %}
+{% extends "material/base.html" %}
+
+{% block content %}
+
+<!-- start header -->
+{% include "corporate_dashboard_primary_navbar.html" %}
+<!-- end header -->
+
+<div id="main" style="flex: 1 0 auto;">
+
+    <div class="wrapper">
+        {% include "corporate_profile_sidenav.html" %}
+        <section id="content">
+            <!-- breadcrumbs start -->
+            <div id="breadcrumbs-wrapper" class=" gray lighten-3">
+                <div class="container">
+                    <div class="row">
+                        <div class="col s12 m12 l12">
+                            <h5 class="breadcrumbs-title">{{ _("Profile") }}</h5>
+                            <!-- <ol class="breadcrumb">
+                                <li><a href="index.html">Dashboard</a>
+                                </li>
+                                <li><a href="#">Forms</a>
+                                </li>
+                                <li class="active">Forms Layouts</li>
+                            </ol> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- breadcrumbs end -->
+
+            <!-- Start container -->
+            <div class="container">
+                <div class="section">
+
+                    <div class="divider"></div>
+                    <div class="section">
+                        <div class="row">
+                            <div class="col s12 m12 l4">
+                                <div class="card-panel" style="height:350px !important; overflow:auto">
+                                    <h4 class="header2"> {{ _("General Information") }}</h4>
+                                    <div class="row">
+                                        <table class="bordered" style="background:white">
+                                            <tbody>
+                                            <tr>
+                                                <td><b>{{ _("Last name") }}</b></td>
+                                                <td>{{ user.last_name }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>{{ _("First name") }}</b></td>
+                                                <td>{{ user.first_name }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>{{ _("Date of Birth") }}</b></td>
+                                                <td>{{ user.date_of_birth }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>{{ _("Gender") }}</b></td>
+                                                <td>{{ user.gender[0]|upper}}{{user.gender[1:] }}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col s12 m12 l4">
+                                <div class="card-panel" style="height:350px !important; overflow:auto">
+                                    <h4 class="header2"> {{ _("Contact Information") }}</h4>
+                                    <div class="row">
+                                        <table class="bordered" style="background:white">
+                                            <tbody>
+                                            <tr>
+                                                <td><b>{{ _("Phone number") }}</b></td>
+                                                <td>{{ user.phone_number }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>{{ _("City") }}</b></td>
+                                                <td>{{ user.city }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>{{ _("Email address") }}</b></td>
+                                                {% if user.email_address == None %}
+                                                {% else %}
+                                                <td>{{ user.email_address }}</td>
+                                                {% endif %}
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <br>
+                                    <a class="btn-floating btn-large waves-effect modal-trigger cyan right"
+                                                data-target="modal_edit_employee">
+                                        <i class="material-icons">mode_edit</i>
+                                    </a>
+
+                                    {% include "modal_edit_corp_contact_info.html" %}
+                                </div>
+
+                            </div>
+
+                            <div class="col s12 m12 l4">
+                                <div class="card-panel" style="height:350px !important; overflow:auto">
+                                    <h4 class="header2"> {{ _("Employment Information") }}</h4>
+                                    <div class="row">
+                                        <table class="bordered" style="background:white">
+                                            <tbody>
+                                            <tr>
+                                                <td><b>{{ _("Status") }}</b></td>
+                                                <td>{{ user.status }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>{{ _("Role") }}</b></td>
+                                                <td>{{ user.roles[0]|upper}}{{user.roles[1:] }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>{{ _("Registered on") }}</b></td>
+                                                {% set date_list = user.created_at.split(' ') %}
+                                                <td>{{ date_list[0] }}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="section">
+                    {% include "alert_message.html" %}
+                </div>
+
+            </div>
+        </section>
+</div>
+
+</div>
+
+{% include "footer.html" %}
+
+{% endblock %}

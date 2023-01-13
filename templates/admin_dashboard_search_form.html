@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="input-field col s12 m2 l2">
+        <input id="corporate_id" type="text" name="corporate_id" class="validate grey lighten-3">
+        <label for="corporate_id">{{ _("Corporate id") }}</label>
+    </div>
+    <div class="input-field col s12 m2 l2">
+        <input id="phone_number" name="phone_number" type="text" class="validate grey lighten-3">
+        <label for="phone_number">{{ _("Phone number") }}</label>
+    </div>
+    <div class="input-field col s12 m2 l2">
+        <select id="search_role" name="search_role" class="browser-default grey lighten-3">
+            <option value="All" selected>{{ _("All") }}</option>
+            <option value="admin">{{ _("Administrator") }}</option>
+            <option value="senioremployee">{{ _("Senior employee") }}</option>
+            <option value="employee">{{ _("Employee") }}</option>
+            <option value="meterreader">{{ _("Meter reader") }}</option>
+        </select>
+        <label for="search_role" class="active" style="font-size:18px">{{ _("Role") }}</label>
+    </div>
+    <div class="input-field col s12 m2 l2">
+        <button class="btn cyan waves-effect waves-light" name="admin_filter_search" type="submit">
+            {{ _("Filter") }}
+        </button>
+    </div>
+</div>

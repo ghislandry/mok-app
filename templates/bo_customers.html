@@ -1,0 +1,24 @@
+{% extends "material/base.html" %}
+{% include "dashboard_base.html" %}
+
+{% block content %}
+
+<!-- start header -->
+{% include "corporate_dashboard_primary_navbar.html" %}
+<!-- end header -->
+
+<div id="main" style="flex: 1 0 auto;">
+
+    <div class="wrapper" style="height:100% !important;">
+
+        {% include "bo_dashboard_secondary_navbar.html" %}
+        <section id="content">
+            {% include "bo_customer_dashboard.html" %}
+        </section>
+    </div>
+
+</div>
+
+{% include "footer.html" %}
+
+{% endblock %}

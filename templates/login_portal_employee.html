@@ -1,0 +1,66 @@
+{% include "base.html" %}
+{% extends "material/base.html" %}
+
+{% block content %}
+
+<div class="wrapper">
+  <mat-card class="mat-card mat-focus-indicator">
+    <div class="form-container">
+      <div class="form-header" style="color:black;">
+        MoK
+      </div>
+      <!-- <h5 style="margin-left: 5%;">Login</h5> -->
+        <div class="row">
+            <div class="input-field col s12 m4">
+                <select name="language">
+                    <option value="fr">{{ _("French") }}</option>
+                    <option value="en">{{ _("English") }}</option>
+                </select>
+            </div>
+            <div class="input-field col s12 m2">
+            </div>
+            <div class="input-field col s12 m6">
+                <select name="portal">
+                    <option value="admin_portal">{{ _("Admin Portal") }}</option>
+                    <option value="employee_portal">{{ _("Employee Portal") }}</option>
+                    <option value="back_office">{{ _("Back Office") }}</option>
+                </select>
+            </div>
+        </div>
+
+        {% if error %}
+            <p class=error><strong>{{ _("Error") }}:</strong> {{ error }}
+        {% endif %}
+      <div class="row">
+        <form action="/login" method="post">
+            <div style="margin-top=15px">
+                <div class="input-field">
+                    <input id="corporate_id" type="text" name="corporate_id" class="validate grey lighten-3">
+                    <label for="corporate_id">{{ _("Corporate Id") }}</label>
+                </div>
+            </div>
+            <div style="margin-top=5px">
+                <div class="input-field">
+                    <input id="password" type="password" name="password" class="validate grey lighten-3">
+                    <label for="password">{{ _("Password") }}</label>
+                </div>
+            </div>
+
+            <div class='col s12 row'>
+
+                <label style='float: right;'>
+                    <a class='pink-text' href=''><b>{{ _("Forgot Password?") }}</b></a>
+                </label>
+            </div>
+            <div class='row'>
+                <button type='submit' name='btn_login' class='btn mat-btn waves-effect yellow' style="color:black;">
+                    {{ _("Log In") }}
+                </button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </mat-card>
+</div>
+
+{% endblock %}

@@ -1,0 +1,109 @@
+.wrapper {
+  background-color: #E5E6E6;
+  display: flex;
+  height: calc(100vh - 112px);
+  width: 100%; }
+
+  .primary-nav {
+    background-color: #FFEA00;
+    color: #ffffff;
+    height: 112px;
+    width: 100%; }
+    .primary-nav .primary-nav--title {
+      font-size: 34px;
+      padding: 40px 0 40px 142px;
+      color: black; }
+
+.secondary-nav {
+  background-color: #2f2f2f;
+  text-align: center;
+  color: white;
+  width: 112px;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll; }
+  .secondary-nav .secondary-nav--item {
+    cursor: pointer;
+    border-radius: 100%;
+    color: #ffffff;
+    font-size: 38px;
+    height: 60px;
+    margin-top: 10px;
+    padding-top: 11px;
+    width: 60px;
+    min-height: 60px;
+    min-width: 60px; }
+    .secondary-nav .secondary-nav--item:first-child {
+      margin-top: 30px; }
+      .secondary-nav .secondary-nav--item.active {
+        background-color: #7F39FB; }
+        .secondary-nav .secondary-nav--item:focus {
+          outline: none; }
+
+.page-container {
+  padding: 30px;
+  width: calc(100% - 112px); }
+
+  .spacer {
+    flex: 2.5; }
+
+    .small-spacer {
+      flex: 0.5; }
+
+      .very-small-spacer {
+        flex: 0.1; }
+
+        table {
+          width: 100%; }
+
+          input {
+            width: 150px; }
+
+            mat-form-field {
+              margin-right: 10px; }
+
+              form {
+                display: inline; }
+
+                .table-container button {
+                  width: 40px;
+                  margin-left: 0px; }
+
+                  .table-container .edit-col {
+                    width: 100px; }
+
+                    .btn {
+                      text-transform: unset !important; }
+
+                      .validate {
+                        font-size: 100px;
+                        height: 100px; }
+
+                        table {
+                          table-layout: fixed;
+                          width: 100%; }
+
+                          td {
+                            width: 16.6%; }
+
+
+.alert.error {
+  padding: 12px;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+  border: 2px solid darkred;
+  background-color: red;
+  color: white;
+}
+
+.alert.success {
+  padding: 12px;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+  border: 1px solid orange;
+  background-color: #69f0ae;
+  color: black;
+}

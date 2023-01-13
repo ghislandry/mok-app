@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mok</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon-96x96.png') }}">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='alert_messages.css')}}"/>
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='materialize.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='style.css') }}"/>
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='prism.css') }}"/>
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='perfect-srollbar.css') }}"/>
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='chartist-min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='card_styling.css') }}"/>
+    <link rel="stylesheet" type="text/css" href= "{{url_for('static',filename='footer.css') }}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.css">
+
+    <script src="{{url_for('static', filename='materialize.min.js')}}"></script>
+    <script src="{{url_for('static', filename='jquery-1.11.3.min.js')}}"></script>
+    <script src="{{url_for('static', filename='perfect-scrollbar.min.js')}}"></script>
+    <script src="{{url_for('static', filename='prism.js')}}"></script>
+    <script src="{{url_for('static', filename='chartist.min.js')}}"></script>
+    <script src="{{url_for('static', filename='plugins.js')}}"></script>
+    <script src="{{url_for('static', filename='jquery-1.10.2.js')}}"></script>
+    <!-- <script src="{{url_for('static', filename='jquery.min.js')}}"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.js"></script>
+
+    <script src="{{url_for('static', filename='kyc_image.js')}}"></script>
+    <script src="{{url_for('static', filename='reading_image.js')}}"></script>
+    <script src="{{url_for('static', filename='crop_image.js')}}"></script>
+    <script src="{{url_for('static', filename='authentication_hide.js')}}"></script>
+    <script src="{{url_for('static', filename='authentication_display.js')}}"></script>
+    <script src="{{url_for('static', filename='alert.js')}}"></script>
+    <script src="{{url_for('static', filename='select_account_registration_form.js')}}"></script>
+
+
+</head>
+<body class="loaded">
+
+<div id="loader-wrapper">
+    <div id="loader"></div>
+    <div class="loader-section section-left"></div>
+    <div class="loader-section section-right"></div>
+</div>
+
+{% block content %}
+
+{% endblock %}
+</body>
+</html>

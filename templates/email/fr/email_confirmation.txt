@@ -1,0 +1,9 @@
+Bienvenue sur l’application Mok!
+
+
+Merci de vous être enregistré. Cliquez sur le lien ci-dessous pour activer votre compte:
+
+{{ url }}
+
+
+L’équipe Mok

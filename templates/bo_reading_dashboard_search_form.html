@@ -1,0 +1,52 @@
+<div class="row">
+    <div class="input-field col s12 m2 l2">
+        {% if session["filter_meter_number"] %}
+        <input type="text" value="{{ session['filter_meter_number'] }}" name="meter_number" class="validate grey lighten-3">
+        {% else %}
+        <input type="text" name="meter_number" class="validate grey lighten-3">
+        {% endif %}
+        <label> {{ _("Meter Number") }}</label>
+    </div>
+    <div class="input-field col s12 m2 l2">
+        {% if session["filter_reading_taken_on"] %}
+        <input name="reading_date" value="{{ session['filter_reading_taken_on'] }}" type="date" class="validate grey lighten-3">
+        {% else %}
+        <input name="reading_date" type="date" class="validate grey lighten-3">
+        {% endif %}
+        <label>{{ _("Reading date") }}</label>
+    </div>
+    <div class="input-field col s12 m2 l2">
+        <select name="verification_status" class="browser-default grey lighten-3">
+            {% if session["reading_filter"] == "CLEAR" %}
+                <option value="CLEAR" selected>{{ _("All") }}</option>
+            {% else %}
+                <option value="CLEAR">{{ _("All") }}</option>
+            {% endif %}
+            {% if session["reading_filter"] == "VERIFIED" %}
+                <option value="VERIFIED" selected>{{ _("VERIFIED") }}</option>
+            {% else %}
+                <option value="VERIFIED">{{ _("VERIFIED") }}</option>
+            {% endif %}
+            {% if session["reading_filter"] == "PENDING" %}
+                <option value="PENDING" selected>{{ _("PENDING") }}</option>
+            {% else %}
+                <option value="PENDING">{{ _("PENDING") }}</option>
+            {% endif %}
+            {% if session["reading_filter"] == "REJECTED" %}
+                <option value="REJECTED" selected>{{ _("REJECTED") }}</option>
+            {% else %}
+                <option value="REJECTED">{{ _("REJECTED") }}</option>
+            {% endif %}
+        </select>
+        <label class="active" style="font-size:18px">{{ _("Status") }}</label>
+    </div>
+    <div class="input-field col s12 m2 l2">
+        <button class="col s12 btn cyan waves-effect waves-light" name="customer_clear_button" type="submit">
+            {{ _("Filter") }}
+        </button>
+    </div>
+
+</div>
+<div class="input-field">
+    {% include "alert_message.html" %}
+</div>

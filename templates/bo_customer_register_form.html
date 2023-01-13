@@ -1,0 +1,79 @@
+<div class="container">
+    <p class="caption">
+        {{ _("Please enter customer details.") }}
+    </p>
+    <div class="divider"></div>
+    <br>
+    <div class="row">
+        {% include "alert_message.html" %}
+    </div>
+    <div class="section">
+        <div class="row">
+            <div class="col s12 m12">
+                <div class="card-panel">
+                    <form action="/bo/register_customer" method="post">
+                        <div class="row">
+                            <div class="input-field col s12 m4">
+                                <input type="text" class="validate grey lighten-3" id="contract_number" name="contract_number" required aria-required="true">
+                                <label for="contract_number">{{ _("Contract number") }}</label>
+                            </div>
+
+                            <div class="input-field col s12 m4">
+                                <input type="text" class="validate grey lighten-3" id="first_name" name="first_name" required aria-required="true">
+                                <label for="first_name">{{ _("First name") }}</label>
+                            </div>
+
+                            <div class="input-field col s12 m4">
+                                <input type="text" class="validate grey lighten-3" id="last_name" name="last_name">
+                                <label for="last_name">{{ _("Last name") }}</label>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="input-field col s12 m4">
+                                <select name="gender" class="browser-default grey lighten-3" required aria-required="true">
+                                    <option value="female">{{ _("Female") }}</option>
+                                    <option value="male">{{ _("Male") }}</option>
+                                </select>
+                                <label class="active" style="font-size:18px">{{ _("Gender") }}</label>
+                            </div>
+
+                            <div class="input-field col s12 m4">
+                                <input type="date" id="date_of_birth" name="date_of_birth" class="grey lighten-3" required aria-required="true"/>
+                                <label for="date_of_birth">{{ _("Birth date") }}</label>
+                            </div>
+
+                            <div class="input-field col s12 m4">
+                                <input type="text" class="validate grey lighten-3" id="phone_number" name="phone_number" required aria-required="true">
+                                <label for="phone_number">{{ _("Phone number") }}</label>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="input-field col s12 m4">
+                                <input type="text" class="validate grey lighten-3" id="city" name="city" required aria-required="true">
+                                <label for="city">{{ _("City") }}</label>
+                            </div>
+
+                            <!-- <div class="input-field col s12 m4">
+                                <input type="email" class="validate" id="email" name="email">
+                                <label for="email">{{ _("Email") }}</label>
+                            </div> -->
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <button class="btn cyan waves-effect waves-light right" type="submit"
+                                        name="action">{{ _("Register") }}
+                                    <!-- <i class="mdi-content-send right"></i> -->
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

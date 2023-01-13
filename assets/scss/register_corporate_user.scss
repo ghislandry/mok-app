@@ -1,0 +1,146 @@
+$default-padding: 30px;
+$primary-nav--height: 112px;
+$secondary-nav--width: 112px;
+
+$dim-base: 8px;
+$dim-smallest: $dim-base / 4; // 2px
+$dim-half: $dim-base / 2; // 4px
+$dim-semi-half: 6px; // 6px
+$dim-semi-double: $dim-base * 1.5; // 12px
+$dim-double: $dim-base * 2; // 16px
+$dim-triple: $dim-base * 3; // 24px
+$dim-large: $dim-base * 4; // 32px
+$dim-xlarge: $dim-base * 6; // 48px
+$dim-xxlarge: $dim-base * 8; // 64px
+
+@mixin table {
+  .mat-cell {
+    font-size: 14px;
+    min-height: 48px;
+    text-align: center;
+    padding: 16px;
+  }
+
+  .mat-header-cell {
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+
+.wrapper {
+  background-color: #E5E6E6;
+  display: flex;
+  height: calc(100vh - #{$primary-nav--height});
+  width: 100%;
+}
+
+.primary-nav {
+  background-color: #FFEA00;
+  color: #ffffff;
+  height: $primary-nav--height;
+  width: 100%;
+
+  .primary-nav--title {
+    font-size: 34px;
+    padding: 40px 0 40px #{$secondary-nav--width + $default-padding};
+    color: black;
+  }
+}
+
+.secondary-nav {
+  background-color: #2f2f2f;
+  text-align: center;
+  color: white;
+  width: $secondary-nav--width;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+
+
+  .secondary-nav--item {
+    cursor: pointer;
+    border-radius: 100%;
+    color: #ffffff;
+    font-size: 38px;
+    height: 60px;
+    margin-top: 10px;
+    padding-top: 11px;
+    width: 60px;
+    min-height: 60px;
+    min-width: 60px;
+
+    &:first-child {
+      margin-top: #{$default-padding};
+    }
+
+    &.active {
+      background-color: #7F39FB;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.page-container {
+  padding: $default-padding;
+  width: calc(100% - #{$secondary-nav--width});
+}
+
+.spacer {
+  flex: 2.5;
+}
+
+.small-spacer {
+  flex: 0.5;
+}
+
+.very-small-spacer {
+  flex: 0.1;
+}
+
+
+table {
+  width: 100%;
+}
+input{
+  width: 150px;
+}
+mat-form-field {
+  margin-right: 10px;
+}
+form {
+  display: inline;
+}
+
+.table-container button {
+  width: 40px;
+  margin-left: 0px;
+}
+
+.table-container .edit-col {
+  width: 100px;
+}
+
+.btn {
+  text-transform: unset !important;
+}
+
+.validate{
+    font-size: 100px;
+    height: 100px;
+}
+
+table {
+  table-layout: fixed ;
+  width: 100% ;
+}
+td {
+  width: 16.6% ;
+}

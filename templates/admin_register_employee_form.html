@@ -1,0 +1,48 @@
+<div class="section" id="register_employee_form" style="display:none;">
+    <div class="row">
+        <div class="col s12 m6 offset-m3">
+            <div class="card-panel">
+                <form action="/register_employee" method="post">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input type="text" class="validate grey lighten-3" id="corporate_id" name="corporate_id"
+                                   required aria-required="true">
+                            <label for="corporate_id">{{ _("Employee number") }}</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">local_phone</i>
+                            <input type="text" class="validate grey lighten-3" id="phone_number" name="phone_number"
+                                   required aria-required="true">
+                            <label for="phone_number">{{ _("Phone number") }}</label>
+                        </div>
+
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="input-field col s12 m6">
+                            <label class="active" style="font-size:18px">{{ _("Role") }}</label>
+                            <input type="text" class="validate grey lighten-3" id="employee_user_role" name="role"
+                                   required aria-required="true" readonly>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <button class="btn cyan waves-effect waves-light right" type="submit"
+                                    name="action">{{ _("Register") }}
+                                <!-- <i class="mdi-content-send right"></i> -->
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+
+        </div>
+    </div>
+
+    {% include "alert_message.html" %}
+</div>

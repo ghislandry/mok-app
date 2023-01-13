@@ -1,0 +1,102 @@
+<aside id="left-sidebar-nav">
+    <ul id="slide-out" class="side-nav fixed leftside-navigation ps-container ps-active-y" style="width: 240px;">
+        <li class="user-details cyan darken-2">
+            <div class="row">
+                <div class="col col s4 m4 l4">
+                    <img src="{{ user.avatar }}" alt="" class="circle responsive-img valign profile-image">
+                </div>
+            </div>
+            <div class="row">
+                <span><p class="user-roal">{{ user.last_name }}</p>
+                    <p class="user-roal">{{ user.employee_number }}</p>
+                </span>
+                {% if user.email_address %}
+                <p class="user-roal">{{ user.email_address }}</p>
+                {% endif %}
+            </div>
+        </li>
+        <li>
+            <!-- Modal Trigger -->
+            <a class="modal-trigger" data-target="modal_upload_avatar">
+                <i class="material-icons" aria-hidden="false" aria-label="Upload"> file_upload
+                </i> {{ _("Add profile avatar") }}
+            </a>
+        </li>
+        <li class="li-hover">
+            <div class="divider"></div>
+        </li>
+
+        <li>
+            <a href="{{url_for('auth_corp_bp.corp_logout')}}">
+                <i class="material-icons" aria-hidden="false" aria-label="Logout"> exit_to_app
+                </i> {{ _("Logout") }}
+            </a>
+        </li>
+
+        <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;">
+            <div class="ps-scrollbar-x" style="left: 0px; width: 0px;"></div>
+        </div>
+        <div class="ps-scrollbar-y-rail" style="top: 0px; height: 843px; right: 3px;">
+            <div class="ps-scrollbar-y" style="top: 0px; height: 685px;"></div>
+        </div>
+    </ul>
+    <a href="#" data-activates="slide-out"
+       class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only darken-2"><i
+            class="mdi-navigation-menu"></i></a>
+</aside>
+
+<div id="modal_upload_avatar" class="modal" style="brightness:100%">
+    <div class="modal-content">
+        <h4>{{ _("Upload a profile avatar or picture") }}</h4>
+        <p> {{ user.employee_number }} </p>
+
+        <div class="card-panel">
+            <div class="row">
+                <div class="col s12">
+                    <form action="{{url_for('corporate_bp.upload_profile_avatar', corporate_id=user['employee_number'])}}" method="post" enctype="multipart/form-data">
+
+                        <div class="row">
+
+                                <div class="row">
+                                    <div id="image-box"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12 m2 offset-m5">
+                                        <button class="btn col s12 cyan waves-effect waves-light center"
+                                        id="crop-btn"
+                                        style="display: none;" type="button">Crop
+                                </button>
+                                    </div>
+
+                                </div>
+
+                            <div class="col s12 m4 file-field input-field">
+                                <div class="col s12 btn cyan waves-effect waves-light">
+                                    <span>{{ _("Browse") }}</span>
+                                    <input type="file" id="id_image" name="id_image"
+                                           onchange="cropImage('#image-box', '#image_id', '#crop-btn')">
+                                </div>
+                            </div>
+                            <div class="col s12 m8 input-file">
+                                <div class="col s12 file-path-wrapper">
+                                    <input id="file_name" class="file-path validate right" type="text">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <button id="confirm-btn" class="btn cyan waves-effect waves-light right" type="submit"
+                                        name="action_corporate_avatar">{{ _("Close & Save") }}
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+    </div>
+</div>

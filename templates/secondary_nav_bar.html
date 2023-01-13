@@ -1,0 +1,22 @@
+<div class="secondary-nav">
+    <div class="very-small-spacer"></div>
+    <a href="{{url_for('main_bp.dashboard')}}">
+        <i class="material-icons medium" aria-hidden="false" aria-label="Home" style="color: white">people</i>
+
+    </a>
+    <span>{{ _("Users") }}</span>
+
+    <div class="small-spacer"></div>
+    <a href="{{url_for('auth_bp.register_employee')}}">
+        <i class="material-icons medium" aria-hidden="false" aria-label="Add Asset" style="color: white">person_add
+        </i>
+    </a>
+    <span>{{ _("Add User") }}</span>
+
+    <div class="spacer"></div>
+    <a href="{{url_for('auth_bp.logout')}}">
+        <i class="material-icons medium" aria-hidden="false" aria-label="Logout" style="color: white"> exit_to_app
+        </i>
+    </a>
+    <span>{{ _("Logout") }}</span>
+</div>

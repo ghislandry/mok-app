@@ -1,0 +1,22 @@
+<div class="row">
+    <div class="input-field col s12 m2 l2">
+        <input id="contract_number" type="text" name="contract_number" class="validate grey lighten-3">
+        <label for="contract_number">{{ _("Contract Number") }}</label>
+    </div>
+    <div class="input-field col s12 m2 l2">
+        <input id="phone_number" name="phone_number" type="text" class="validate grey lighten-3">
+        <label for="phone_number">{{ _("Phone Number") }}</label>
+    </div>
+    <div class="input-field col s12 m2 l2">
+        <input id="last_name" type="text" name="last_name" class="validate grey lighten-3">
+        <label for="last_name">{{ _("Last Name") }}</label>
+    </div>
+    <div class="input-field col s12 m2 l2">
+        <button class="col s12 btn cyan waves-effect waves-light" name="customer_clear_button" type="submit">
+            {{ _("Filter") }}
+        </button>
+    </div>
+</div>
+<div class="row">
+    {% include "alert_message.html" %}
+</div>

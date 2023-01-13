@@ -1,0 +1,234 @@
+# French translations for PROJECT.
+# Copyright (C) 2022 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2022-10-13 23:57+0100\n"
+"PO-Revision-Date: 2022-10-13 23:59+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.10.3\n"
+
+#: src/mok_admin/auth/auth.py:20
+msgid "Too many login attempts"
+msgstr "Trop de tentatives de connexion"
+
+#: src/mok_admin/auth/auth.py:21
+msgid "Email not verified!"
+msgstr "Adresse électronique non vérifiée!"
+
+#: src/mok_admin/auth/auth.py:22
+msgid "Incorrect password or email!"
+msgstr "Mot de passe ou adresse électronique incorrect!"
+
+#: src/mok_admin/auth/auth.py:23
+msgid "Account has been suspended!"
+msgstr "Ce compte a été suspendu!"
+
+#: src/mok_admin/auth/auth.py:24
+msgid "Password reset required!"
+msgstr "Réinitialisation du mot de passe requise"
+
+#: src/mok_admin/auth/auth.py:25
+msgid "Password too weak!"
+msgstr "Mot de passe trop faible!"
+
+#: src/mok_admin/auth/auth.py:26
+msgid "The server encountered an error while processing your request."
+msgstr "Le serveur a rencontre une erreur lors du traitement de votre requête."
+
+#: src/mok_admin/auth/auth.py:27
+msgid "Incorrect password or email."
+msgstr "Mot de passe ou adresse électronique incorrect!"
+
+#: src/mok_admin/auth/auth.py:28
+msgid "Check that the phone number is valid."
+msgstr "Vérifiez que le numéro de téléphone est valide."
+
+#: src/mok_admin/auth/auth.py:29
+msgid "An employee with the provided employee number already exist!"
+msgstr "Il existe déjà un employé avec le numéro fourni."
+
+#: src/mok_admin/auth/auth.py:167
+msgid "Your session has expired. Please log in again."
+msgstr "Votre session est expirée. Connectez vous a nouveau"
+
+#: src/mok_admin/core/main.py:39 src/mok_admin/core/main.py:64
+#: src/mok_admin/core/main.py:88
+msgid "Your session has expired. Please log in again"
+msgstr "Votre session est expirée. Connectez vous a nouveau"
+
+#: src/mok_admin/core/main.py:91
+#, python-format
+msgid "Role of user %(corporate_id)s successfully changed to %(role)s!"
+msgstr "Le rôle de l’utilisateur %(corporate_id)s a été mis à jour avec sucés. Le nouveau rôle est: %(role)s!"
+
+#: templates/dashboard.html:42 templates/dashboard.html:73
+#: templates/register_corporate_user.html:48
+msgid "Phone number"
+msgstr "Numéro de téléphone"
+
+#: templates/dashboard.html:46
+msgid "Corporate id"
+msgstr "Id employé"
+
+#: templates/dashboard.html:50
+msgid "Filter"
+msgstr "Filtrer"
+
+#: templates/dashboard.html:67
+msgid "List of corporate users"
+msgstr "Liste des employés"
+
+#: templates/dashboard.html:71
+msgid "Corporate Id"
+msgstr "Id employé"
+
+#: templates/dashboard.html:72 templates/forgot-password.html:21
+#: templates/login.html:30
+msgid "Email"
+msgstr "Adresse e-mail"
+
+#: templates/dashboard.html:74 templates/dashboard.html:114
+#: templates/register_corporate_user.html:57
+msgid "Role"
+msgstr "Rôle"
+
+#: templates/dashboard.html:75
+msgid "Registration date"
+msgstr "Date d’enregistrement"
+
+#: templates/dashboard.html:76
+msgid "Edit"
+msgstr "Editer"
+
+#: templates/dashboard.html:86
+msgid "senior employee"
+msgstr "Employé senior"
+
+#: templates/dashboard.html:88
+msgid "meter reader"
+msgstr "Lecteur de compteur"
+
+#: templates/dashboard.html:101
+msgid "Edit Employee role"
+msgstr "Editer le rôle de l’employé"
+
+#: templates/dashboard.html:110 templates/register_corporate_user.html:53
+msgid "Employee"
+msgstr "Employé"
+
+#: templates/dashboard.html:111 templates/register_corporate_user.html:54
+msgid "Meter reader"
+msgstr "Lecteur de compteur"
+
+#: templates/dashboard.html:112 templates/register_corporate_user.html:55
+msgid "Senior employee"
+msgstr "Employé senior"
+
+#: templates/dashboard.html:118
+msgid "Close & Save"
+msgstr "Fermer & enregistrer"
+
+#: templates/dashboard.html:139
+msgid "Rows per page"
+msgstr "Lignes par page"
+
+#: templates/forgot-password-confirmation.html:15
+msgid ""
+"Instructions to reset your password have been sent to the email address "
+"you have entered."
+msgstr "Les instructions pour la modification de votre mot de passe ont été envoyées a l’adresse e-mail renseignée"
+
+#: templates/forgot-password-confirmation.html:19
+msgid "Back to login page"
+msgstr "Retour à la page de connexion"
+
+#: templates/forgot-password.html:12
+msgid "Forgot Password"
+msgstr "Mot de passe oublié"
+
+#: templates/forgot-password.html:14 templates/login.html:23
+#: templates/reset_password.html:15
+msgid "Error"
+msgstr "Erreur"
+
+#: templates/forgot-password.html:27 templates/reset_password.html:34
+msgid "Submit"
+msgstr "Soumettre"
+
+#: templates/login.html:16
+msgid "French"
+msgstr "Français"
+
+#: templates/login.html:17
+msgid "English"
+msgstr "Anglais"
+
+#: templates/login.html:36
+msgid "Password"
+msgstr "Mot de passe"
+
+#: templates/login.html:43
+msgid "Forgot Password?"
+msgstr "Mot de passe oublié?"
+
+#: templates/login.html:48
+msgid "Log In"
+msgstr "Se connecter"
+
+#: templates/primary_nav_bar.html:2 templates/secondary_nav_bar.html:7
+msgid "Users"
+msgstr "Utilisateurs"
+
+#: templates/register_corporate_user.html:33
+msgid "Corporate employee registration"
+msgstr "Enregistrement d’un employé "
+
+#: templates/register_corporate_user.html:34
+msgid ""
+"Please enter employee details. Note that an employee number is the same "
+"as their corporate id."
+msgstr "Saisissez les informations de l’employé. Notez que l’Id employé est le même que le numéro de l'employé "
+
+#: templates/register_corporate_user.html:42
+msgid "Employee number"
+msgstr "Numéro employé "
+
+#: templates/register_corporate_user.html:63
+msgid "Register"
+msgstr "Enregistrer"
+
+#: templates/reset_password.html:12
+msgid "Change Password"
+msgstr "Changer de mot de passe "
+
+#: templates/reset_password.html:13
+msgid "1 Lower, 1 Upper, 1 Special, 1 Numerical, And Min 12 Characters"
+msgstr "1 lettre majuscule, 1 lettre minuscule, 1 caractère spécial, 1 chiffre, et au moins 12 caractères"
+
+#: templates/reset_password.html:22
+msgid "New Password"
+msgstr "Nouveau Mot de passe"
+
+#: templates/reset_password.html:28
+msgid "Re-Type Password"
+msgstr "Entrer le mot de passe à nouveau"
+
+#: templates/secondary_nav_bar.html:14
+msgid "Add User"
+msgstr "Ajouter un utilisateur"
+
+#: templates/secondary_nav_bar.html:21
+msgid "Logout"
+msgstr "Déconnexion"
+
